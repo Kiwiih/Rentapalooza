@@ -4,11 +4,15 @@ import AvailableItems from "@/components/AvailableItems.vue"
 
 <template>
 
-  <h2>AVALIBLE STUFF TO RENT</h2>
-  Detta är en lista med tillgängliga items
-  <div class="">
-    <AvailableItems></AvailableItems>
+  <h2>STUFF TO RENT</h2>
+  This is a list of stuff
+  <div class="item-list-container">
+    <AvailableItems />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.item-list-container {
+  padding: 1rem
+}
+</style>
