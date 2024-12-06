@@ -1,13 +1,13 @@
 import { ref } from "vue";
 import axios from "axios";
-// import { configDotenv } from "dotenv";
+
 
 export function useItems() {
 
 
     // Denna variabel håller våra Items från databasen
     // Kan användas globalt för att se den data som finns.
-    const items = ref(null);
+    const items = ref([]);
 
     // Denna funktion hämtar från databasen och placerar resultatet i items-variabeln
     // Kllas på för att uppdatera items- variabeln
