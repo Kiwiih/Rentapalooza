@@ -31,3 +31,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+
+# Get context
+.get_context.cjs
+.project_overview.txt
