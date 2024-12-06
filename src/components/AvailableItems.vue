@@ -5,6 +5,8 @@ import { onBeforeMount } from 'vue'
 // Hämta variabel och funktion från useItems
 const { items, getItems } = useItems();
 
+getItems()
+
 onBeforeMount(async () => {
     // Vänta på att hämta data från API
     await getItems();
@@ -26,8 +28,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <h2>AVALIBLE STUFF TO RENT</h2>
-    Detta är en lista med tillgängliga items
+
 
     <div>
         <br>
