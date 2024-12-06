@@ -87,7 +87,7 @@ article {
     }
 
     .img-container {
-        background-color: purple;
+        /* background-color: purple; */
         flex-shrink: 0;
         align-self: start;
         width: clamp(2rem, 20%, 7rem);
