@@ -3,6 +3,7 @@ import { useItems } from "@/shared/useItems.js";
 import { onBeforeMount } from 'vue'
 
 import ItemListCard from "./ItemListCard.vue";
+import ItemListCardSkeleton from "./ItemListCardSkeleton.vue";
 
 // Hämta variabel och funktion från useItems
 const { items, getItems } = useItems();
@@ -126,12 +127,21 @@ onBeforeMount(async () => {
         <!-- Rendera hela items -->
         <!-- TODO: rendera bara om avalible är true -->
         <hr>
-        <ul>
-            <li v-for="(item) in items" :key="item.id">
 
+
+
+        <ul v-if="items && items.length > 0">
+            <li v-for="(item) in items" :key="item.id">
                 <ItemListCard :item="item"></ItemListCard>
                 <hr>
             </li>
+        </ul>
+        <ul v-else>
+            <li v-for="index in 3" :key="index">
+                <ItemListCardSkeleton />
+                <hr>
+            </li>
+
         </ul>
 
     </div>

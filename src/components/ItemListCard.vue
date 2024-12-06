@@ -1,16 +1,5 @@
 <script setup>
-import { useItems } from "@/shared/useItems.js";
-import { onBeforeMount } from 'vue'
-
-// // Hämta variabel och funktion från useItems
-// const { items, getItems } = useItems();
-
-
 const props = defineProps(['item'])
-
-
-props.item.images?.length > 0 && console.log(props.item.images[0]);
-
 
 const imageError = (event) => {
     event.target.src = '/images/noImage.jpg';  // Ange här din fallback-bild
