@@ -1,6 +1,6 @@
 <script setup>
 import { useItems } from "@/shared/useItems.js";
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, defineProps, computed, ref, watch } from 'vue'
 
 import ItemListCard from "./ItemListCard.vue";
 import ItemListCardSkeleton from "./ItemListCardSkeleton.vue";
@@ -8,8 +8,16 @@ import ItemListCardSkeleton from "./ItemListCardSkeleton.vue";
 // Hämta variabel och funktion från useItems
 const { items, getItems } = useItems();
 
+const props = defineProps(["selectedFilter"])
 
+//variabel som reglerar om meddelande om INGA ITEMS ska visas:
+const showNoItemsMessage = ref(false)
 
+// Laddar in items från databasen:
+// getItems()
+
+// OBBSS TODO: Ta bort
+// OBS!!!! Hela den här asynkrona funktionen är bara för att testa med egen data utöver det som fins i databasen
 onBeforeMount(async () => {
     // Vänta på att hämta data från API
     await getItems();
@@ -28,7 +36,7 @@ onBeforeMount(async () => {
                 "https://picsum.photos/id/112/200/300",
                 "https://picsum.photos/id/89/200/300"
             ],
-            "isAvailable": true,
+            "isAvailable": false,
             "ownerId": "u11223abc",
             "currentRentalId": null,
             "renterId": null
@@ -117,32 +125,62 @@ onBeforeMount(async () => {
     /// ---  DUMMYITEMS END--- ///
 
 });
+
+
+// Filtrera items baserat på selectedFilter
+const filteredItems = computed(() => {
+    if (props.selectedFilter === 'available') {
+        return items.value.filter(item => item.isAvailable);
+    } else if (props.selectedFilter === 'unavailable') {
+        return items.value.filter(item => !item.isAvailable);
+    } else {
+        return items.value;
+    }
+});
+
+//lyssnar på filteritems.... 
+// om de gått 5 sekunder efter förändring och det fortfarade inte finns något i arrayen så sätts showNoItemsMessage till true. så jag kan visa det i domen :) 
+watch(filteredItems, (newFilteredItems) => {
+    //direkt vid förändring ska meddelandet döljas...
+    showNoItemsMessage.value = false;
+    //..sen börjar timern....
+    if (newFilteredItems.length === 0) {
+        setTimeout(() => {
+            showNoItemsMessage.value = true;
+        }, 5000);
+    }
+});
+
 </script>
 
 <template>
-
-
+    <!-- jsut  en bekräftande utskrift :)  -->
+    <!-- {{ props.selectedFilter }} -->
 
     <div>
-        <!-- Rendera hela items -->
-        <!-- TODO: rendera bara om avalible är true -->
+        <!-- Rendera Items -->
         <hr>
+        <ul v-if="showNoItemsMessage === true">
+            <li>
+                <br>
+                <h3>Nothing to see here! 😅</h3>
+            </li>
+        </ul>
+        <ul v-else-if="filteredItems && filteredItems.length > 0">
+            <li v-for="(item) in filteredItems" :key="item.id">
 
-
-
-        <ul v-if="items && items.length > 0">
-            <li v-for="(item) in items" :key="item.id">
                 <ItemListCard :item="item"></ItemListCard>
                 <hr>
             </li>
         </ul>
         <ul v-else>
+            loading...
             <li v-for="index in 3" :key="index">
                 <ItemListCardSkeleton />
                 <hr>
             </li>
-
         </ul>
+
 
     </div>
 

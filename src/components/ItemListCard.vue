@@ -26,7 +26,7 @@ const imageError = (event) => {
                         <b> {{ item.ownerId }} (namn)</b>
                     </small>
                     <p :class="item.isAvailable ? 'badge available-badge' : 'badge unavailable-badge'">
-                        {{ item.isAvailable ? "Tillgänglig" : "INTE tillgänglig" }}
+                        {{ item.isAvailable ? "Available for rent" : "Not available for rent" }}
                     </p>
                 </div>
             </div>

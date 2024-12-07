@@ -61,7 +61,6 @@ button, .button-primary {
     background-color: #dcdcdc; /* En ljusare grå bakgrund när knappen är inaktiverad */
     color: #a9a9a9; /* En ljusare textfärg */
     cursor: not-allowed; /* Visar att knappen är inaktiverad */
-    box-shadow: none; /* Tar bort box-shadow på inaktiverade knappar */
   }
 }
 
@@ -115,7 +114,8 @@ select.success {
   background-color: #d4edda;
 }
 
-/* BADGES */
+
+/************** BADGES **************/
 
 /* Grundstil för badge */
 .badge{
@@ -137,3 +137,4 @@ select.success {
   color: var(--color-error);
   background-color: rgba(220, 53, 70, 0.1)
 }
+/************************************/
