@@ -56,6 +56,12 @@ button, .button-primary {
   &:hover {
     background-color: var(--color-primary-variation);
   }
+
+  &:disabled {
+    background-color: #dcdcdc; /* En ljusare grå bakgrund när knappen är inaktiverad */
+    color: #a9a9a9; /* En ljusare textfärg */
+    cursor: not-allowed; /* Visar att knappen är inaktiverad */
+  }
 }
 
 .button-secondary {
@@ -107,3 +113,28 @@ select.success {
   border-color: var(--color-success);
   background-color: #d4edda;
 }
+
+
+/************** BADGES **************/
+
+/* Grundstil för badge */
+.badge{
+  font-size: smaller;
+  line-height: normal;
+  border-radius: 999px;
+  padding:0.25rem 0.5rem;
+  width: max-content;
+  background-color: hsla(0, 0%, 50%, 0.1);
+  border: 1px solid transparent;
+}
+
+/* anpassade badges här: */
+.available-badge{
+  color: var(--color-success);
+  background-color: rgba(40, 167, 70, 0.1);
+}
+.unavailable-badge{
+  color: var(--color-error);
+  background-color: rgba(220, 53, 70, 0.1)
+}
+/************************************/
