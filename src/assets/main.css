@@ -1,8 +1,20 @@
 /* Definiera färgvariabler */
 :root {
+  /* Primary colors */
   --color-primary: #007bff;
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 70%, white);
+  --color-primary-dark: color-mix(in srgb, var(--color-primary) 70%, black);
+
+  /* Secondary colors */
   --color-secondary: #6c757d;
+  --color-secondary-light: color-mix(in srgb, var(--color-secondary) 70%, white);
+  --color-secondary-dark: color-mix(in srgb, var(--color-secondary) 70%, black);
+
+  /* Accent colors */
   --color-accent: #ff5722;
+  --color-accent-light: color-mix(in srgb, var(--color-accent) 70%, white);
+  --color-accent-dark: color-mix(in srgb, var(--color-accent) 70%, black);
+
   --color-bg: #ffffff;
   --color-bg-alt: #f8f9fa;
   --color-text: #212529;
@@ -39,6 +51,8 @@ body {
 
 /* Buttons */
 button {
+  position: relative;
+  overflow: hidden;
   display: inline-block;
   padding: 10px 16px;
   font-size: 16px;
@@ -52,7 +66,31 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--color-primary-dark);
+}
+
+.loading-btn {
+  background: var(--color-primary-dark);
+}
+
+.loading-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 90%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent);
+  animation: loading-glow 1s infinite;
+}
+
+@keyframes loading-glow {
+  to {
+    left: 100%;
+  }
 }
 
 /* Inputs */
