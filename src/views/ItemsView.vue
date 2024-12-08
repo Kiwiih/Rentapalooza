@@ -1,7 +1,18 @@
-<script setup></script>
+<script setup>
+import AvailableItems from "@/components/AvailableItems.vue"
+</script>
 
 <template>
-  <div class=""></div>
+
+  <h2>STUFF TO RENT</h2>
+  This is a list of stuff
+  <div class="item-list-container">
+    <AvailableItems />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.item-list-container {
+  padding: 1rem
+}
+</style>

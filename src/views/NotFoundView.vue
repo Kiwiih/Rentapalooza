@@ -1,9 +1,10 @@
-<script setup></script>
+<script setup>
+</script>
 
 <template>
-  <div class="">
-    <h1>404</h1>
-  </div>
+    <div class="">
+        <h1>404</h1>
+    </div>
 </template>
 
 <style scoped></style>
