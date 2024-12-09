@@ -16,6 +16,11 @@
     error.value = ''
     login(email.value, password.value)
   }
+
+  // Hash Password
+  const hashedPassword = (password) => {
+    return bcrypt.hashSync(password, 10)
+  }
 </script>
 
 <template>
