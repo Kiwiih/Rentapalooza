@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'vue-router'
+import bcrypt from 'bcryptjs'
 
 // Current user is information about authenticated user
 const currentUser = ref(JSON.parse(localStorage.getItem('user')) || null)
@@ -19,6 +20,11 @@ export const useAuth = () => {
 
   // using router to redirect to specific path
   const router = useRouter()
+
+  // Hash Password
+  const hashedPassword = (password) => {
+    return bcrypt.hashSync(password, 10)
+  }
 
   // ------------------------------------------------------------------------------------------
   //* Fetch all users
@@ -66,7 +72,7 @@ export const useAuth = () => {
       const newUser = {
         id: uuidv4(),
         email,
-        password,
+        password: bcrypt.hashSync(password, 10),
         role: 'user',
         bio: '',
         profileImg: ''
@@ -88,7 +94,7 @@ export const useAuth = () => {
       console.log('Register users succsessfully')
 
       // Automatically Login after register user
-      login(email, password)
+      await login(email, newUser.password)
     } catch (err) {
       error.value = err.message || 'An error occurred while creating the user.'
       console.error(err)
@@ -98,7 +104,7 @@ export const useAuth = () => {
   }
 
   //* Login
-  const login = async (email, password) => {
+  const login = async (email, hashedPassword) => {
     loading.value = true
     error.value = null
 
@@ -108,7 +114,9 @@ export const useAuth = () => {
 
       // Check if there is a user with matching email and password
       const user = users.value.find(
-        (user) => user.email === email && user.password === password
+        (user) =>
+          user.email === email &&
+          bcrypt.compareSync(hashedPassword, user.password)
       )
 
       if (!user) {
@@ -121,7 +129,11 @@ export const useAuth = () => {
       // Store current user in localStorage
       localStorage.setItem(
         'user',
-        JSON.stringify({ id: user.id, email: user.email })
+        JSON.stringify({
+          id: user.id,
+          email: user.email,
+          hashedPwd: user.password // to show it's hashed
+        })
       ) // Save user to localStorage
 
       // Redirect to homeView when loggin in
