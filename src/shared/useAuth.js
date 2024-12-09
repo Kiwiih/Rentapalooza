@@ -3,14 +3,22 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
+import { useRouter } from 'vue-router'
+
+// Current user is information about authenticated user
+const currentUser = ref(JSON.parse(localStorage.getItem('user')) || null)
+
+// Loading and error uses to indicate status
+const loading = ref(false)
+const error = ref(false)
+// ------------------------------------------------------------------------------------------
 
 export const useAuth = () => {
+  // 'users' holds ALL users, to match input information.
   const users = ref([])
-  const currentUser = ref(JSON.parse(localStorage.getItem('user')) || null)
-  const isAuthenticated = ref(false) // Is user signed in?
 
-  const loading = ref(false)
-  const error = ref(false)
+  // using router to redirect to specific path
+  const router = useRouter()
 
   // ------------------------------------------------------------------------------------------
   //* Fetch all users
@@ -107,9 +115,18 @@ export const useAuth = () => {
         throw new Error('Invalid email or password')
       }
 
-      currentUser.value = user
-      isAuthenticated.value = true
-      localStorage.setItem('user', JSON.stringify(user)) // Save user to localStorage
+      // Store specific properties from user in reactive state
+      currentUser.value = { id: user.id, email: user.email }
+
+      // Store current user in localStorage
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ id: user.id, email: user.email })
+      ) // Save user to localStorage
+
+      // Redirect to homeView when loggin in
+      router.push('/')
+
       console.log('Login successfully')
     } catch (err) {
       error.value = err.message || 'An error occurred while logging in.'
@@ -121,19 +138,17 @@ export const useAuth = () => {
 
   //* Logout
   const logout = () => {
-    currentUser.value = null
-    isAuthenticated.value = false
+    currentUser.value = null // Set current user to null
     localStorage.removeItem('user') // Remove user from localStorage
+    router.push({ name: 'login' }) // Redirect to LoginView
     console.log('Logout successfully')
   }
 
   return {
-    users,
     currentUser,
-    isAuthenticated,
     loading,
     error,
-    fetchUsers,
+
     createUser,
     login,
     logout
