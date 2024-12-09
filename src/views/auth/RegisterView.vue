@@ -5,11 +5,13 @@
   import { useAuth } from '@/shared/useAuth'
   import { ref } from 'vue'
 
+  const { createUser, loading, error } = useAuth()
+
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
-  const { createUser, loading, error } = useAuth()
 
+  // Register handler
   const handleRegister = () => {
     error.value = ''
 
@@ -26,7 +28,9 @@
   <div class="auth-wrapper">
     <div class="auth-box">
       <h2>Register</h2>
+
       <form @submit.prevent="handleRegister">
+        <!-- Email input -->
         <input type="email" v-model="email" placeholder="Email" required />
         <input
           type="password"
@@ -34,6 +38,8 @@
           placeholder="Password"
           required
         />
+
+        <!-- Password Input -->
         <input
           type="password"
           v-model="confirmPassword"
