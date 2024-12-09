@@ -4,9 +4,10 @@
   import './auth.css'
   import { useAuth } from '@/shared/useAuth'
   import { ref } from 'vue'
+  //temporary hardcoded for developers to login quickly ;)
+  const email = ref('lasse@gmail.com')
+  const password = ref('lasse')
 
-  const email = ref('')
-  const password = ref('')
   const { login, logout, currentUser, loading, error } = useAuth()
 
   const handleLogin = () => {
