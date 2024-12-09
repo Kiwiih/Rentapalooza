@@ -1,8 +1,11 @@
+<!-- App.vue -->
+
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+  import TempNavigation from './components/TempNavigation.vue'
 </script>
 
 <template>
+  <TempNavigation />
   <RouterView />
 </template>
 
