@@ -89,7 +89,7 @@ export const useAuth = () => {
       console.log('Register users succsessfully')
 
       // Automatically Login after register user
-      await login(email, newUser.password)
+      await login(email, password)
     } catch (err) {
       error.value = err.message || 'An error occurred while creating the user.'
       console.error(err)
