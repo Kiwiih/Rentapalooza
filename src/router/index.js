@@ -1,3 +1,4 @@
+import { useAuth } from '@/shared/useAuth'
 import HomeView from '@/views/HomeView.vue'
 import ItemDetailsView from '@/views/ItemDetailsView.vue'
 import ItemsView from '@/views/ItemsView.vue'
@@ -16,25 +17,28 @@ const RentalHistoryView = () => import('@/views/renter/RentalHistoryView.vue')
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // Public pages
+    //* Public pages
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/items',
       name: 'items',
-      component: ItemsView
+      component: ItemsView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/items/:id',
       name: 'itemDetails',
       component: ItemDetailsView,
-      props: true // För att skicka parametern som prop
+      props: true, // För att skicka parametern som prop
+      meta: { requiresAuth: true }
     },
 
-    // Auth routes
+    //* Auth routes
     {
       path: '/auth',
       children: [
@@ -51,7 +55,7 @@ const router = createRouter({
       ]
     },
 
-    // Owner routes
+    //* Owner routes
     {
       path: '/owner',
       children: [
@@ -71,10 +75,11 @@ const router = createRouter({
           name: 'myItems',
           component: MyItemsView
         }
-      ]
+      ],
+      meta: { requiresAuth: true }
     },
 
-    // Renter routes
+    //* Renter routes
     {
       path: '/renter',
       children: [
@@ -88,10 +93,11 @@ const router = createRouter({
           name: 'rentalHistory',
           component: RentalHistoryView
         }
-      ]
+      ],
+      meta: { requiresAuth: true }
     },
 
-    // 404 Page
+    //* 404 Page
     {
       path: '/404',
       name: 'notFoundPage',
@@ -103,6 +109,26 @@ const router = createRouter({
       redirect: '/404'
     }
   ]
+})
+
+// * ROUTE GUARD
+// If user is authenticated then we show the good stuff
+router.beforeEach((to, from, next) => {
+  const { currentUser } = useAuth()
+
+  if (!currentUser.value && to.meta.requiresAuth) {
+    // If the user is not logged in and the route requires auth, redirect to login
+    next({ name: 'login' })
+  } else if (
+    currentUser.value &&
+    (to.name === 'login' || to.name === 'register')
+  ) {
+    // If the user is logged in and tries to access login or register, redirect to home
+    next({ name: 'home' })
+  } else {
+    // In all other cases, proceed as normal
+    next()
+  }
 })
 
 export default router
