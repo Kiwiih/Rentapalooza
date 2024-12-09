@@ -36,3 +36,7 @@ form {
 .switch-auth a:hover {
   text-decoration: underline;
 }
+
+button:disabled {
+  background: var(--color-primary-dark) !important
+}
