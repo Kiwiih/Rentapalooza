@@ -13,9 +13,9 @@
       <RouterLink :to="{ name: 'items' }">Items</RouterLink>
       <RouterLink :to="{ name: 'rentalHistory' }">rentalHistory</RouterLink>
       <RouterLink :to="{ name: 'itemDetails', params: { id: '1' } }"
-        >ItemDetails</RouterLink
-      >
-      <RouterLink :to="{ name: 'my-items' }">My Items</RouterLink>
+        >ItemDetails
+      </RouterLink>
+      <RouterLink :to="{ name: 'myItems' }">My Items</RouterLink>
     </nav>
     <div class="auth-control" v-if="currentUser">
       <p>{{ currentUser.email }}</p>
