@@ -21,11 +21,6 @@ export const useAuth = () => {
   // using router to redirect to specific path
   const router = useRouter()
 
-  // Hash Password
-  const hashedPassword = (password) => {
-    return bcrypt.hashSync(password, 10)
-  }
-
   // ------------------------------------------------------------------------------------------
   //* Fetch all users
   const fetchUsers = async () => {
