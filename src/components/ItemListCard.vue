@@ -1,7 +1,11 @@
 <script setup>
-  const props = defineProps(['item', 'ownerName'])
+  import { useAuth } from '@/shared/useAuth'
 
   import BookingButton from './BookingButton.vue'
+
+  const props = defineProps(['item', 'ownerName'])
+
+  const { currentUser } = useAuth()
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
@@ -40,11 +44,17 @@
             :class="
               item.isAvailable
                 ? 'badge available-badge'
-                : 'badge unavailable-badge'
+                : currentUser.id == item.renterId
+                  ? 'badge cyurrently-renter-badge'
+                  : 'badge unavailable-badge'
             "
           >
             {{
-              item.isAvailable ? 'Available for rent' : 'Not available for rent'
+              item.isAvailable
+                ? 'Available for rent'
+                : currentUser.id == item.renterId
+                  ? 'You are currently renting this !'
+                  : 'Not available for rent'
             }}
           </p>
         </div>
@@ -56,9 +66,9 @@
         </div>
 
         <div class="button-container">
-          <!-- <router-link :to="'/items/' + item.id"> -->
-          <button class="button-secondary">Read More</button>
-          <!-- </router-link> -->
+          <router-link :to="'/items/' + item.id">
+            <button class="button-secondary">Read More</button>
+          </router-link>
 
           <BookingButton :item="item" />
         </div>
