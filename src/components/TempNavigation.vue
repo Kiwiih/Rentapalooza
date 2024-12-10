@@ -28,7 +28,8 @@
 <style scoped>
   .nav-wrapper {
     position: absolute;
-    top: -5.5%;
+    top: -3.5rem;
+    height: 3.5rem;
     width: 100%;
     display: flex;
     opacity: 0.97;
