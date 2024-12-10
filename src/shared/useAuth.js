@@ -152,10 +152,12 @@ export const useAuth = () => {
   }
 
   return {
+    users,
     currentUser,
     loading,
     error,
 
+    fetchUsers,
     createUser,
     login,
     logout
