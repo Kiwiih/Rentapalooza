@@ -1,4 +1,6 @@
 <script setup>
+import BookingButton from './BookingButton.vue';
+
 const props = defineProps(['item'])
 
 const imageError = (event) => {
@@ -42,9 +44,7 @@ const imageError = (event) => {
                         Read More
                     </button>
 
-                    <button :disabled="!item.isAvailable">
-                        Rent Now
-                    </button>
+                    <BookingButton :item="item" />
                 </div>
             </div>
 
