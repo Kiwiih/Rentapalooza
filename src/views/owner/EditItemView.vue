@@ -1,6 +1,7 @@
 <script setup>
   import { ref, onMounted } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
+  import axios from 'axios'
 
   // VIKTORS KOD
   import { useItems } from '@/shared/useItems.js'
@@ -8,32 +9,13 @@
   const { items, getItems } = useItems()
   //SLUT PÅ VIKTORS KOD
 
-  //   funktion för att spara det uppdaterade itemet
-  const saveChanges = (id) => {
-    console.log('sparar')
-    //uppdaterar det lokala objektet i items
-    const index = items.value.findIndex((i) => i.id === item.value.id)
-    if (index !== -1) {
-      items.value[index] = { ...item.value }
-    }
-  }
-
-  // funktion för att radera itemet
-  const deleteItem = (id) => {
-    console.log('raderar')
-    //raderar det lokala objektet i items
-    const index = items.value.findIndex((i) => i.id === item.value.id)
-    if (index !== -1) {
-      items.value.splice(index, 1)
-    }
-  }
+  // för att få tillgång till route parametrar
+  const route = useRoute()
+  //ska avnändas för omderigering
+  const router = useRouter()
 
   //item som redigeras
   const item = ref(null)
-
-  // för att få tillgång till route parametrar
-  const route = useRoute()
-
   // fetcha items baserad på rutt
   const fetchItem = async () => {
     //hämta parameter id från url
@@ -47,6 +29,41 @@
     if (!item.value) {
       console.error('Item ej hittad :()')
     }
+  }
+
+  //varaibler så jhag slipper repetera kod i savechanges och deletefunktionerna
+  const url = 'https://api.jsonbin.io/v3/b/6751aef2e41b4d34e46057f5'
+  const headers = {
+    'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
+    'Content-Type': 'application/json'
+  }
+
+  //   funktion för att spara det uppdaterade itemet
+  const saveChanges = async () => {
+    //Skapar en ny lsita med uppdaterade itemet, så de ersätter de gamla
+    const updatedItems = items.value.map((i) =>
+      i.id === item.value.id ? { ...item.value } : i
+    )
+    //Skickar den uppdaterade listan till jsonvin via put
+    const response = await axios.put(url, { items: updatedItems }, { headers })
+
+    console.log('Sparat! 🐰')
+  }
+
+  // funktion för att radera itemet
+  const deleteItem = async (id) => {
+    //Checka så att itemet finns, typ som om man redan raderat det men är kvar på sidan
+    if (!item.value) {
+      console.error('itemet finns inte!')
+      return
+    }
+    //filtrera bort det item som ska raderas, så det skapas en ny lista som ska skickas upp till jsonBin
+    const updatedItems = items.value.filter((i) => i.id !== item.value.id)
+    //Skickar den uppdaterade listan till jsonvin via put
+    const response = await axios.put(url, { items: updatedItems }, { headers })
+    //Detta ska göra som man hamnar på föregående sida igen,
+    router.push({ name: 'myItems' })
+    console.log('skiten är borta!')
   }
 
   onMounted(() => {

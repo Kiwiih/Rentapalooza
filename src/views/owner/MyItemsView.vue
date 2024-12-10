@@ -36,7 +36,7 @@
     <ul>
       <li v-for="item in userItems" :key="item.id">
         <b>{{ item.title }} </b> <br />
-        {{ item.description }}, {{ item.price }},
+        {{ item.description }} Pris: {{ item.price }}, Kategori:
         {{ item.category }}
         <!-- <img
           v-for="(image, index) in userItems[currentId].images"
