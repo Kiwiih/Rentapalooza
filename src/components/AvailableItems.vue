@@ -48,7 +48,7 @@
 <template>
   <!-- jsut  en bekräftande utskrift :)  -->
   <!-- {{ props.selectedFilter }} -->
-  {{ items }}
+
   <div>
     <!-- Rendera Items -->
     <hr />
@@ -63,9 +63,7 @@
         <br />
         <ItemListCard
           :item="item"
-          :ownerName="
-            users.find((user) => user.id == item.ownerId).email.split('@')[0]
-          "
+          :ownerName="users.find((user) => user.id == item.ownerId).username"
         ></ItemListCard>
         <hr />
       </li>
