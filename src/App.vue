@@ -1,12 +1,32 @@
-<!-- App.vue -->
-
 <script setup>
-  import TempNavigation from './components/TempNavigation.vue'
+  import HeaderComponent from './components/layout/HeaderComponent.vue'
+  import FooterComponent from './components/layout/FooterComponent.vue'
 </script>
-
 <template>
-  <TempNavigation />
-  <RouterView />
+  <div class="layout">
+    <HeaderComponent />
+    <main class="content">
+      <RouterView />
+    </main>
+    <FooterComponent />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  footer {
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    padding: 1rem 0;
+    text-align: center;
+  }
+</style>
