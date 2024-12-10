@@ -5,6 +5,14 @@
   height: 100vh;
   background-color: var(--color-bg-alt);
   padding: 16px;
+
+  button {
+
+    &:disabled {
+      background-color: var(--color-primary-dark)
+    }
+  }
+
 }
 
 .auth-box {
@@ -35,8 +43,4 @@ form {
 
 .switch-auth a:hover {
   text-decoration: underline;
-}
-
-button:disabled {
-  background: var(--color-primary-dark) !important
 }
