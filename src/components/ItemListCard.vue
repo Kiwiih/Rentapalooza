@@ -9,7 +9,6 @@ const imageError = (event) => {
 </script>
 
 <template>
-
     <article>
         <div class="img-container">
             <img :src="props.item.images[0]" alt="Item Image" v-if="props.item.images?.length > 0" @error="imageError">
@@ -28,6 +27,9 @@ const imageError = (event) => {
                         Outhyres by: <br>
                         <b> {{ item.ownerId }} (namn)</b>
                     </small>
+                    <p :class="item.isAvailable ? 'badge available-badge' : 'badge unavailable-badge'">
+                        {{ item.isAvailable ? "Available for rent" : "Not available for rent" }}
+                    </p>
                 </div>
             </div>
 
@@ -135,11 +137,16 @@ article {
             .card-body-sidebar {
                 /* background-color: blue; */
                 width: clamp(5rem, 33%, 15rem);
-                /* min-width: 25%; */
-                /* width: 20rem; */
                 flex-shrink: 0;
                 text-align: right;
                 line-height: 1rem;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: end;
+
+
             }
         }
 
