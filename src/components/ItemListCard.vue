@@ -1,5 +1,8 @@
 <script setup>
   const props = defineProps(['item', 'ownerName'])
+  
+import BookingButton from './BookingButton.vue';
+
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
@@ -23,6 +26,7 @@
           <h2>{{ item.title }}</h2>
           <p>{{ item.description }}</p>
         </div>
+
 
         <div class="card-body-sidebar">
           <small>
@@ -48,6 +52,7 @@
         </div>
       </div>
 
+
       <div class="card-footer">
         <div>
           <p class="pricetag">{{ item.price }} Kr</p>
@@ -58,7 +63,7 @@
             <button class="button-secondary">Read More</button>
           </router-link>
 
-          <button :disabled="!item.isAvailable">Rent Now</button>
+          <BookingButton :item="item" />
         </div>
       </div>
     </div>
