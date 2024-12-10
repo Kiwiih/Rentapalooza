@@ -20,7 +20,7 @@
 
 <style scoped>
 article {
-    --skeleton-color: hsla(0, 0%, 50%, 0.1);
+    --skeleton-color: hsla(0, 0%, 50%, 0.2);
 
     display: flex;
     gap: 1rem;

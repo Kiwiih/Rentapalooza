@@ -1,5 +1,6 @@
 <script setup>
   import { useItems } from '@/shared/useItems.js'
+  import { useAuth } from '@/shared/useAuth'
   import { onBeforeMount, defineProps, computed, ref, watch } from 'vue'
 
   import ItemListCard from './ItemListCard.vue'
@@ -7,6 +8,7 @@
 
   // Hämta variabel och funktion från useItems
   const { items, getItems } = useItems()
+  const { users, fetchUsers } = useAuth()
 
   const props = defineProps(['selectedFilter'])
 
@@ -14,7 +16,9 @@
   const showNoItemsMessage = ref(false)
 
   // Laddar in items från databasen:
-  // getItems()
+  getItems()
+  // ladda in users
+  fetchUsers()
 
   // Filtrera items baserat på selectedFilter
   const filteredItems = computed(() => {
@@ -44,7 +48,7 @@
 <template>
   <!-- jsut  en bekräftande utskrift :)  -->
   <!-- {{ props.selectedFilter }} -->
-
+  {{ items }}
   <div>
     <!-- Rendera Items -->
     <hr />
@@ -56,7 +60,13 @@
     </ul>
     <ul v-else-if="filteredItems && filteredItems.length > 0">
       <li v-for="item in filteredItems" :key="item.id">
-        <ItemListCard :item="item"></ItemListCard>
+        <br />
+        <ItemListCard
+          :item="item"
+          :ownerName="
+            users.find((user) => user.id == item.ownerId).email.split('@')[0]
+          "
+        ></ItemListCard>
         <hr />
       </li>
     </ul>
