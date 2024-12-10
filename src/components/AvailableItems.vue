@@ -63,7 +63,11 @@
         <br />
         <ItemListCard
           :item="item"
-          :ownerName="users.find((user) => user.id == item.ownerId).username"
+          :ownerName="
+            users.length
+              ? users.find((user) => user.id == item.ownerId).username
+              : 'no one'
+          "
         ></ItemListCard>
         <hr />
       </li>
