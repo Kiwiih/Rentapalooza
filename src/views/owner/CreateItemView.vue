@@ -6,7 +6,7 @@ import { reactive } from 'vue';
 const { currentUser } = useAuth()
 
 const inputData = reactive({
-  id: "", // måste skapa id till item?
+  id: "", 
   title: "",
   description: "",
   price: "",
@@ -30,12 +30,20 @@ const categories = [
   "Other"
 ];
 
+const generateId = () => {
+  return `item-${Date.now()}`;
+}
+
+const handleSubmit = () => {
+  inputData.id = generateId();
+  console.log("New item:", inputData);
+  // här måst jag göra nåt mer med item:et
+}
 </script>
 
 <template>
   <div class="createItem">
     <h1>Add new item to rent out</h1>
-    <p v-if="currentUser">Nuvarande användarid är {{ currentUser.id }}</p>
 
     <div class="form">
     <label for="title">Item title</label>
@@ -55,6 +63,7 @@ const categories = [
         :value="c"
         :id="c"
         v-model="inputData.category"
+        class="checkbox"
       />
     </div>
 
@@ -65,6 +74,7 @@ const categories = [
 
 
     </div>
+    <button type="submit" @click="handleSubmit">Add item</button>
   </div>
 </template>
 
@@ -75,7 +85,7 @@ const categories = [
   align-items: center;
   justify-content: center;
   margin: 2rem;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .form {
@@ -86,7 +96,8 @@ const categories = [
   display: flex;
   flex-direction: row;
   margin: 0.4rem;
-  width: 50%
+  width: 50%;
+  align-items: center;
 }
 
 .categoryLabel {
@@ -99,6 +110,11 @@ select:focus {
   border-color: transparent;
   box-shadow: none;
 }
+
+.checkbox {
+  margin: 0;
+}
+
 </style>
 
 <!-- {
