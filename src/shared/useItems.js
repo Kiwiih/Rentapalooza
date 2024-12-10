@@ -1,13 +1,14 @@
 import { ref } from "vue";
 import axios from "axios";
 
+// Denna variabel håller våra Items från databasen
+// Kan användas globalt för att se den data som finns.
+const items = ref([]);
 
 export function useItems() {
 
 
-    // Denna variabel håller våra Items från databasen
-    // Kan användas globalt för att se den data som finns.
-    const items = ref([]);
+
 
     // Denna funktion hämtar från databasen och placerar resultatet i items-variabeln
     // Kllas på för att uppdatera items- variabeln
@@ -26,12 +27,12 @@ export function useItems() {
     };
 
     const updateItems = async (updatedItems) => {
-        try{
+        try {
             await axios.put(
                 'https://api.jsonbin.io/v3/b/6751aef2e41b4d34e46057f5',
-                {items: updatedItems},
+                { items: updatedItems },
                 {
-                    headers:{
+                    headers: {
                         'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
                         'Content-Type': 'application/json'
                     },

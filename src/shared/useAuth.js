@@ -6,6 +6,9 @@ import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'vue-router'
 import bcrypt from 'bcryptjs'
 
+// 'users' holds ALL users, to match input information.
+const users = ref([])
+
 // Current user is information about authenticated user
 const currentUser = ref(JSON.parse(localStorage.getItem('user')) || null)
 
@@ -15,8 +18,7 @@ const error = ref(false)
 // ------------------------------------------------------------------------------------------
 
 export const useAuth = () => {
-  // 'users' holds ALL users, to match input information.
-  const users = ref([])
+
 
   // using router to redirect to specific path
   const router = useRouter()
