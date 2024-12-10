@@ -49,7 +49,7 @@ export const useAuth = () => {
   }
 
   //* Create a new user (signup)
-  const createUser = async (email, password) => {
+  const createUser = async (username, email, password) => {
     loading.value = true
     error.value = null
 
@@ -57,15 +57,20 @@ export const useAuth = () => {
       // Start with getting all users
       await fetchUsers()
 
+      // Check if username already exists
+      if (users.value.some((user) => user.username === username)) {
+        throw new Error('Username is already in use')
+      }
+
       // Check if email already exists
-      const emailExists = users.value.some((user) => user.email === email)
-      if (emailExists) {
-        throw new Error('A user with this email already exists.')
+      if (users.value.some((user) => user.email === email)) {
+        throw new Error('A user with this email already exists')
       }
 
       // Create new user object
       const newUser = {
         id: uuidv4(),
+        username,
         email,
         password: bcrypt.hashSync(password, 10),
         role: 'user',
@@ -99,7 +104,7 @@ export const useAuth = () => {
   }
 
   //* Login
-  const login = async (email, hashedPassword) => {
+  const login = async (identifier, hashedPassword) => {
     loading.value = true
     error.value = null
 
@@ -107,29 +112,34 @@ export const useAuth = () => {
       // Start with getting all users
       await fetchUsers()
 
-      // Check if there is a user with matching email and password
+      // Check if there is a user with matching email or username with password
       const user = users.value.find(
         (user) =>
-          user.email === email &&
+          (user.email === identifier || user.username === identifier) &&
           bcrypt.compareSync(hashedPassword, user.password)
       )
 
       if (!user) {
-        throw new Error('Invalid email or password')
+        throw new Error('Invalid credentials')
       }
 
       // Store specific properties from user in reactive state
-      currentUser.value = { id: user.id, email: user.email }
+      currentUser.value = {
+        id: user.id,
+        username: user.username,
+        email: user.email
+      }
 
       // Store current user in localStorage
       localStorage.setItem(
         'user',
         JSON.stringify({
           id: user.id,
-          email: user.email,
-          hashedPwd: user.password // to show it's hashed
+          username: user.username,
+          email: user.email
+          // hashedPwd: user.password
         })
-      ) // Save user to localStorage
+      )
 
       // Redirect to homeView when loggin in
       router.push('/')

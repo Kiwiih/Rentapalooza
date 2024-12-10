@@ -7,6 +7,7 @@
 
   const { createUser, loading, error } = useAuth()
 
+  const username = ref('')
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
@@ -20,7 +21,7 @@
       return
     }
 
-    createUser(email.value, password.value)
+    createUser(username.value, email.value, password.value)
   }
 </script>
 
@@ -30,8 +31,25 @@
       <h2>Register</h2>
 
       <form @submit.prevent="handleRegister">
+        <!-- Username input -->
+        <input
+          type="text"
+          v-model="username"
+          :class="{ error: error === 'Username is already in use' }"
+          placeholder="Username"
+          required
+        />
+
         <!-- Email input -->
-        <input type="email" v-model="email" placeholder="Email" required />
+        <input
+          type="email"
+          v-model="email"
+          :class="{ error: error === 'A user with this email already exists' }"
+          placeholder="Email"
+          required
+        />
+
+        <!-- Password Input -->
         <input
           type="password"
           v-model="password"
@@ -39,7 +57,7 @@
           required
         />
 
-        <!-- Password Input -->
+        <!-- Confirm pwd Input -->
         <input
           type="password"
           v-model="confirmPassword"

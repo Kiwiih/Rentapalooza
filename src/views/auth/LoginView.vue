@@ -6,7 +6,7 @@
   import { ref } from 'vue'
 
   //temporary hardcoded for developers to login quickly ;)
-  const email = ref('lasse@gmail.com')
+  const identifier = ref('lasse@gmail.com')
   const password = ref('lasse')
 
   const { login, loading, error } = useAuth()
@@ -14,12 +14,7 @@
   // Login handler
   const handleLogin = () => {
     error.value = ''
-    login(email.value, password.value)
-  }
-
-  // Hash Password
-  const hashedPassword = (password) => {
-    return bcrypt.hashSync(password, 10)
+    login(identifier.value, password.value)
   }
 </script>
 
@@ -29,12 +24,12 @@
       <h2>Login</h2>
 
       <form @submit.prevent="handleLogin">
-        <!-- Email Input -->
+        <!-- Username or Email Input -->
         <input
-          autocomplete="email"
-          type="email"
-          v-model="email"
-          placeholder="Email"
+          autocomplete="identifier"
+          type="text"
+          v-model="identifier"
+          placeholder="Username or Email"
           required
         />
 

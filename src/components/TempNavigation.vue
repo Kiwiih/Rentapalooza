@@ -18,7 +18,7 @@
       <RouterLink :to="{ name: 'myItems' }">My Items</RouterLink>
     </nav>
     <div class="auth-control" v-if="currentUser">
-      <p>{{ currentUser.email }}</p>
+      <p>{{ currentUser.username }}</p>
       <button @click="logout">Logout</button>
     </div>
     <div class="ball"></div>
