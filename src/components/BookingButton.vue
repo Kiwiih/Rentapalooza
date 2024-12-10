@@ -8,7 +8,7 @@ import axios from 'axios'
 const props = defineProps(['item']);
 
 // Använder composables
-const { items, getItems } = useItems();
+const { items, getItems, updateItems } = useItems();
 const { rentals, addRental } = useRentals();
 
 const bookItem = async (item) => {
@@ -51,16 +51,7 @@ const bookItem = async (item) => {
     );
 
     // Spara de uppdaterade items till databasen
-    await axios.put(
-      'https://api.jsonbin.io/v3/b/6751aef2e41b4d34e46057f5',
-      { items: updatedItems },
-      {
-        headers: {
-          'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    await updateItems(updatedItems);
 
     alert('Booking successful!');
   } catch (err) {

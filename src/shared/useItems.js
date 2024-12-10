@@ -25,8 +25,27 @@ export function useItems() {
         }
     };
 
+    const updateItems = async (updatedItems) => {
+        try{
+            await axios.put(
+                'https://api.jsonbin.io/v3/b/6751aef2e41b4d34e46057f5',
+                {items: updatedItems},
+                {
+                    headers:{
+                        'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                }
+            );
+            items.value = updatedItems;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return {
         items,
         getItems,
+        updateItems,
     };
 }
