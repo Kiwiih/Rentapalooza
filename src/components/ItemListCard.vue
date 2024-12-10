@@ -26,12 +26,12 @@
     <div class="card-content-container">
       <div class="card-body">
         <div class="card-body-main">
-          <h2>{{ item.title }}</h2>
+          <h2 class="item-title">{{ item.title }}</h2>
           <p>{{ item.description }}</p>
         </div>
 
         <div class="card-body-sidebar">
-          <small>
+          <small class="renter-information">
             Outhyres by: <br />
             <b>
               <a href="#" style="text-decoration: none">{{
@@ -85,6 +85,7 @@
     display: flex;
     gap: 1rem;
     margin: 0.5rem 0rem;
+    overflow: auto;
 
     &:hover {
       border: 1px solid var(--color-border);
@@ -144,7 +145,7 @@
         flex-grow: 1;
 
         display: flex;
-        gap: 2rem;
+        gap: 0.5rem;
 
         .card-body-main {
           /* background-color: blueviolet; */
@@ -153,7 +154,7 @@
 
         .card-body-sidebar {
           /* background-color: blue; */
-          width: clamp(5rem, 33%, 15rem);
+          width: 14rem;
           flex-shrink: 0;
           text-align: right;
           line-height: 1rem;
@@ -186,6 +187,75 @@
 
     button {
       margin-left: 0.5rem;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    article {
+      /* TRUNCATING AV ALLA TEXTER I KORTET. */
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        /* Begränsar till EEEEEN rad */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        /* Visar "..." om texten är för lång */
+        line-height: normal;
+      }
+
+      .item-title {
+        font-size: medium;
+      }
+
+      .card-content-container {
+        display: unset;
+
+        .card-body {
+          /* background-color: red; */
+          display: unset;
+
+          .card-body-sidebar {
+            /* background-color: blue; */
+            display: flex;
+            width: 100%;
+            text-align: unset;
+            justify-items: left;
+            align-items: start;
+
+            /* döljer renter information för små skärmar */
+            .renter-information {
+              display: none;
+            }
+          }
+        }
+
+        /* utrymme för badge att andas */
+        .badge {
+          margin: 0.5rem 0 0.5rem 0;
+        }
+
+        .card-footer {
+          /* background-color: antiquewhite; */
+          flex-direction: column;
+        }
+      }
+
+      .pricetag {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      button {
+        font-size: smaller;
+        margin-left: unset;
+      }
     }
   }
 </style>
