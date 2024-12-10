@@ -1,98 +1,72 @@
 <script setup>
   // Emil Högberg
 
-  import { ref, computed } from 'vue'
+  import { ref, computed, onBeforeMount, watch } from 'vue'
+  // Import the functions that fetches the data
+  import { useItems } from '@/shared/useItems'
+  import { useAuth } from '@/shared/useAuth'
+  import { useRentals } from '@/shared/useRentals'
+  // Destruct the functions we need
+  const { items, getItems } = useItems()
+  const { users, currentUser, fetchUsers } = useAuth()
+  const { rentals, fetchRentals } = useRentals()
+  // Add a loading state
+  const loading = ref(true)
+  // Add a message if th
+  const noPreviousBookingsMessage = ref(false)
+  onBeforeMount(async () => {
+    await getItems()
+    await fetchRentals()
+    await fetchUsers()
+    loading.value = false
+  })
 
-  // Get current date
+  // Get current date to use for filtering
   const today = new Date()
 
-  // Recipt
-  const rentals = ref([
-    {
-      id: 'rental123',
-      itemId: '1',
-      ownerId: 'user123',
-      renterId: 'li45h64i',
-      startDate: '2024-12-11',
-      endDate: '2024-12-20',
-      price: 100
-    },
-    {
-      id: 'rental124',
-      itemId: '2',
-      ownerId: 'user456',
-      renterId: 'li45h64i',
-      startDate: '2024-12-01',
-      endDate: '2024-12-03',
-      price: 50
-    }
-  ])
-  // Items
-  const items = ref([
-    {
-      id: '1',
-      title: 'The Great Gatsby',
-      description: 'A classic novel by F. Scott Fitzgerald.',
-      price: 100,
-      image: 'https://m.media-amazon.com/images/I/61z0MrB6qOS._SL1500_.jpg'
-    },
-    {
-      id: '2',
-      title: 'Camping Tent',
-      description: 'A two-person tent for outdoor adventures.',
-      price: 50,
-      image: 'https://m.media-amazon.com/images/I/71DPerT9EKL._AC_SL1500_.jpg'
-    }
-  ])
-  // Users
-  const users = ref([
-    {
-      id: 'user123',
-      name: 'Alice',
-      profileImg:
-        'https://www.kallesandare.se/wp-content/uploads/2015/04/kalle2012.jpg'
-    },
-    {
-      id: 'user456',
-      name: 'Bob',
-      profileImg: 'https://via.placeholder.com/150'
-    }
-  ])
+  // Get current user id
+  const currentUserId = computed(() => currentUser.value?.id)
 
-  const currentUserId = 'li45h64i'
-  //Load the page by showing all bookings
+  // Combine all data into a combined list for easy rendering
+  const combinedRentals = computed(() => {
+    return rentals.value.map((rental) => {
+      const item = items.value.find((i) => i.id === rental.itemId) || {}
+      const owner = users.value.find((u) => u.id === rental.ownerId) || {}
+      return {
+        ...rental,
+        itemTitle: item.title || 'Unknown Item',
+        itemImage:
+          item.image ||
+          'https://via.placeholder.com/300/CCCCCC/000000?text=No+Image',
+        itemDescription: item.description || 'No description available',
+        ownerUsername: owner.username || 'Unknown User',
+        ownerProfileImage:
+          owner.profileImage ||
+          'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar'
+      }
+    })
+  })
+
+  // Filtering logic
   const selectedFilter = ref('all')
-
-  const userRentals = computed(() =>
-    rentals.value
-      .filter((rental) => rental.renterId === currentUserId)
-      .map((rental) => {
-        const item = items.value.find((i) => i.id === rental.itemId)
-        const owner = users.value.find((u) => u.id === rental.ownerId)
-        return { ...rental, item, owner }
-      })
-  )
-
-  // Filter the bookings
-  const allBookings = computed(() => userRentals.value)
-
-  const pastBookings = computed(() =>
-    userRentals.value.filter((rental) => new Date(rental.endDate) < today)
-  )
-
-  const upcomingBookings = computed(() =>
-    userRentals.value.filter((rental) => new Date(rental.startDate) > today)
-  )
-
-  // Switch between filtered bookings
+  // Filter the items based on if they are upcoming or past by comparing today's date
   const filteredRentals = computed(() => {
+    const baseList = combinedRentals.value
     switch (selectedFilter.value) {
       case 'past':
-        return pastBookings.value
+        return baseList.filter((rental) => new Date(rental.endDate) < today)
       case 'upcoming':
-        return upcomingBookings.value
+        return baseList.filter((rental) => new Date(rental.startDate) > today)
       default:
-        return allBookings.value
+        return baseList
+    }
+  })
+  // Watch and see if there are any bookings, if not show a message
+  watch(filteredRentals, (newRentals) => {
+    if (newRentals.length === 0) {
+      noPreviousBookingsMessage.value = true
+    } else {
+      noPreviousBookingsMessage.value = false
     }
   })
 </script>
@@ -121,23 +95,36 @@
       </button>
     </div>
 
-    <ul v-if="filteredRentals.length">
-      <li v-for="rental in filteredRentals" :key="rental.id">
-        <h2>{{ rental.item.title }}</h2>
-        <p>{{ rental.startDate }} - {{ rental.endDate }}</p>
-        <img :src="rental.item.image" width="200" />
-        <p>{{ rental.item.description }}</p>
-        <div class="owner-container">
-          <img class="avatar" :src="rental.owner.profileImg" height="60" />
-          <p>{{ rental.owner.name }}</p>
-        </div>
-        <p>Total cost: {{ rental.price }} SEK</p>
-        <br />
-        <hr />
-        <br />
+    <ul v-if="noPreviousBookingsMessage === true">
+      <li>
+        <h3>No previous bookings..</h3>
       </li>
     </ul>
-    <p v-else>No bookings found.</p>
+    <ul v-else-if="filteredRentals.length > 0">
+      <li v-for="rental in filteredRentals" :key="rental.id">
+        <p>{{ rental.startDate }} - {{ rental.endDate }}</p>
+        <h2>{{ rental.itemTitle }}</h2>
+        <img :src="rental.itemImage" alt="Item Image" class="item-image" />
+        <p>{{ rental.itemDescription }}</p>
+        <div class="owner-container">
+          <img
+            :src="rental.ownerProfileImage"
+            alt="Owner Avatar"
+            class="avatar"
+          />
+          <p>{{ rental.ownerUsername }}</p>
+        </div>
+        <p>Total cost: {{ rental.price }} SEK</p>
+        <hr />
+      </li>
+    </ul>
+    <ul v-else>
+      <p>Loading your bookings...</p>
+      <br />
+      <li v-for="index in 3" :key="index">
+        <hr />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -150,28 +137,89 @@
     text-align: center;
   }
 
-  .avatar {
-    border-radius: 50%;
-    border: 1px solid #ccc;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: var(--color-text);
   }
 
   .filter-buttons {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     margin-bottom: 20px;
   }
 
-  .active {
-    background-color: #6c757d;
+  .filter-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .filter-buttons .active {
+    background-color: var(--color-primary-variation);
+    color: white;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  li {
+    background: var(--color-bg-alt);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: box-shadow 0.2s ease;
+  }
+
+  li:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .item-image {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 10px;
+    margin: 10px 0;
   }
 
   .owner-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    margin-top: 15px;
   }
 
-  li {
-    list-style: none;
+  .avatar {
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+    width: 50px;
+    height: 50px;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    margin: 20px 0;
+  }
+
+  .item-image,
+  .avatar {
+    transition: transform 0.3s ease;
+  }
+
+  .item-image:hover,
+  .avatar:hover {
+    transform: scale(1.05);
   }
 </style>
