@@ -100,4 +100,22 @@
   .delete-button:hover {
     background-color: rgb(183, 54, 54);
   }
+
+  h2 {
+    margin: 1em;
+  }
+  svg {
+    width: 2em;
+    color: black;
+  }
+  li {
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
+    padding: 1em;
+    margin: 1em;
+  }
+  ul {
+    text-decoration: none;
+  }
 </style>
