@@ -5,7 +5,10 @@
 
   import { RouterLink } from 'vue-router'
   import { onMounted } from 'vue'
-  import EditItemView from './EditItemView.vue'
+  import { useAuth } from '@/shared/useAuth.js'
+  import { computed, ref } from 'vue'
+
+  const { currentUser } = useAuth()
 
   // VIKTORS KOD
   import { useItems } from '@/shared/useItems.js'
@@ -14,49 +17,81 @@
   //SLUT PÅ VIKTORS KOD
 
   onMounted(async () => {
-    await getItems()
+    await getItems(), currentUser
+  })
+  const userItems = computed(() => {
+    if (!items.value.length) {
+    }
+    // Returnera items som tillhör inloggade ägare
+    return items.value.filter((item) => item.ownerId === currentUser.value.id)
   })
 
-  // const items = [
-  //   { id: 1, name: 'Item 1', price: 100 },
-  //   { id: 2, name: 'Item 2', price: 200 },
-  //   { id: 3, name: 'Item 3', price: 300 }
-  // ]
-
-  console.log(items.value)
-  console.log(getItems)
+  // console.log(userItems.value)
+  // console.log(currentUser.value.id)
 </script>
 <template>
   <h2>Alla mina saker för uthyrning</h2>
-  <!-- Rendera en lista med varor -->
-  <ul>
-    <li v-for="item in items" :key="item.id">
-      {{ item.title }}, {{ item.description }}, {{ item.price }},
-      {{ item.category }}, {{ item.images }}
-      <!-- Länk till redigera-sidan för varan -->
-      <RouterLink :to="{ name: 'editItem', params: { id: item.id } }">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-          />
-        </svg>
-      </RouterLink>
-    </li>
-  </ul>
+  <div v-if="userItems">
+    <!-- Rendera en lista med varor -->
+    <ul>
+      <li v-for="item in userItems" :key="item.id">
+        <b>{{ item.title }} </b> <br />
+        {{ item.description }} Pris: {{ item.price }}, Kategori:
+        {{ item.category }}
+        <!-- <img
+          v-for="(image, index) in userItems[currentId].images"
+          :key="index"
+          :src="image"
+          :alt="'Bild på item ' + (index + 1)"
+          class="itemImage"
+          @error="handleImageError"
+        /> -->
+        <!-- Länk till redigera-sidan för varan -->
+        <RouterLink :to="{ name: 'editItem', params: { id: item.id } }">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+            />
+          </svg>
+        </RouterLink>
+      </li>
+    </ul>
+  </div>
+
+  <div v-else>
+    <h3>Du har inga items🐨</h3>
+  </div>
 </template>
 
 <style scoped>
+  h2 {
+    margin: 1em;
+  }
   svg {
-    width: 1em;
+    width: 2em;
     color: black;
+    border: 2px black solid;
+    padding: 0.2em;
+    border-radius: 25px;
+    background-color: rgb(117, 207, 207);
+  }
+  li {
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
+    padding: 1em;
+    margin: 1em;
+  }
+  ul {
+    text-decoration: none;
   }
 </style>
