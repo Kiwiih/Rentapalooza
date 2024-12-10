@@ -1,8 +1,7 @@
 <script setup>
   const props = defineProps(['item', 'ownerName'])
-  
-import BookingButton from './BookingButton.vue';
 
+  import BookingButton from './BookingButton.vue'
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
@@ -26,7 +25,6 @@ import BookingButton from './BookingButton.vue';
           <h2>{{ item.title }}</h2>
           <p>{{ item.description }}</p>
         </div>
-
 
         <div class="card-body-sidebar">
           <small>
@@ -52,16 +50,15 @@ import BookingButton from './BookingButton.vue';
         </div>
       </div>
 
-
       <div class="card-footer">
         <div>
           <p class="pricetag">{{ item.price }} Kr</p>
         </div>
 
         <div class="button-container">
-          <router-link :to="'/items/' + item.id">
-            <button class="button-secondary">Read More</button>
-          </router-link>
+          <!-- <router-link :to="'/items/' + item.id"> -->
+          <button class="button-secondary">Read More</button>
+          <!-- </router-link> -->
 
           <BookingButton :item="item" />
         </div>
@@ -161,7 +158,6 @@ import BookingButton from './BookingButton.vue';
       .card-footer {
         display: flex;
         justify-content: space-between;
-        /* background-color: aqua; */
       }
     }
 
@@ -174,6 +170,8 @@ import BookingButton from './BookingButton.vue';
 
     .button-container {
       text-align: right;
+      display: flex;
+      gap: 0.5rem;
     }
 
     button {
