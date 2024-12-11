@@ -5,6 +5,7 @@
 
   import ItemListCard from './ItemListCard.vue'
   import ItemListCardSkeleton from './ItemListCardSkeleton.vue'
+  import searchBar from './searchBar.vue'
 
   // Hämta variabel och funktion från useItems
   const { items, getItems } = useItems()
@@ -14,6 +15,12 @@
 
   //variabel som reglerar om meddelande om INGA ITEMS ska visas:
   const showNoItemsMessage = ref(false)
+  //variabel som håller de användaren söker eftr
+  const searchQuery = ref('')
+
+  const handleSearchQueryUpdate = (newSearchQuery) => {
+    searchQuery.value = newSearchQuery // Uppdaterar värdet på searchQuery
+  }
 
   // Laddar in items från databasen:
   getItems()
@@ -21,14 +28,30 @@
   fetchUsers()
 
   // Filtrera items baserat på selectedFilter
+
   const filteredItems = computed(() => {
+    let results = []
+
     if (props.selectedFilter === 'available') {
-      return items.value.filter((item) => item.isAvailable)
+      results = items.value.filter((item) => item.isAvailable)
     } else if (props.selectedFilter === 'unavailable') {
-      return items.value.filter((item) => !item.isAvailable)
+      results = items.value.filter((item) => !item.isAvailable)
     } else {
-      return items.value
+      results = items.value
     }
+
+    // Filtrera baserat på searchQuery
+    if (searchQuery.value.length > 0) {
+      const query = searchQuery.value.toLowerCase().trim()
+
+      results = results.filter(
+        (item) =>
+          item.title.toLowerCase().includes(query) ||
+          item.description.toLowerCase().includes(query)
+      )
+    }
+
+    return results
   })
 
   //lyssnar på filteritems....
@@ -48,6 +71,11 @@
 <template>
   <!-- jsut  en bekräftande utskrift :)  -->
   <!-- {{ props.selectedFilter }} -->
+
+  <!-- sökbaren gyller queryn med vad användaren sökte efter... -->
+  <searchBar @updateSearchQuery="handleSearchQueryUpdate" />
+
+  <!-- {{ filteredItems }} -->
 
   <div>
     <!-- Rendera Items -->
