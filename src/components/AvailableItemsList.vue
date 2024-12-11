@@ -2,36 +2,35 @@
   import { useItems } from '@/shared/useItems.js'
   import { useAuth } from '@/shared/useAuth'
   import { onBeforeMount, defineProps, computed, ref, watch } from 'vue'
+  import { useRoute } from 'vue-router'
 
   import ItemListCard from './ItemListCard.vue'
   import ItemListCardSkeleton from './ItemListCardSkeleton.vue'
-  import searchBar from './searchBar.vue'
-
-  // Hämta variabel och funktion från useItems
-  const { items, getItems } = useItems()
-  const { users, fetchUsers } = useAuth()
+  import SearchBar from './SearchBar.vue'
 
   const props = defineProps(['selectedFilter'])
+  const route = useRoute()
 
-  //variabel som reglerar om meddelande om INGA ITEMS ska visas:
-  const showNoItemsMessage = ref(false)
-  //variabel som håller de användaren söker eftr
-  const searchQuery = ref('')
-
-  const handleSearchQueryUpdate = (newSearchQuery) => {
-    searchQuery.value = newSearchQuery // Uppdaterar värdet på searchQuery
-  }
+  // Hämta variabel och funktion från useItems och useAuth
+  const { items, getItems } = useItems()
+  const { users, fetchUsers } = useAuth()
+  const showNoItemsMessage = ref(false) //angör om meddelande om INGA ITEMS ska visas
+  const searchQuery = ref('') //det användaren söker efter
 
   // Laddar in items från databasen:
   getItems()
   // ladda in users
   fetchUsers()
 
-  // Filtrera items baserat på selectedFilter
+  const handleChangedSearchInput = (inputValue) => {
+    searchQuery.value = inputValue
+  }
 
+  //***** FILTER *****/
   const filteredItems = computed(() => {
     let results = []
 
+    // Filtrera items baserat på selectedFilter
     if (props.selectedFilter === 'available') {
       results = items.value.filter((item) => item.isAvailable)
     } else if (props.selectedFilter === 'unavailable') {
@@ -39,44 +38,52 @@
     } else {
       results = items.value
     }
-
     // Filtrera baserat på searchQuery
     if (searchQuery.value.length > 0) {
       const query = searchQuery.value.toLowerCase().trim()
-
       results = results.filter(
         (item) =>
           item.title.toLowerCase().includes(query) ||
           item.description.toLowerCase().includes(query)
       )
     }
-
     return results
   })
 
-  //lyssnar på filteritems....
-  // om de gått 5 sekunder efter förändring och det fortfarade inte finns något i arrayen så sätts showNoItemsMessage till true. så jag kan visa det i domen :)
+  /**lyssnar på förändringar i filteritems för att avgöra om noItem-meddelande ska visas!**
+    - Om filtereditems har 0 items så startar en timer som räknar ner till att visa ett noItem-meddelande.
+    - Om det vid timerns slut fortfarande är 0 items i filtered items
+      ... DÅ sätts showNoItemsMessage till true. så jag kan visa det i domen!
+      ... annars sätts den till false 
+    - detta för att meddelandet inte ska visas om det efter timerns slut faktiskt fyllts på med items...*/
   watch(filteredItems, (newFilteredItems) => {
-    //direkt vid förändring ska meddelandet döljas...
-    showNoItemsMessage.value = false
-    //..sen börjar timern....
+    showNoItemsMessage.value = false // döljer direkt vid förändring
     if (newFilteredItems.length === 0) {
+      // om 0 items starta timer...
       setTimeout(() => {
-        showNoItemsMessage.value = true
-      }, 5000)
+        //vid timerns slut...
+        //... kollar av längden på filtered items och sätt meddelandets status
+        if (filteredItems.value.length === 0) {
+          showNoItemsMessage.value = true
+        } else {
+          showNoItemsMessage.value = false
+        }
+        // console.log(filteredItems.value.length)
+        // console.log(showNoItemsMessage.value)
+      }, 1000)
     }
   })
+  // vidareutveckling: man skulle också kunna göra en initial körning av denna så fort sidan laddas in men nu körs den bara vid förändring i filtrerade resultat
 </script>
 
 <template>
   <!-- jsut  en bekräftande utskrift :)  -->
   <!-- {{ props.selectedFilter }} -->
 
-  <!-- sökbaren gyller queryn med vad användaren sökte efter... -->
-  <searchBar @updateSearchQuery="handleSearchQueryUpdate" />
-
+  <!-- sökbaren fyller sökQueryn vad användaren sökte efter... -->
+  <SearchBar @changedSearchInput="handleChangedSearchInput" />
+  <br />
   <!-- {{ filteredItems }} -->
-
   <div>
     <!-- Rendera Items -->
     <hr />
@@ -101,7 +108,7 @@
     </ul>
     <ul v-else>
       loading...
-      <li v-for="index in 3" :key="index">
+      <li v-for="index in 2" :key="index">
         <ItemListCardSkeleton />
         <hr />
       </li>

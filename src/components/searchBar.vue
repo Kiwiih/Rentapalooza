@@ -1,19 +1,47 @@
 <script setup>
-  import { ref, defineEmits } from 'vue'
+  import { ref, defineEmits, onBeforeMount } from 'vue'
+  import { useRoute, useRouter } from 'vue-router'
 
-  const searchQuery = ref('')
-  const emit = defineEmits(['updateSearchQuery'])
+  //Router
+  const router = useRouter()
+  //rutten för sidan:
+  const route = useRoute()
 
-  const handleInput = (event) => {
-    console.log('Input value:', event.target.value)
-    console.log('sökQuery', searchQuery.value)
-    //skickar upp data til moderkomponenten
-    // emit, (eventnamn, data)
-    emit('updateSearchQuery', searchQuery.value)
+  const searchInput = ref('')
+
+  //emit för att beretta för förälder att sökningen har ändrats
+  const emit = defineEmits(['changedSearchInput'])
+
+  //////////// FUNKTIONER: //////////
+
+  // skickar användaren till items-sidan och sätter queryParametrar i rutten
+  // användbart om man söker via sökbaren men är på en annan sida förutom items-side-listan, exempelvis på HEM
+  const loadSearchPageWithQueryParam = () => {
+    router.push({ name: 'items', query: { q: searchInput.value } })
   }
 
-  // skicka upp söksträngen till moderkomponent
-  // defineEmits(['searchQuery'])
+  // ändrar queryParameter om vi är i item listvyn
+  const changeQueryParam = (inputValue) => {
+    if (route.name === 'items') {
+      router.push({ query: { q: inputValue } })
+    }
+  }
+
+  //////////////////////////////
+
+  //detta händer bara om vi är på item list sidan-sidan:
+  //inte om sökbaren monteras in i någon annan sida.
+  onBeforeMount(() => {
+    if (route.name === 'items') {
+      console.log('Vi är i itemlist -sidan!')
+      console.log('Ruttens namn:', route.name)
+      console.log('Queryparameter är: ', route.query.q)
+
+      searchInput.value = route.query.q
+      // meddelar förälder vid start att sökning finns!
+      emit('changedSearchInput', searchInput.value)
+    }
+  })
 </script>
 
 <template>
@@ -21,10 +49,14 @@
     <input
       type="text"
       placeholder="What do you want to rent?"
-      v-model="searchQuery"
-      @input="handleInput"
+      v-model="searchInput"
+      @input="
+        (changeQueryParam(searchInput), emit('changedSearchInput', searchInput))
+      "
     />
-    <button class="button-primary">Search</button>
+    <button class="button-primary" @click="loadSearchPageWithQueryParam">
+      <small>Search</small>
+    </button>
   </div>
 </template>
 
@@ -32,8 +64,6 @@
   .search-bar {
     display: flex;
     max-width: 600px;
-    /* gap: 1rem; */
-    margin: 1rem auto;
   }
 
   .search-bar input {
@@ -46,5 +76,10 @@
   .search-bar button {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    min-width: 100px;
+    white-space: nowrap;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

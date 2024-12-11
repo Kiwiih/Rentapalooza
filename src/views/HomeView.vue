@@ -1,6 +1,8 @@
 <script setup>
   import { ref } from 'vue'
   import { useItems } from '@/shared/useItems.js'
+  import SearchBar from '@/components/searchBar.vue'
+
   const { items, getItems } = useItems()
   getItems()
 
@@ -17,14 +19,8 @@
         <section class="hero">
           <h2>Find What You Need, Rent with Ease</h2>
           <p>Discover a wide range of items available for rent in your area.</p>
-          <div class="search-bar">
-            <input
-              type="text"
-              placeholder="What do you want to rent?"
-              v-model="searchQuery"
-            />
-            <button class="button-primary" @click="search">Search</button>
-          </div>
+
+          <SearchBar />
         </section>
 
         <section class="featured-items">
