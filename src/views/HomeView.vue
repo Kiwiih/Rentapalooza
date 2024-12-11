@@ -1,6 +1,7 @@
 <script setup>
   import { ref } from 'vue'
   import { useItems } from '@/shared/useItems.js'
+
   import SearchBar from '@/components/SearchBar.vue'
 
   const { items, getItems } = useItems()
