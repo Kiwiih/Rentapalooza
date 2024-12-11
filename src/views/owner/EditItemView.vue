@@ -73,9 +73,9 @@
 
 <template>
   <!-- Formulär för att redigera till items -->
-  <div v-if="item">
+  <div v-if="item" class="container">
     <div class="edit-item-div">
-      <h2>Redigera</h2>
+      <h2>Redigera item</h2>
       <input v-model="item.title" placeholder="namn" />
       <input v-model="item.description" placeholder="beskrivning" />
       <input v-model="item.price" placeholder="pris" />
