@@ -1,11 +1,12 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
-
+ 
   import BookingButton from './BookingButton.vue'
 
   const props = defineProps(['item', 'ownerName'])
 
   const { currentUser } = useAuth()
+
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
