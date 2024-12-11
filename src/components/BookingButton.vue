@@ -3,20 +3,28 @@
   import { defineProps } from 'vue'
   import { useItems } from '@/shared/useItems'
   import { useRentals } from '@/shared/useRentals'
-  import axios from 'axios'
+  import { ref } from 'vue'
 
   const props = defineProps(['item'])
 
   // Använder composables
   const { items, getItems, updateItems } = useItems()
-  const { rentals, addRental } = useRentals()
+  const { rentals, addRental, loading, error } = useRentals()
+
+  //Hanterar rätt knapp som laddar
+  const loadingId = ref(null);
 
   const bookItem = async (item) => {
+    if(loadingId.value) return
+
+    loadingId.value = item.id
+
     // Hämta den inloggade användaren
     const currentUser = JSON.parse(localStorage.getItem('user'))
 
     if (!currentUser) {
       alert('Log in to make a booking')
+      loadingId.value = null
       return
     }
 
@@ -61,14 +69,20 @@
     } catch (err) {
       console.error(err)
       alert('An error occurred while booking the item.')
+    } finally {
+      loadingId.value = null;
     }
   }
 </script>
 
 <template>
   <div>
-    <button @click="bookItem(item)" :class="{ 'loading-btn': loading }" :disabled="!item.isAvailable">
-      Book item
+    <button
+      @click="bookItem(item)"
+      :class="{ 'loading-btn': loadingId === item.id }" 
+      :disabled="!item.isAvailable || loadingId === item.id" 
+    >
+      {{ loadingId === item.id ? 'Loading...' : 'Book item' }}
     </button>
   </div>
 </template>

@@ -1,11 +1,53 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
-
+  // import { useItems } from '@/shared/useItems'
+  // import { useRentals } from '@/shared/useRentals'
+  // import { onMounted } from 'vue'
+ 
   import BookingButton from './BookingButton.vue'
 
   const props = defineProps(['item', 'ownerName'])
 
   const { currentUser } = useAuth()
+
+  // //Funktioner för items och rentals
+  // const { items, getItems, updateItems} = useItems();
+  // const {rentals, fetchRentals } = useRentals();
+
+  // //Kollar availabilityn
+  // const checkAvailability = async () => {
+  //   await Promise.all([getItems(), fetchRentals()]);
+
+  //   const currentDate = new Date();
+
+  //   //uppdaterar itemet baserat på kvittot
+  //   const updatedItems = items.value.map((item) => {
+  //     const rental = rentals.value.find(
+  //       (r) => r.itemId === item.id && new Date(r.endDate) < currentDate
+  //     );
+
+  //     if (rental && !item.isAvailable) {
+  //       return {
+  //         ...item,
+  //         isAvailable: true,
+  //         renterId: null,
+  //         currentRentalId: null,
+  //       };
+  //     }
+
+  //     return item;
+  //   });
+
+  //   //Sparar uppdaterade items
+  //   if(JSON.stringify(updatedItems) !== JSON.stringify(items.value)){
+  //     await updateItems(updatedItems);
+  //   }
+
+  // }
+
+  // onMounted(async () => {
+  //   await checkAvailability(); // Kollar availabilityn när sidan laddas
+  // });
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
