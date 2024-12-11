@@ -5,7 +5,7 @@
 <template>
   <div class="layout">
     <HeaderComponent />
-    <main class="content">
+    <main class="container">
       <RouterView />
     </main>
     <FooterComponent />
@@ -19,7 +19,7 @@
     min-height: 100vh;
   }
 
-  .content {
+  .container {
     flex: 1;
   }
 
