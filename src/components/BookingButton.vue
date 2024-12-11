@@ -67,7 +67,7 @@
 
 <template>
   <div>
-    <button @click="bookItem(item)" :disabled="!item.isAvailable">
+    <button @click="bookItem(item)" :class="{ 'loading-btn': loading }" :disabled="!item.isAvailable">
       Book item
     </button>
   </div>

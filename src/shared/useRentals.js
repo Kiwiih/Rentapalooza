@@ -3,10 +3,12 @@ import axios from 'axios';
 
 const rentals = ref([]);
 const error = ref(null);
+const loading = false;
 
 export const useRentals = () => {
   const fetchRentals = async () => {
     error.value = null;
+    loading.value = true;
 
     try {
       const response = await axios.get(
@@ -22,11 +24,14 @@ export const useRentals = () => {
     } catch (err) {
       error.value = err.message || 'An error occurred while fetching rentals.';
       console.error(err);
-    } 
+    } finally {
+      loading.value = false;
+    }
   };
 
   const addRental = async (newRental) => {
     error.value = null;
+    loading.value = true;
 
     try {
       // Fetch existing rentals if not already loaded
@@ -52,12 +57,15 @@ export const useRentals = () => {
     } catch (err) {
       error.value = err.message || 'An error occurred while adding the rental.';
       console.error(err);
-    } 
+    } finally {
+      loading.value = false;
+    }
   };
 
   return {
     rentals,
     error,
+    loading,
     fetchRentals,
     addRental,
   };
