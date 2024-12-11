@@ -6,7 +6,7 @@
 
   import ItemListCard from './ItemListCard.vue'
   import ItemListCardSkeleton from './ItemListCardSkeleton.vue'
-  import searchBar from './searchBar.vue'
+  import searchBar from './SearchBar.vue'
 
   const props = defineProps(['selectedFilter'])
   const route = useRoute()
@@ -81,7 +81,7 @@
   <!-- {{ props.selectedFilter }} -->
 
   <!-- sökbaren fyller sökQueryn vad användaren sökte efter... -->
-  <SearchBar
+  <searchBar
     class="search-bar"
     @changedSearchInput="handleChangedSearchInput"
   />

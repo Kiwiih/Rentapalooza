@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue'
   import { useItems } from '@/shared/useItems.js'
-  import SearchBar from '@/components/searchBar.vue'
+  import searchBar from '@/components/SearchBar.vue'
 
   const { items, getItems } = useItems()
   getItems()
@@ -20,7 +20,7 @@
           <h2>Find What You Need, Rent with Ease</h2>
           <p>Discover a wide range of items available for rent in your area.</p>
 
-          <SearchBar />
+          <searchBar />
         </section>
 
         <section class="featured-items">
