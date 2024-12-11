@@ -6,7 +6,7 @@
 
   import ItemListCard from './ItemListCard.vue'
   import ItemListCardSkeleton from './ItemListCardSkeleton.vue'
-  import SearchBar from './SearchBar.vue'
+  import searchBar from './searchBar.vue'
 
   const props = defineProps(['selectedFilter'])
   const route = useRoute()
