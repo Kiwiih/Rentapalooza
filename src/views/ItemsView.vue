@@ -2,7 +2,6 @@
   import { ref } from 'vue'
 
   import AvailableItemsList from '@/components/AvailableItemsList.vue'
-  import SearchBar from '@/components/SearchBar.vue'
 
   // håller koll på aktivt filter:
   const selectedFilter = ref('all')
