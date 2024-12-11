@@ -1,6 +1,6 @@
 <script setup>
   import { nanoid } from 'nanoid/non-secure'
-  import { defineProps } from 'vue'
+  import { defineProps, watchEffect } from 'vue'
   import { useItems } from '@/shared/useItems'
   import { useRentals } from '@/shared/useRentals'
   import { ref } from 'vue'
@@ -73,6 +73,7 @@
       loadingId.value = null;
     }
   }
+
 </script>
 
 <template>
