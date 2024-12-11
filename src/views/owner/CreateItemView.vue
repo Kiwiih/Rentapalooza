@@ -1,9 +1,12 @@
 <script setup>
-// jag måste hämta items för att kunna lägga till nytt item i det.
-
+import { useItems } from '@/shared/useItems';
 import { useAuth } from '@/shared/useAuth'
 import { reactive } from 'vue';
-const { currentUser } = useAuth()
+
+const { currentUser } = useAuth();
+
+const { items, getItems, updateItems } = useItems();
+getItems();
 
 const inputData = reactive({
   id: "", 
@@ -34,10 +37,19 @@ const generateId = () => {
   return `item-${Date.now()}`;
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   inputData.id = generateId();
   console.log("New item:", inputData);
-  // här måst jag göra nåt mer med item:et
+
+  const updatedItems = [...items.value, { ...inputData }];
+
+try {
+  await updateItems(updatedItems);
+  console.log("Item added successfully:", inputData);
+} catch (error) {
+  console.error("Error adding item:", error);
+}
+
 }
 </script>
 
@@ -116,24 +128,3 @@ select:focus {
 }
 
 </style>
-
-<!-- {
-  "id": "1",
-  "title": "Item namn",
-  "description": "Beskrivning",
-  "price": 100,
-  "category": [
-    "kategori"
-  ],
-  "images": [
-    "bild-url"
-  ],
-  "isAvailable": true, 
-  "ownerId": "346kj45gv",
-"currentRentalId": null, // null eller id till den aktuella Rental/kvittot
-  "renterId": null // null eller id på person som hyr.
-} 
-  
-såhär ser ett item ut i items arrayen. 
-
--->
