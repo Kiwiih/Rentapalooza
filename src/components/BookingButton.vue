@@ -36,12 +36,11 @@
       price: item.price
     }
 
-    try {
-      // Lägg till rental
-      await addRental(rental)
-
-      // Hämta aktuella items
-      await getItems()
+      try {
+      await Promise.all([
+      addRental(rental),
+      getItems()
+      ]);
 
       // Uppdatera rätt item
       const updatedItems = items.value.map((i) =>
