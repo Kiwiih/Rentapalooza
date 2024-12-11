@@ -1,13 +1,11 @@
 <script setup>
-  //*____________________________________________________________*//
-  //* JUST NU KAN MAN SE ALLAS ITEMS, INTE FÖR SPECIFIKA ÄGARE   *//
-  //*____________________________________________________________*//
-
   import { RouterLink } from 'vue-router'
   import { onMounted } from 'vue'
   import { useAuth } from '@/shared/useAuth.js'
   import { computed, ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
+  const router = useRouter();
   const { currentUser } = useAuth()
 
   // VIKTORS KOD
@@ -28,10 +26,18 @@
 
   // console.log(userItems.value)
   // console.log(currentUser.value.id)
+
+  const sendToAddItem = () => {
+    router.push("/owner/create");
+  }
+
 </script>
 <template>
+  <div class="btnDiv">
+  <button class="addItemBtn" @click="sendToAddItem">Add new item</button>
+  </div>
   <div v-if="userItems" class="container">
-    <h2>Alla mina saker för uthyrning</h2>
+    <h2>All your items available for rent</h2>
 
     <!-- Rendera en lista med varor -->
     <ul>
@@ -74,7 +80,7 @@
   </div>
 
   <div v-else>
-    <h3>Du har inga items🐨</h3>
+    <h3>You don't have any items 🐨</h3>
   </div>
 </template>
 
@@ -123,5 +129,15 @@
   }
   ul {
     text-decoration: none;
+  }
+
+  .addItemBtn {
+    margin: 1rem;
+  }
+
+  .btnDiv {
+    display: flex;
+    width: 100%;
+    justify-content: center;
   }
 </style>
