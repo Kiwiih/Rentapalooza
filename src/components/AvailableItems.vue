@@ -60,7 +60,6 @@
     </ul>
     <ul v-else-if="filteredItems && filteredItems.length > 0">
       <li v-for="item in filteredItems" :key="item.id">
-        <br />
         <ItemListCard
           :item="item"
           :ownerName="
