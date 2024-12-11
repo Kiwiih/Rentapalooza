@@ -1,14 +1,21 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
+  import { useRouter } from 'vue-router';
 
+  const router = useRouter();
   const { currentUser, logout } = useAuth()
+
+  const goToHome = () => {
+    router.push("/");
+  }
+
 </script>
 
 <template>
   <div class="header">
     <div class="container">
       <!-- <h1 class="logo">Rentapalooza</h1> -->
-      <img src="../../assets/images/rentapaloozasign.png" alt="Rentapalooza" />
+      <img src="../../assets/images/rentapaloozasign.png" alt="Rentapalooza" @click="goToHome" />
       <nav v-if="currentUser">
         <RouterLink class="nav-link" to="/">Home</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
