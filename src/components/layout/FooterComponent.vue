@@ -14,5 +14,6 @@
     color: var(--color-text-muted);
     padding: 1rem 0;
     text-align: center;
+    border-top: 2px solid rgb(225, 221, 221);
   }
 </style>
