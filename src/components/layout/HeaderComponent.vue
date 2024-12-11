@@ -14,11 +14,6 @@
         <RouterLink class="nav-link" :to="{ name: 'items' }"
           >Items For Rent</RouterLink
         >
-        <RouterLink
-          class="nav-link"
-          :to="{ name: 'itemDetails', params: { id: '1' } }"
-          >ItemDetails
-        </RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'rentalHistory' }"
           >My Bookings</RouterLink
         >
