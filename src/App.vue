@@ -19,10 +19,6 @@
     min-height: 100vh;
   }
 
-  .container {
-    flex: 1;
-  }
-
   footer {
     background-color: var(--color-bg-alt);
     color: var(--color-text-muted);
