@@ -5,7 +5,7 @@
 <template>
   <div class="layout">
     <HeaderComponent />
-    <main class="content">
+    <main class="container">
       <RouterView />
     </main>
     <FooterComponent />
@@ -17,10 +17,6 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-  }
-
-  .content {
-    flex: 1;
   }
 
   footer {

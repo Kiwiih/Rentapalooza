@@ -7,7 +7,8 @@
 <template>
   <div class="header">
     <div class="container">
-      <h1 class="logo">Rentapalooza</h1>
+      <!-- <h1 class="logo">Rentapalooza</h1> -->
+      <img src="../../assets/images/rentapaloozasign.png" alt="Rentapalooza" />
       <nav v-if="currentUser">
         <RouterLink class="nav-link" to="/">Home</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
@@ -39,6 +40,10 @@
     align-items: center;
     gap: 1rem;
     color: black;
+  }
+
+  img {
+    max-width: 15em;
   }
 
   .header {
