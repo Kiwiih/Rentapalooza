@@ -67,7 +67,7 @@
         </div>
 
         <div class="button-container">
-          <router-link :to="'/items/' + item.id">
+          <router-link :to="{ name: 'itemDetails', params: { id: item.id } }">
             <button class="button-secondary">Read More</button>
           </router-link>
 
