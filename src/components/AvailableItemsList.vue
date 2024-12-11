@@ -81,7 +81,10 @@
   <!-- {{ props.selectedFilter }} -->
 
   <!-- sökbaren fyller sökQueryn vad användaren sökte efter... -->
-  <SearchBar @changedSearchInput="handleChangedSearchInput" />
+  <SearchBar
+    class="search-bar"
+    @changedSearchInput="handleChangedSearchInput"
+  />
   <br />
   <!-- {{ filteredItems }} -->
   <div>
@@ -117,6 +120,9 @@
 </template>
 
 <style scoped>
+  .search-bar {
+    margin: auto;
+  }
   hr {
     border: none;
     border-top: 1px solid var(--color-border);

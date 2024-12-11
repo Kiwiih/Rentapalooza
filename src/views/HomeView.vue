@@ -52,29 +52,15 @@
   .hero {
     text-align: center;
     margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .hero h2 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-  }
-
-  .search-bar {
-    display: flex;
-    max-width: 600px;
-    margin: 1rem auto;
-  }
-
-  .search-bar input {
-    flex-grow: 1;
-    margin-bottom: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .search-bar button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
   }
 
   .featured-items h3 {

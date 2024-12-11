@@ -46,40 +46,46 @@
 
 <template>
   <div class="search-bar">
-    <input
-      type="text"
-      placeholder="What do you want to rent?"
-      v-model="searchInput"
-      @input="
-        (changeQueryParam(searchInput), emit('changedSearchInput', searchInput))
-      "
-    />
-    <button class="button-primary" @click="loadSearchPageWithQueryParam">
-      <small>Search</small>
-    </button>
+    <form @submit.prevent="loadSearchPageWithQueryParam">
+      <input
+        type="text"
+        placeholder="What do you want to rent?"
+        v-model="searchInput"
+        @input="
+          (changeQueryParam(searchInput),
+          emit('changedSearchInput', searchInput))
+        "
+      />
+      <button class="button-primary" type="submit">
+        <small>Search</small>
+      </button>
+    </form>
   </div>
 </template>
 
 <style scoped>
   .search-bar {
-    display: flex;
+    width: 100%;
     max-width: 600px;
+  }
+  .search-bar form {
+    display: flex;
   }
 
   .search-bar input {
-    flex-grow: 1;
+    flex-grow: 1; /* Gör att input tar upp så mycket utrymme som möjligt */
     margin-bottom: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   .search-bar button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    min-width: 100px;
-    white-space: nowrap;
+    min-width: 100px; /* Du kan justera den här om du vill ha knappen mindre eller större */
+    white-space: nowrap; /* Säkerställer att texten på knappen inte bryts */
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 </style>
