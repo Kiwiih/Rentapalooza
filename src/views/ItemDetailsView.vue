@@ -1,6 +1,7 @@
 <script setup>
   import { useItems } from '@/shared/useItems'
   import { useRoute } from 'vue-router'
+  import BookingButton from '@/components/BookingButton.vue';
 
   const { items } = useItems()
   const route = useRoute()
@@ -47,7 +48,9 @@
           : 'Currently unavailable'
       }}
     </p>
-    <button v-if="selectedItem.isAvailable">Rent now!</button>
+    
+        <BookingButton :item="selectedItem" />
+
   </div>
 </template>
 
