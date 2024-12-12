@@ -20,63 +20,64 @@
   const currentUser = JSON.parse(localStorage.getItem('user'))
 
   const bookItem = async (item) => {
-    // om användaren inte är inloggad tvingas den till det. det objekt den var intresserad av skickas med som id för att kunna directa den dit sen
+    // om användaren inte är inloggad tvingas den till det. det objekt den var intresserad av skickas med som id för att kunna directa användaren till objektets sida sedan.
+    // ...annars drar vi igång bokningen.....:
     if (!currentUser) {
       console.log('skicka till inlogg')
 
       router.push({ name: 'login', query: { itemId: item.id } })
-    }
+    } else {
+      if (loadingId.value) return
 
-    if (loadingId.value) return
+      loadingId.value = item.id
 
-    loadingId.value = item.id
+      if (item.ownerId === currentUser.id) {
+        alert('You cannot book your own item.')
+        loadingId.value = null
+        return
+      }
 
-    if (item.ownerId === currentUser.id) {
-      alert('You cannot book your own item.')
-      loadingId.value = null
-      return
-    }
+      // Sätt bokningsdatum
+      const currentDate = new Date()
+      const endDate = new Date()
+      endDate.setDate(currentDate.getDate() + 7)
 
-    // Sätt bokningsdatum
-    const currentDate = new Date()
-    const endDate = new Date()
-    endDate.setDate(currentDate.getDate() + 7)
+      // Skapa rental-objekt
+      const rental = {
+        id: nanoid(),
+        itemId: item.id,
+        ownerId: item.ownerId,
+        renterId: currentUser.id,
+        startDate: currentDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
+        price: item.price
+      }
 
-    // Skapa rental-objekt
-    const rental = {
-      id: nanoid(),
-      itemId: item.id,
-      ownerId: item.ownerId,
-      renterId: currentUser.id,
-      startDate: currentDate.toISOString().split('T')[0],
-      endDate: endDate.toISOString().split('T')[0],
-      price: item.price
-    }
+      try {
+        await Promise.all([addRental(rental), getItems()])
 
-    try {
-      await Promise.all([addRental(rental), getItems()])
+        // Uppdatera rätt item
+        const updatedItems = items.value.map((i) =>
+          i.id === item.id
+            ? {
+                ...i,
+                isAvailable: false,
+                renterId: currentUser.id,
+                currentRentalId: rental.id
+              }
+            : i
+        )
 
-      // Uppdatera rätt item
-      const updatedItems = items.value.map((i) =>
-        i.id === item.id
-          ? {
-              ...i,
-              isAvailable: false,
-              renterId: currentUser.id,
-              currentRentalId: rental.id
-            }
-          : i
-      )
+        // Spara de uppdaterade items till databasen
+        await updateItems(updatedItems)
 
-      // Spara de uppdaterade items till databasen
-      await updateItems(updatedItems)
-
-      alert('Booking successful!')
-    } catch (err) {
-      console.error(err)
-      alert('An error occurred while booking the item.')
-    } finally {
-      loadingId.value = null
+        alert('Booking successful!')
+      } catch (err) {
+        console.error(err)
+        alert('An error occurred while booking the item.')
+      } finally {
+        loadingId.value = null
+      }
     }
   }
 </script>
