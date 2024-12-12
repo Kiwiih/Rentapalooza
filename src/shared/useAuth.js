@@ -106,7 +106,7 @@ export const useAuth = () => {
   }
 
   //* Login
-  const login = async (identifier, hashedPassword) => {
+  const login = async (identifier, hashedPassword, queryParametersObj) => {
     loading.value = true
     error.value = null
 
@@ -143,8 +143,15 @@ export const useAuth = () => {
         })
       )
 
-      // Redirect to homeView when loggin in
-      router.push('/')
+      //** DIREKTA ANVÄNDAREN EFTER INLOGGNING: */
+      // ...om de finns ett itemid i de inskickade queryparameterobjektet..
+      if (queryParametersObj.itemId) {
+        router.push({ name: 'itemDetails', params: { id: queryParametersObj.itemId } });
+      } else {
+        // fallbackrout. Aka startsidan
+        router.push('/');
+      }
+
 
       console.log('Login successfully')
     } catch (err) {
