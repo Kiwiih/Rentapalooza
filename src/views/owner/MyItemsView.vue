@@ -30,7 +30,7 @@
   // console.log(currentUser.value.id)
 </script>
 <template>
-  <div v-if="userItems" class="container">
+  <div v-if="userItems">
     <h2>Alla mina saker för uthyrning</h2>
 
     <!-- Rendera en lista med varor -->
@@ -120,6 +120,8 @@
     margin-bottom: 0.5em;
     padding: 1em;
     margin: 1em;
+
+    font-size: larger;
   }
   ul {
     text-decoration: none;

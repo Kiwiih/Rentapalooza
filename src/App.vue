@@ -5,7 +5,7 @@
 <template>
   <div class="layout">
     <HeaderComponent />
-    <main class="container">
+    <main class="container container-backdrop">
       <RouterView />
     </main>
     <FooterComponent />
