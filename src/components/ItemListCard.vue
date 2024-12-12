@@ -218,6 +218,8 @@
       .card-content-container {
         display: unset;
 
+        background-color: rgba(255, 255, 255, 0.165);
+        backdrop-filter: blur(10px);
         .card-body {
           /* background-color: red; */
           display: unset;

@@ -33,11 +33,13 @@
 
 </script>
 <template>
+
   <div class="btnDiv">
   <button class="addItemBtn" @click="sendToAddItem">Add new item</button>
   </div>
-  <div v-if="userItems" class="container">
+  <div v-if="userItems">
     <h2>All your items available for rent</h2>
+
 
     <!-- Rendera en lista med varor -->
     <ul>
@@ -126,6 +128,8 @@
     margin-bottom: 0.5em;
     padding: 1em;
     margin: 1em;
+
+    font-size: larger;
   }
   ul {
     text-decoration: none;
