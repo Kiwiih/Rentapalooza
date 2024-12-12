@@ -1,31 +1,42 @@
 <script setup>
   import { ref, defineEmits } from 'vue'
+  import { useRouter } from 'vue-router'
 
-  const searchQuery = ref('')
+  const router = useRouter()
+
+  const searchQuery = ref('') // denna ör kopplad till inoutrutans värde med v-model
+
   const emit = defineEmits(['updateSearchQuery'])
 
-  const handleInput = (event) => {
-    console.log('Input value:', event.target.value)
-    console.log('sökQuery', searchQuery.value)
-    //skickar upp data til moderkomponenten
-    // emit, (eventnamn, data)
+  //skickar upp data til moderkomponenten användaren ändrar input
+  const handleSearchInput = (event) => {
+    // console.log('Input value:', event.target.value)
+    // console.log('sökQuery', searchQuery.value)
+
+    // syntax: emit, (eventnamn, data)
     emit('updateSearchQuery', searchQuery.value)
   }
 
   // skicka upp söksträngen till moderkomponent
   // defineEmits(['searchQuery'])
+
+  const handleSearchSubmit = () => {
+    console.log('enter klacks')
+    router.push({ name: 'items', query: { q: searchQuery.value } })
+  }
 </script>
 
 <template>
-  <div class="search-bar">
+  <form class="search-bar" @submit.prevent="handleSearchSubmit">
     <input
       type="text"
       placeholder="What do you want to rent?"
       v-model="searchQuery"
-      @input="handleInput"
+      required
+      @input="handleSearchInput"
     />
-    <button class="button-primary">Search</button>
-  </div>
+    <button type="submit" class="button-primary">Search</button>
+  </form>
 </template>
 
 <style scoped>
