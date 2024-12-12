@@ -143,10 +143,12 @@ export const useAuth = () => {
         })
       )
 
-      if (queryParametersObj) {
-        // console.log('Navigating to:', queryParametersObj); // Kontrollera värde
+      //** DIREKTA ANVÄNDAREN EFTER INLOGGNING: */
+      // ...om de finns ett itemid i de inskickade queryparameterobjektet..
+      if (queryParametersObj.itemId) {
         router.push({ name: 'itemDetails', params: { id: queryParametersObj.itemId } });
       } else {
+        // fallbackrout. Aka startsidan
         router.push('/');
       }
 
