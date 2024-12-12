@@ -1,8 +1,15 @@
 <script setup>
   import { ref } from 'vue'
+  import { ref } from 'vue'
 
   import AvailableItems from '@/components/AvailableItemsList.vue'
 
+  // håller koll på aktivt filter:
+  const selectedFilter = ref('all')
+  // ändrar viltrets värde
+  function selectFilter(filterValue) {
+    selectedFilter.value = filterValue
+  }
   // håller koll på aktivt filter:
   const selectedFilter = ref('all')
   // ändrar viltrets värde
@@ -22,6 +29,10 @@
       :class="selectedFilter === 'all' ? 'button-primary' : 'button-secondary'"
       @click="selectFilter('all')"
     >
+    <button
+      :class="selectedFilter === 'all' ? 'button-primary' : 'button-secondary'"
+      @click="selectFilter('all')"
+    >
       Show all
     </button>
 
@@ -31,9 +42,21 @@
       "
       @click="selectFilter('available')"
     >
+    <button
+      :class="
+        selectedFilter === 'available' ? 'button-primary' : 'button-secondary'
+      "
+      @click="selectFilter('available')"
+    >
       Available
     </button>
 
+    <button
+      :class="
+        selectedFilter === 'unavailable' ? 'button-primary' : 'button-secondary'
+      "
+      @click="selectFilter('unavailable')"
+    >
     <button
       :class="
         selectedFilter === 'unavailable' ? 'button-primary' : 'button-secondary'
@@ -55,6 +78,10 @@
     font-size: smaller;
     font-weight: normal;
   }
+  button {
+    font-size: smaller;
+    font-weight: normal;
+  }
 
   .filter-container {
     padding: 0.5rem;
@@ -63,7 +90,17 @@
     align-items: center;
     gap: 1rem;
   }
+  .filter-container {
+    padding: 0.5rem;
+    /* background-color: aqua; */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
+  .item-list-container {
+    padding: 1rem;
+  }
   .item-list-container {
     padding: 1rem;
   }
