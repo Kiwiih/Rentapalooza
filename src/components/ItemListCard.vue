@@ -44,7 +44,7 @@
             :class="
               item.isAvailable
                 ? 'badge available-badge'
-                : currentUser.id == item.renterId
+                : currentUser && currentUser.id == item.renterId
                   ? 'badge cyurrently-renter-badge'
                   : 'badge unavailable-badge'
             "
@@ -52,7 +52,7 @@
             {{
               item.isAvailable
                 ? 'Available for rent'
-                : currentUser.id == item.renterId
+                : currentUser && currentUser.id == item.renterId
                   ? 'You are currently renting this !'
                   : 'Not available for rent'
             }}

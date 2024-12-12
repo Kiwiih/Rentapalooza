@@ -22,20 +22,20 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { requiresAuth: true }
+      // meta: { requiresAuth: true }
     },
     {
       path: '/items',
       name: 'items',
       component: ItemsView,
-      meta: { requiresAuth: true }
+      // meta: { requiresAuth: true }
     },
     {
       path: '/items/:id',
       name: 'itemDetails',
       component: ItemDetailsView,
       props: true, // För att skicka parametern som prop
-      meta: { requiresAuth: true }
+      // meta: { requiresAuth: true }
     },
 
     //* Auth routes

@@ -12,23 +12,21 @@
   const { rentals, addRental, loading, error } = useRentals()
 
   //Hanterar rätt knapp som laddar
-  const loadingId = ref(null);
+  const loadingId = ref(null)
 
   // Hämta den inloggade användaren
   const currentUser = JSON.parse(localStorage.getItem('user'))
 
   const bookItem = async (item) => {
-    if(loadingId.value) return
+    if (loadingId.value) return
 
     loadingId.value = item.id
 
-    
-
-      if (item.ownerId === currentUser.id) {
-        alert('You cannot book your own item.')
-        loadingId.value = null
-        return
-      }
+    if (item.ownerId === currentUser.id) {
+      alert('You cannot book your own item.')
+      loadingId.value = null
+      return
+    }
 
     // Sätt bokningsdatum
     const currentDate = new Date()
@@ -46,11 +44,8 @@
       price: item.price
     }
 
-      try {
-      await Promise.all([
-      addRental(rental),
-      getItems()
-      ]);
+    try {
+      await Promise.all([addRental(rental), getItems()])
 
       // Uppdatera rätt item
       const updatedItems = items.value.map((i) =>
@@ -72,18 +67,21 @@
       console.error(err)
       alert('An error occurred while booking the item.')
     } finally {
-      loadingId.value = null;
+      loadingId.value = null
     }
   }
-
 </script>
 
 <template>
   <div>
     <button
       @click="bookItem(item)"
-      :class="{ 'loading-btn': loadingId === item.id, 'owned-item-btn': item.ownerId === currentUser.id }" 
-      :disabled="!item.isAvailable || loadingId === item.id" 
+      :class="{
+        'loading-btn': item && loadingId === item.id,
+        'owned-item-btn': currentUser && item.ownerId === currentUser.id,
+        'need-to-login-btn': !currentUser
+      }"
+      :disabled="!item.isAvailable || loadingId === item.id"
     >
       {{ loadingId === item.id ? 'Loading...' : 'Book item' }}
     </button>
@@ -91,9 +89,30 @@
 </template>
 
 <style scoped>
-.owned-item-btn {
-  background-color: red;
-  color: white;
-  cursor: not-allowed;
-}
+  .owned-item-btn {
+    background-color: red;
+    color: white;
+    cursor: not-allowed;
+  }
+
+  .need-to-login-btn::before {
+    content: 'You need to log in';
+    padding: 1rem;
+    background-color: var(--color-primary);
+    display: none; /* Gör så att det inte visas när knappen inte är hoverad */
+    position: absolute;
+    top: 50%; /* Placera i mitten vertikalt */
+    left: 50%; /* Placera i mitten horisontellt */
+    transform: translate(
+      -50%,
+      -50%
+    ); /* Justera för att exakta positionen ska vara mitt i knappen */
+    width: 100%; /* Gör det så att texten får hela knappen som bredd */
+    font-weight: lighter;
+    font-size: small;
+  }
+
+  .need-to-login-btn:hover::before {
+    display: block; /* Gör att ::before visas när knappen är hoverad */
+  }
 </style>
