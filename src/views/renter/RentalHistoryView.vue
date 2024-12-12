@@ -12,7 +12,7 @@
   const { rentals, fetchRentals } = useRentals()
   // Add a loading state
   const loading = ref(true)
-  // Add a message if th
+  // Add a message if the are no bookings to show
   const noPreviousBookingsMessage = ref(false)
   onBeforeMount(async () => {
     await getItems()
@@ -24,27 +24,32 @@
   // Get current date to use for filtering
   const today = new Date()
 
-  // Get current user id
-  const currentUserId = computed(() => currentUser.value?.id)
-
+  // Filter items to only show those who are rented by the current user
+  const userItems = computed(() => {
+    if (!items.value.length || !currentUser.value) return []
+    return items.value.filter((item) => item.renterId === currentUser.value.id)
+  })
   // Combine all data into a combined list for easy rendering
   const combinedRentals = computed(() => {
-    return rentals.value.map((rental) => {
-      const item = items.value.find((i) => i.id === rental.itemId) || {}
-      const owner = users.value.find((u) => u.id === rental.ownerId) || {}
-      return {
-        ...rental,
-        itemTitle: item.title || 'Unknown Item',
-        itemImage:
-          item.image ||
-          'https://via.placeholder.com/300/CCCCCC/000000?text=No+Image',
-        itemDescription: item.description || 'No description available',
-        ownerUsername: owner.username || 'Unknown User',
-        ownerProfileImage:
-          owner.profileImage ||
-          'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar'
-      }
-    })
+    return rentals.value
+      .map((rental) => {
+        const item = userItems.value.find((i) => i.id === rental.itemId) || {}
+        const owner = users.value.find((u) => u.id === rental.ownerId) || {}
+        return {
+          ...rental,
+          itemTitle: item.title || 'Unknown Item',
+          itemImage:
+            Array.isArray(item.images) && item.images.length > 0
+              ? item.images[0]
+              : 'https://via.placeholder.com/300/CCCCCC/000000?text=No+Image',
+          itemDescription: item.description || 'No description available',
+          ownerUsername: owner.username || 'Unknown User',
+          ownerProfileImage:
+            owner.profileImage ||
+            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar'
+        }
+      })
+      .filter((rental) => rental.itemTitle !== 'Unknown Item')
   })
 
   // Filtering logic
@@ -73,7 +78,7 @@
 
 <template>
   <div class="container">
-    <h1>Your Booking History</h1>
+    <h1>My Booking History</h1>
     <div class="filter-buttons">
       <button
         @click="selectedFilter = 'all'"
@@ -97,7 +102,7 @@
 
     <ul v-if="noPreviousBookingsMessage === true">
       <li>
-        <h3>No previous bookings..</h3>
+        <h3>No bookings to show..</h3>
       </li>
     </ul>
     <ul v-else-if="filteredRentals.length > 0">

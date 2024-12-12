@@ -1,11 +1,12 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
-
+ 
   import BookingButton from './BookingButton.vue'
 
   const props = defineProps(['item', 'ownerName'])
 
   const { currentUser } = useAuth()
+
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
@@ -66,7 +67,7 @@
         </div>
 
         <div class="button-container">
-          <router-link :to="'/items/' + item.id">
+          <router-link :to="{ name: 'itemDetails', params: { id: item.id } }">
             <button class="button-secondary">Read More</button>
           </router-link>
 

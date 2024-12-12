@@ -1,24 +1,34 @@
 <script setup>
   import { nanoid } from 'nanoid/non-secure'
-  import { defineProps } from 'vue'
+  import { defineProps, watchEffect } from 'vue'
   import { useItems } from '@/shared/useItems'
   import { useRentals } from '@/shared/useRentals'
-  import axios from 'axios'
+  import { ref } from 'vue'
 
   const props = defineProps(['item'])
 
   // Använder composables
   const { items, getItems, updateItems } = useItems()
-  const { rentals, addRental } = useRentals()
+  const { rentals, addRental, loading, error } = useRentals()
+
+  //Hanterar rätt knapp som laddar
+  const loadingId = ref(null);
+
+  // Hämta den inloggade användaren
+  const currentUser = JSON.parse(localStorage.getItem('user'))
 
   const bookItem = async (item) => {
-    // Hämta den inloggade användaren
-    const currentUser = JSON.parse(localStorage.getItem('user'))
+    if(loadingId.value) return
 
-    if (!currentUser) {
-      alert('Log in to make a booking')
-      return
-    }
+    loadingId.value = item.id
+
+    
+
+      if (item.ownerId === currentUser.id) {
+        alert('You cannot book your own item.')
+        loadingId.value = null
+        return
+      }
 
     // Sätt bokningsdatum
     const currentDate = new Date()
@@ -61,14 +71,29 @@
     } catch (err) {
       console.error(err)
       alert('An error occurred while booking the item.')
+    } finally {
+      loadingId.value = null;
     }
   }
+
 </script>
 
 <template>
   <div>
-    <button @click="bookItem(item)" :disabled="!item.isAvailable">
-      Book item
+    <button
+      @click="bookItem(item)"
+      :class="{ 'loading-btn': loadingId === item.id, 'owned-item-btn': item.ownerId === currentUser.id }" 
+      :disabled="!item.isAvailable || loadingId === item.id" 
+    >
+      {{ loadingId === item.id ? 'Loading...' : 'Book item' }}
     </button>
   </div>
 </template>
+
+<style scoped>
+.owned-item-btn {
+  background-color: red;
+  color: white;
+  cursor: not-allowed;
+}
+</style>
