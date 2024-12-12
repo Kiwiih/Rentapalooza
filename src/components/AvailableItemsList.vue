@@ -70,7 +70,7 @@
           ? (showNoItemsMessage.value = true)
           : (showNoItemsMessage.value = false)
         // console.log('showNoItemsMessage: ', showNoItemsMessage.value)
-      }, 1000)
+      }, 2000)
     }
   })
 </script>

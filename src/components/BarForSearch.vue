@@ -27,8 +27,9 @@
   // då sidan har laddats fylls sökrutan med queryparameter om de finns nån
   onMounted(() => {
     if (route.query.q) {
+      // console.log(route.query.q)
       searchQuery.value = route.query.q
-      console.log(route.query.q)
+      //vi skickar queryparametrarna till förälder så sökning kan genomföras
       emit('updateSearchQuery', searchQuery.value)
     }
   })
