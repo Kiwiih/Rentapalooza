@@ -40,6 +40,9 @@
 
   //   funktion för att spara det uppdaterade itemet
   const saveChanges = async () => {
+    //funktion för att filtrera bort tomma bild-url-fältgrejsimojser
+    item.value.images = item.value.images.filter((url) => url.trim() !== '')
+
     //Skapar en ny lsita med uppdaterade itemet, så de ersätter de gamla
     const updatedItems = items.value.map((i) =>
       i.id === item.value.id ? { ...item.value } : i
@@ -79,25 +82,37 @@
       <input v-model="item.title" placeholder="namn" />
       <input v-model="item.description" placeholder="beskrivning" />
       <input v-model="item.price" placeholder="pris" />
-      <input v-model="item.images" placeholder="bilder" />
-      <button @click="saveChanges(item.id)">spara</button>
+      <!-- SEKTION FÖR ATT LÄGGA TILL/TA BORT BILDER -->
+      <h3>Bilder</h3>
+      <div v-for="(image, index) in item.images" :key="index">
+        <input v-model="item.images[index]" placeholder="bild url" />
+      </div>
+      <input
+        v-model="item.images[item.images.length]"
+        placeholder="url för ny bild "
+      />
+      <b><p>Lämna url-fältet tomt för att radera en bild 🐨</p></b>
+      <div class="save-and-delete">
+        <button @click="saveChanges(item.id)">spara</button>
+
+        <button @click="deleteItem(item.id)" class="delete-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
-    <button @click="deleteItem(item.id)" class="delete-button">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="size-6"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-        />
-      </svg>
-    </button>
   </div>
   <div v-else>
     <h3>Laddar saker och ting...🐨</h3>
@@ -134,5 +149,13 @@
   }
   ul {
     text-decoration: none;
+  }
+  button {
+    margin-right: 1em;
+    margin-bottom: 1em;
+  }
+  .save-and-delete {
+    display: flex;
+    justify-content: flex-end;
   }
 </style>
