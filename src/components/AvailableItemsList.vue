@@ -6,6 +6,7 @@
   import ItemListCard from './ItemListCard.vue'
   import ItemListCardSkeleton from './ItemListCardSkeleton.vue'
   import searchBar from './searchBar.vue'
+  import BarForSearch from './BarForSearch.vue'
 
   // Hämta variabel och funktion från useItems
   const { items, getItems } = useItems()
@@ -72,9 +73,9 @@
   <!-- jsut  en bekräftande utskrift :)  -->
   <!-- {{ props.selectedFilter }} -->
 
-  <!-- sökbaren gyller queryn med vad användaren sökte efter... -->
-  <searchBar @updateSearchQuery="handleSearchQueryUpdate" />
-
+  <!-- sökbaren fyller queryn med vad användaren sökte efter... -->
+  <
+  <BarForSearch @updateSearchQuery="handleSearchQueryUpdate" />
   <!-- {{ filteredItems }} -->
 
   <div>
