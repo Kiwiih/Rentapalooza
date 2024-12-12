@@ -17,15 +17,7 @@
 </script>
 
 <template>
-  <div class="search-bar">
-    <input
-      type="text"
-      placeholder="What do you want to rent?"
-      v-model="searchQuery"
-      @input="handleInput"
-    />
-    <button class="button-primary">Search</button>
-  </div>
+  <div class="search-bar">!!!sökbar som inte ska finnas!!!</div>
 </template>
 
 <style scoped>

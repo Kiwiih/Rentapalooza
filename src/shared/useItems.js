@@ -24,6 +24,7 @@ export function useItems() {
         } catch (error) {
             console.error("Fel vid hämtning av data med Axios:", error);
         }
+        console.log("GET ITEMS -hämtning genomförd")
     };
 
     const updateItems = async (updatedItems) => {
