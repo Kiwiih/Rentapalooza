@@ -55,16 +55,22 @@
     return results
   })
 
-  //lyssnar på filteritems....
-  // om de gått 5 sekunder efter förändring och det fortfarade inte finns något i arrayen så sätts showNoItemsMessage till true. så jag kan visa det i domen :)
+  // lyssnar på förändring i filtered items för att eventuelllt isa meddelande om NO ITEMS
   watch(filteredItems, (newFilteredItems) => {
-    //direkt vid förändring ska meddelandet döljas...
+    //direkt vid förändring i filtered items ska meddelandet döljas...
     showNoItemsMessage.value = false
     //..sen börjar timern....
+    // console.log(filteredItems.value.length)
     if (newFilteredItems.length === 0) {
+      //Startar timer för att eventuellt visa NOITEMS-meddelande
       setTimeout(() => {
-        showNoItemsMessage.value = true
-      }, 5000)
+        // När timern gått ut... gör ny definitiv check och sätt värde.
+        // detta för att länden kan va något annat än den var då timern startade.(så de inte randomly ,när timern gått ut, visas meddelande im noItems.)
+        filteredItems.value.length <= 0
+          ? (showNoItemsMessage.value = true)
+          : (showNoItemsMessage.value = false)
+        // console.log('showNoItemsMessage: ', showNoItemsMessage.value)
+      }, 1000)
     }
   })
 </script>
