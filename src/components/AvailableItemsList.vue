@@ -62,6 +62,7 @@
     //..sen börjar timern....
     // console.log(filteredItems.value.length)
     if (newFilteredItems.length === 0) {
+      showNoItemsMessage.value = false //innitialt visas meddelandet inte
       //Startar timer för att eventuellt visa NOITEMS-meddelande
       setTimeout(() => {
         // När timern gått ut... gör ny definitiv check och sätt värde.
@@ -70,7 +71,7 @@
           ? (showNoItemsMessage.value = true)
           : (showNoItemsMessage.value = false)
         // console.log('showNoItemsMessage: ', showNoItemsMessage.value)
-      }, 2000)
+      }, 1500)
     }
   })
 </script>
