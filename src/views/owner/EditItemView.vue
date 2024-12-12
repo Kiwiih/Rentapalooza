@@ -40,6 +40,9 @@
 
   //   funktion för att spara det uppdaterade itemet
   const saveChanges = async () => {
+    //funktion för att filtrera bort tomma bild-url-fältgrejsimojser
+    item.value.images = item.value.images.filter((url) => url.trim() !== '')
+
     //Skapar en ny lsita med uppdaterade itemet, så de ersätter de gamla
     const updatedItems = items.value.map((i) =>
       i.id === item.value.id ? { ...item.value } : i
@@ -65,18 +68,6 @@
     router.push({ name: 'myItems' })
     console.log('skiten är borta!')
   }
-  //funktion för att ta bort en bild (då det är i en array)
-  const removeImage = (index) => {
-    item.value.images.splice(index, 1)
-    //Spara ändringarna direkt så det inte försvinner om man glömmer klicka
-    saveChanges()
-  }
-  //funktion för att lägga till en bild (då det är i en array)
-  const addImage = () => {
-    item.value.images.push('')
-    //Spara ändringarna direkt så det inte försvinner om man glömmer klicka
-    saveChanges()
-  }
 
   onMounted(() => {
     fetchItem()
@@ -95,10 +86,12 @@
       <h3>Bilder</h3>
       <div v-for="(image, index) in item.images" :key="index">
         <input v-model="item.images[index]" placeholder="bild url" />
-        <button @click="removeImage(index)">Ta bort</button>
-        <button @click="addImage">Lägg till</button>
       </div>
-
+      <input
+        v-model="item.images[item.images.length]"
+        placeholder="url för ny bild "
+      />
+      <b><p>Lämna url-fältet tomt för att radera en bild 🐨</p></b>
       <div class="save-and-delete">
         <button @click="saveChanges(item.id)">spara</button>
 
