@@ -2,6 +2,7 @@ import { useAuth } from '@/shared/useAuth'
 import HomeView from '@/views/HomeView.vue'
 import ItemDetailsView from '@/views/ItemDetailsView.vue'
 import ItemsView from '@/views/ItemsView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -35,6 +36,13 @@ const router = createRouter({
       name: 'itemDetails',
       component: ItemDetailsView,
       props: true, // För att skicka parametern som prop
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
+      props: true, 
       meta: { requiresAuth: true }
     },
 
