@@ -4,6 +4,8 @@
   import { useItems } from '@/shared/useItems'
   import { useRentals } from '@/shared/useRentals'
   import { ref } from 'vue'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
 
   const props = defineProps(['item'])
 
@@ -18,6 +20,13 @@
   const currentUser = JSON.parse(localStorage.getItem('user'))
 
   const bookItem = async (item) => {
+    // om användaren inte är inloggad tvingas den till det. det objekt den var intresserad av skickas med som id för att kunna directa den dit sen
+    if (!currentUser) {
+      console.log('skicka till inlogg')
+
+      router.push({ name: 'login', query: { itemId: item.id } })
+    }
+
     if (loadingId.value) return
 
     loadingId.value = item.id

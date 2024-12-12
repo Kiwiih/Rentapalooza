@@ -106,7 +106,7 @@ export const useAuth = () => {
   }
 
   //* Login
-  const login = async (identifier, hashedPassword) => {
+  const login = async (identifier, hashedPassword, queryParametersObj) => {
     loading.value = true
     error.value = null
 
@@ -143,8 +143,13 @@ export const useAuth = () => {
         })
       )
 
-      // Redirect to homeView when loggin in
-      router.push('/')
+      if (queryParametersObj) {
+        // console.log('Navigating to:', queryParametersObj); // Kontrollera värde
+        router.push({ name: 'itemDetails', params: { id: queryParametersObj.itemId } });
+      } else {
+        router.push('/');
+      }
+
 
       console.log('Login successfully')
     } catch (err) {
