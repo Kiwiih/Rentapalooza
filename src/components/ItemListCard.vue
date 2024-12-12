@@ -1,12 +1,11 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
- 
+
   import BookingButton from './BookingButton.vue'
 
   const props = defineProps(['item', 'ownerName'])
 
   const { currentUser } = useAuth()
-
 
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
@@ -218,8 +217,6 @@
       .card-content-container {
         display: unset;
 
-        background-color: rgba(255, 255, 255, 0.165);
-        backdrop-filter: blur(10px);
         .card-body {
           /* background-color: red; */
           display: unset;
