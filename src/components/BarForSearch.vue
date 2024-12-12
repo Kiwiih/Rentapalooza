@@ -64,7 +64,10 @@
   }
 
   .search-bar button {
+    white-space: nowrap; /* Förhindrar texten från att radbrytas */
+    flex-shrink: 0; /* Förhindrar att knappen krymper i storlek */
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    padding: 0.5rem 1rem; /* Säkerställer tillräcklig inre marginal */
   }
 </style>
