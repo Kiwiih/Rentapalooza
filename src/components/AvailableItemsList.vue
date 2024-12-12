@@ -80,7 +80,6 @@
   <!-- {{ props.selectedFilter }} -->
 
   <!-- sökbaren fyller queryn med vad användaren sökte efter... -->
-  <
   <BarForSearch @updateSearchQuery="handleSearchQueryUpdate" />
   <!-- {{ filteredItems }} -->
 

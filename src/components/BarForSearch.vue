@@ -1,10 +1,11 @@
 <script setup>
-  import { ref, defineEmits } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { ref, defineEmits, onMounted } from 'vue'
+  import { useRouter, useRoute } from 'vue-router'
 
   const router = useRouter()
+  const route = useRoute()
 
-  const searchQuery = ref('') // denna ör kopplad till inoutrutans värde med v-model
+  const searchQuery = ref('') // denna är kopplad till inoutrutans värde med v-model
 
   const emit = defineEmits(['updateSearchQuery'])
 
@@ -17,13 +18,20 @@
     emit('updateSearchQuery', searchQuery.value)
   }
 
-  // skicka upp söksträngen till moderkomponent
-  // defineEmits(['searchQuery'])
-
+  // när man söker med knappen eller enter så skickas man till items-sidan och får med sig en quert-parameter
   const handleSearchSubmit = () => {
     console.log('enter klacks')
     router.push({ name: 'items', query: { q: searchQuery.value } })
   }
+
+  // då sidan har laddats fylls sökrutan med queryparameter om de finns nån
+  onMounted(() => {
+    if (route.query.q) {
+      searchQuery.value = route.query.q
+      console.log(route.query.q)
+      emit('updateSearchQuery', searchQuery.value)
+    }
+  })
 </script>
 
 <template>
