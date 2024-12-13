@@ -56,6 +56,20 @@ try {
     showMessage.value = false;
   }, 3000);
 
+  Object.assign(inputData, {
+      id: "",
+      title: "",
+      description: "",
+      price: "",
+      category: [],
+      images: ["", "", ""],
+      isAvailable: true,
+      ownerId: currentUser.value.id,
+      currentRentalId: null,
+      renterId: null,
+    });
+
+
 } catch (error) {
   console.error("Error adding item:", error);
 }
