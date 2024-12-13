@@ -36,9 +36,9 @@
       <!-- <h1 class="logo">Rentapalooza</h1> -->
       <img src="../../assets/images/rentapaloozasign.png" alt="Rentapalooza" @click="goToHome" />
       <nav v-if="currentUser">
-        <RouterLink class="nav-link" to="/">Home</RouterLink>
+        <RouterLink class="nav-link" to="/">HOME</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
-          >Items For Rent</RouterLink
+          >ITEMS FOR RENT</RouterLink
         >
       </nav>
       <div class="auth-control" v-if="currentUser">
@@ -74,6 +74,8 @@
     background-color: var(--color-primary);
     color: white;
     padding: 1rem 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.458);
+    z-index: 1;
   }
 
   .header .container {
@@ -90,6 +92,8 @@
   nav {
     display: flex;
     gap: 1rem;
+    font-family: "Mouse Memoirs", sans-serif;
+    font-size: 2rem;
   }
 
   .nav-link {
@@ -98,13 +102,13 @@
   }
 
   .nav-link:hover {
-    color: lightgray;
+    color: var(--color-accent);
   }
 
   .router-link-active {
-    color: yellow;
+    color: rgb(255, 255, 0);
     font-weight: bold;
-    text-decoration: underline;
+
   }
 
   .dropdown {
@@ -122,7 +126,7 @@
   top: 100%;
   right: 0;
   background: white;
-  border: 1px solid #ddd;
+  border: 2px solid;
   border-radius: 4px;
   list-style: none;
   padding: 0;
@@ -137,6 +141,6 @@
 }
 
 .dropdown-menu li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--color-accent);
 }
 </style>

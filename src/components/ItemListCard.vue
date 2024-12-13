@@ -79,16 +79,16 @@
 
 <style scoped>
   article {
-    border: 1px solid transparent;
+    border: 3px solid transparent;
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.75rem;
     display: flex;
     gap: 1rem;
     margin: 0.5rem 0rem;
     overflow: auto;
 
     &:hover {
-      border: 1px solid var(--color-border);
+      border: 3px solid var(--color-accent-light);
       background-color: hsla(0, 0%, 50%, 0.05);
       /* 0.5 är transparensnivån */
     }
@@ -111,7 +111,6 @@
     }
 
     .img-container {
-      /* background-color: purple; */
       flex-shrink: 0;
       align-self: start;
       width: clamp(2rem, 20%, 7rem);
@@ -133,7 +132,6 @@
     }
 
     .card-content-container {
-      /* background-color: aquamarine; */
       flex-grow: 1;
 
       display: flex;
@@ -141,19 +139,17 @@
       flex-direction: column;
 
       .card-body {
-        /* background-color: red; */
+
         flex-grow: 1;
 
         display: flex;
         gap: 0.5rem;
 
         .card-body-main {
-          /* background-color: blueviolet; */
           flex-grow: 1;
         }
 
         .card-body-sidebar {
-          /* background-color: blue; */
           width: 14rem;
           flex-shrink: 0;
           text-align: right;
@@ -211,7 +207,7 @@
       }
 
       .item-title {
-        font-size: medium;
+        font-size: small;
       }
 
       .card-content-container {

@@ -69,4 +69,8 @@
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.auth-wrapper{
+  background: none;
+}
+</style>

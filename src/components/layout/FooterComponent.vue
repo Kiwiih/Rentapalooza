@@ -10,7 +10,7 @@
 
 <style>
   .footer {
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-primary);
     color: var(--color-text-muted);
     padding: 1rem 0;
     text-align: center;

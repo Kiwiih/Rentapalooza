@@ -107,7 +107,7 @@
       </li>
     </ul>
     <ul v-else>
-      loading...
+      Loading...
       <li v-for="index in 3" :key="index">
         <ItemListCardSkeleton />
         <hr />

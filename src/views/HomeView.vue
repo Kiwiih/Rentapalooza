@@ -13,11 +13,11 @@
   }
 </script>
 <template>
+  <div>
   <div class="home-page">
-    <main class="main-content">
-      <div class="container">
+      <div>
         <section class="hero">
-          <h2>Find What You Need, Rent with Ease</h2>
+          <h2>Find what you need, rent with ease</h2>
           <p>Discover a wide range of items available for rent in your area.</p>
           <BarForSearch />
         </section>
@@ -42,14 +42,16 @@
           </div>
         </section>
       </div>
-    </main>
   </div>
+</div>
 </template>
 
 <style scoped>
-  .main-content {
-    padding: 2rem 0;
-  }
+
+.home-page{
+  width: 100%;
+  height:100%;
+}
 
   .hero {
     text-align: center;
@@ -79,33 +81,48 @@
     border-bottom-left-radius: 0;
   }
 
+.featured-items{
+  width: 100%
+}
+
   .featured-items h3 {
     margin-bottom: 1rem;
   }
 
   .item-grid {
-    display: grid;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    /* display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1rem;
+    height: 100%;
+    width: 100%; */
   }
 
   .item-card {
-    background-color: var(--color-bg-alt);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    padding: 1rem;
+    background-color: var(--color-accent-variation);
+    border: 3px solid var(--color-secondary);
+    border-radius: 10px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 17rem;
+    height: 25rem;
   }
 
   .item-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 4px;
+    border-radius: 10px;
     margin-bottom: 1rem;
+    border: 3px solid var(--color-secondary);
+    
   }
 
   .item-card h4 {

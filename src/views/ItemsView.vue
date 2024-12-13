@@ -12,6 +12,7 @@
 </script>
 
 <template>
+<div>
   <div class="head-container">
     <!-- <h2>STUFF TO RENT</h2> -->
     <!-- <p>This is a list of stuff</p> -->
@@ -50,9 +51,14 @@
   <div class="item-list-container">
     <AvailableItems :selectedFilter="selectedFilter" />
   </div>
+  </div>
 </template>
 
 <style scoped>
+  h3{
+    margin-right: 1rem;
+  }
+
   button {
     font-size: smaller;
     font-weight: normal;
