@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue'
 
-  import AvailableItems from '@/components/AvailableItems.vue'
+  import AvailableItems from '@/components/AvailableItemsList.vue'
 
   // håller koll på aktivt filter:
   const selectedFilter = ref('all')
@@ -12,8 +12,10 @@
 </script>
 
 <template>
-  <h2>STUFF TO RENT</h2>
-  <p>This is a list of stuff</p>
+  <div class="head-container">
+    <!-- <h2>STUFF TO RENT</h2> -->
+    <!-- <p>This is a list of stuff</p> -->
+  </div>
 
   <div class="filter-container">
     <h3>Filter:</h3>
@@ -56,12 +58,18 @@
     font-weight: normal;
   }
 
+  .head-container {
+    text-align: center;
+    margin-top: 1rem;
+  }
   .filter-container {
     padding: 0.5rem;
     /* background-color: aqua; */
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.5rem;
   }
 
   .item-list-container {

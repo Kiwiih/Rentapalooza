@@ -1,6 +1,7 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
   import { useRouter } from 'vue-router';
+  import {ref} from 'vue'
 
   const router = useRouter();
   const { currentUser, logout } = useAuth()
@@ -8,6 +9,24 @@
   const goToHome = () => {
     router.push("/");
   }
+
+  const showDropdown = ref(false);
+
+  const toggleDropdown = () => {
+    showDropdown.value =!showDropdown.value;
+  };
+
+
+  const goTo = (routeName) => {
+    router.push({name: routeName})
+    showDropdown.value = false;
+  }
+
+  const handleLogout = () =>{
+    logout();
+    showDropdown.value = false;
+  }
+
 
 </script>
 
@@ -21,16 +40,19 @@
         <RouterLink class="nav-link" :to="{ name: 'items' }"
           >Items For Rent</RouterLink
         >
-        <RouterLink class="nav-link" :to="{ name: 'rentalHistory' }"
-          >My Bookings</RouterLink
-        >
-        <RouterLink class="nav-link" :to="{ name: 'myItems' }"
-          >My Items</RouterLink
-        >
       </nav>
       <div class="auth-control" v-if="currentUser">
-        <p>{{ currentUser.username }}</p>
-        <button @click="logout">Logout</button>
+        <div class="dropdown">
+        <p @click="toggleDropdown" class="dropdown-toggle">
+          {{ currentUser.username }} ▼
+        </p>
+        <ul v-if="showDropdown" class="dropdown-menu">
+          <li @click="goTo('profile')">My profile</li>
+          <li @click="goTo('rentalHistory')">My rentals</li>
+          <li @click="goTo('myItems')">My items</li>
+          <li @click="handleLogout">Log out</li>
+        </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -84,4 +106,37 @@
     font-weight: bold;
     text-decoration: underline;
   }
+
+  .dropdown {
+  position: relative;
+  z-index: 1;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 150px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu li {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
 </style>

@@ -18,8 +18,6 @@ const error = ref(false)
 // ------------------------------------------------------------------------------------------
 
 export const useAuth = () => {
-
-
   // using router to redirect to specific path
   const router = useRouter()
 
@@ -30,15 +28,12 @@ export const useAuth = () => {
     error.value = null
 
     try {
-      const response = await axios.get(
-        'https://api.jsonbin.io/v3/b/6751aed4acd3cb34a8b49242',
-        {
-          headers: {
-            'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
-            'Content-Type': 'application/json'
-          }
+      const response = await axios.get(import.meta.env.VITE_API_USERS_URL, {
+        headers: {
+          'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
+          'Content-Type': 'application/json'
         }
-      )
+      })
       users.value = await response.data.record.users // Update the users list
       console.log('fetched users succsessfully')
       console.log()
@@ -81,7 +76,7 @@ export const useAuth = () => {
       }
 
       const response = await axios.put(
-        'https://api.jsonbin.io/v3/b/6751aed4acd3cb34a8b49242',
+        import.meta.env.VITE_API_USERS_URL,
         {
           users: [...users.value, newUser]
         },
@@ -106,7 +101,7 @@ export const useAuth = () => {
   }
 
   //* Login
-  const login = async (identifier, hashedPassword) => {
+  const login = async (identifier, hashedPassword, queryParametersObj) => {
     loading.value = true
     error.value = null
 
@@ -143,8 +138,17 @@ export const useAuth = () => {
         })
       )
 
-      // Redirect to homeView when loggin in
-      router.push('/')
+      //** DIREKTA ANVÄNDAREN EFTER INLOGGNING: */
+      // ...om de finns ett itemid i de inskickade queryparameterobjektet..
+      if (queryParametersObj.itemId) {
+        router.push({
+          name: 'itemDetails',
+          params: { id: queryParametersObj.itemId }
+        })
+      } else {
+        // fallbackrout. Aka startsidan
+        router.push('/')
+      }
 
       console.log('Login successfully')
     } catch (err) {

@@ -5,6 +5,9 @@
   import { useAuth } from '@/shared/useAuth'
   import { ref } from 'vue'
 
+  import { useRoute } from 'vue-router'
+  const route = useRoute()
+
   //temporary hardcoded for developers to login quickly ;)
   const identifier = ref('lasse@gmail.com')
   const password = ref('lasse')
@@ -14,8 +17,10 @@
   // Login handler
   const handleLogin = () => {
     error.value = ''
-    login(identifier.value, password.value)
+    login(identifier.value, password.value, route.query)
   }
+
+  console.log(route.query)
 </script>
 
 <template>

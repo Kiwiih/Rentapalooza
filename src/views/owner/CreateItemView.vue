@@ -1,12 +1,15 @@
 <script setup>
 import { useItems } from '@/shared/useItems';
 import { useAuth } from '@/shared/useAuth'
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 const { currentUser } = useAuth();
 
 const { items, getItems, updateItems } = useItems();
 getItems();
+
+const message = ref("");
+const showMessage = ref(false);
 
 const inputData = reactive({
   id: "", 
@@ -45,7 +48,28 @@ const handleSubmit = async () => {
 
 try {
   await updateItems(updatedItems);
-  console.log("Item added successfully:", inputData);
+  //console.log("Item added successfully:", inputData);
+  message.value = "Item added successfully.";
+  showMessage.value = true;
+
+  setTimeout(() => {
+    showMessage.value = false;
+  }, 3000);
+
+  Object.assign(inputData, {
+      id: "",
+      title: "",
+      description: "",
+      price: "",
+      category: [],
+      images: ["", "", ""],
+      isAvailable: true,
+      ownerId: currentUser.value.id,
+      currentRentalId: null,
+      renterId: null,
+    });
+
+
 } catch (error) {
   console.error("Error adding item:", error);
 }
@@ -87,6 +111,11 @@ try {
 
     </div>
     <button type="submit" @click="handleSubmit">Add item</button>
+
+    <div v-if="showMessage" class="message">
+      <p>{{ message }}</p>
+    </div>
+
   </div>
 </template>
 
@@ -125,6 +154,10 @@ select:focus {
 
 .checkbox {
   margin: 0;
+}
+
+.message {
+  color: var(--color-success);
 }
 
 </style>
