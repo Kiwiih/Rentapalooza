@@ -32,7 +32,7 @@
   }
 
   //varaibler så jhag slipper repetera kod i savechanges och deletefunktionerna
-  const url = 'https://api.jsonbin.io/v3/b/6751aef2e41b4d34e46057f5'
+  const url = import.meta.env.VITE_API_ITEMS_URL;
   const headers = {
     'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
     'Content-Type': 'application/json'

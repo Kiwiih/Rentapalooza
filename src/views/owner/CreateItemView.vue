@@ -93,7 +93,7 @@ try {
 
     <label for="category">Item category</label>
     <div v-for="c in categories" :key="c" class="categoryDiv">
-      <label for="category" class="categoryLabel">{{ c }}</label>
+      <label :for="c" class="categoryLabel">{{ c }}</label>
       <input
         type="checkbox"
         :value="c"
