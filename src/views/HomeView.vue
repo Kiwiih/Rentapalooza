@@ -23,7 +23,7 @@
         </section>
 
         <section class="featured-items">
-          <h3>Featured Items</h3>
+          <h3>Featured Items ⇩</h3>
           <div class="item-grid">
            
             <div
@@ -59,8 +59,12 @@
   }
 
   .hero h2 {
-    font-size: 2rem;
+    font-size: 4.5rem;
     margin-bottom: 0.5rem;
+  }
+
+  p{
+    font-size: 1.2rem;
   }
 
   .search-bar {
@@ -87,6 +91,8 @@
 
   .featured-items h3 {
     margin-bottom: 1rem;
+    border-width: 10px;
+
   }
 
   .item-grid {
@@ -95,45 +101,38 @@
     gap: 1rem;
     align-items: center;
     justify-content: center;
-    /* display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-    height: 100%;
-    width: 100%; */
   }
 
   .item-card {
-    background-color: var(--color-accent-variation);
-    border: 3px solid var(--color-secondary);
-    border-radius: 10px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 17rem;
-    height: 25rem;
-  }
+  background-color: var(--color-bg);
+  border: 2px solid var(--color-border); 
+  border-radius: 6px; 
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  text-align: center;
+  width: 17rem;
+  height: 25rem;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), 
+              -5px -5px 15px rgba(255, 255, 255, 0.4);
+  transform: rotate(-3deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-  .item-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    border: 3px solid var(--color-secondary);
-    
-  }
+.item-card:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3); 
+}
 
-  .item-card h4 {
-    margin-bottom: 0.5rem;
-  }
+.item-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border: 2px solid var(--color-border)
+}
 
-  .item-card p {
-    margin-bottom: 0.5rem;
-  }
-
-  .item-card .badge {
-    margin-bottom: 0.5rem;
-  }
 </style>

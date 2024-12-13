@@ -48,7 +48,7 @@ body {
   background-color: var(--color-bg);
 }
 
-h3{
+h2, h3{
   font-family: "Mouse Memoirs", sans-serif;
   font-size: 2.5rem;
 }
