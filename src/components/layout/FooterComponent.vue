@@ -8,12 +8,11 @@
   </footer>
 </template>
 
-<style>
-  .footer {
+<style scoped>
+  footer {
     background-color: var(--color-primary);
-    color: var(--color-text-muted);
+    color: var(--color-border);
     padding: 1rem 0;
     text-align: center;
-    border-top: 2px solid rgb(225, 221, 221);
   }
 </style>
