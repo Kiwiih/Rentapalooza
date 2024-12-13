@@ -99,7 +99,7 @@
           :item="item"
           :ownerName="
             users.length
-              ? users.find((user) => user.id == item.ownerId).username
+              ? users.find((user) => user.id == item.ownerId)?.username
               : 'no one'
           "
         ></ItemListCard>
