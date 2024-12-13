@@ -63,7 +63,10 @@
       <!-- Switch to RegisterView -->
       <p class="switch-auth">
         Don't have an account?
-        <RouterLink to="/auth/register">Register</RouterLink>
+
+        <RouterLink :to="{ name: 'register', query: route.query }"
+          >Register</RouterLink
+        >
       </p>
     </div>
   </div>

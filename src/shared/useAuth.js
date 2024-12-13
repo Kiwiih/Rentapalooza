@@ -46,7 +46,7 @@ export const useAuth = () => {
   }
 
   //* Create a new user (signup)
-  const createUser = async (username, email, password) => {
+  const createUser = async (username, email, password, queryParametersObj) => {
     loading.value = true
     error.value = null
 
@@ -91,7 +91,8 @@ export const useAuth = () => {
       console.log('Register users succsessfully')
 
       // Automatically Login after register user
-      await login(email, password)
+      // const login = async (identifier, hashedPassword, queryParametersObj)
+      await login(email, password, queryParametersObj)
     } catch (err) {
       error.value = err.message || 'An error occurred while creating the user.'
       console.error(err)
@@ -138,9 +139,11 @@ export const useAuth = () => {
         })
       )
 
+
+      console.log("hela jerrys funktion genomförd")
       //** DIREKTA ANVÄNDAREN EFTER INLOGGNING: */
       // ...om de finns ett itemid i de inskickade queryparameterobjektet..
-      if (queryParametersObj.itemId) {
+      if (queryParametersObj && queryParametersObj.itemId) {
         router.push({
           name: 'itemDetails',
           params: { id: queryParametersObj.itemId }
