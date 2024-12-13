@@ -2,6 +2,7 @@
   import { useAuth } from '@/shared/useAuth'
 
   import BookingButton from './BookingButton.vue'
+  import router from '@/router'
 
   const props = defineProps(['item', 'ownerName'])
 
@@ -10,12 +11,17 @@
   const imageError = (event) => {
     event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
   }
+
+  const redirectToDetailView = () => {
+    router.push({ name: 'itemDetails', params: { id: props.item.id } })
+  }
 </script>
 
 <template>
   <article>
     <div class="img-container">
       <img
+        @click="redirectToDetailView"
         :src="props.item.images[0]"
         alt="Item Image"
         v-if="props.item.images?.length > 0"
@@ -26,7 +32,9 @@
     <div class="card-content-container">
       <div class="card-body">
         <div class="card-body-main">
-          <h2 class="item-title">{{ item.title }}</h2>
+          <h2 @click="redirectToDetailView" class="item-title">
+            {{ item.title }}
+          </h2>
           <p>{{ item.description }}</p>
         </div>
 
@@ -66,10 +74,9 @@
         </div>
 
         <div class="button-container">
-          <router-link :to="{ name: 'itemDetails', params: { id: item.id } }">
-            <button class="button-secondary">Read More</button>
-          </router-link>
-
+          <button @click="redirectToDetailView" class="button-secondary">
+            Read More
+          </button>
           <BookingButton :item="item" />
         </div>
       </div>
@@ -110,6 +117,13 @@
       /* Visar "..." om texten är för lång */
     }
 
+    .item-title {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     .img-container {
       /* background-color: purple; */
       flex-shrink: 0;
@@ -125,10 +139,16 @@
       overflow: hidden;
 
       img {
+        cursor: pointer;
         width: 100%;
         height: 100%;
 
         object-fit: cover;
+
+        transition: 500ms;
+        &:hover {
+          transform: scale(1.1);
+        }
       }
     }
 
