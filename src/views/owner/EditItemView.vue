@@ -14,6 +14,29 @@
   //ska avnändas för omderigering
   const router = useRouter()
 
+  const message = ref("");
+  const showMessage = ref(false);
+  const isLoading = ref(false);
+
+  const handleSave = async (item) => {
+  try {
+  saveChanges(item.id)
+  isLoading.value = true;
+  setTimeout(() => {
+    isLoading.value = false;
+    message.value = "Item edited successfully.";
+    showMessage.value = true;
+  }, 1000)
+
+  setTimeout(() => {
+    showMessage.value = false;
+  }, 3000);
+ 
+  } catch(err) {
+    console.log("hej error", err)
+  }
+  }
+
   //item som redigeras
   const item = ref(null)
   // fetcha items baserad på rutt
@@ -32,7 +55,7 @@
   }
 
   //varaibler så jhag slipper repetera kod i savechanges och deletefunktionerna
-  const url = 'https://api.jsonbin.io/v3/b/67582be6e41b4d34e462f99a'
+  const url = import.meta.env.VITE_API_ITEMS_URL;
   const headers = {
     'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
     'Content-Type': 'application/json'
@@ -98,7 +121,7 @@
       /> -->
       <b><p>Lämna url-fältet tomt för att radera en bild 🐨</p></b>
       <div class="save-and-delete">
-        <button @click="saveChanges(item.id)">SAVE</button>
+        <button @click="handleSave(item)" :class="{ 'loading-btn': isLoading }">spara</button>
 
         <button @click="deleteItem(item.id)" class="delete-button">
           <svg
@@ -117,6 +140,9 @@
           </svg>
         </button>
       </div>
+      <div v-if="showMessage" class="message">
+      <p>{{ message }}</p>
+    </div>
     </div>
   </div>
   <div v-else>
@@ -163,4 +189,9 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  .message {
+  color: var(--color-success);
+  text-align: end;
+}
 </style>
