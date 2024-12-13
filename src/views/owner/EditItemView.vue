@@ -92,6 +92,10 @@
     console.log('skiten är borta!')
   }
 
+  const addInputImageUrl = () => {
+    item.value.images.push('') // Lägg till en tom sträng i `images`-arrayen
+  }
+
   onMounted(() => {
     fetchItem()
   })
@@ -102,18 +106,19 @@
   <div v-if="item" class="container">
     <div class="edit-item-div">
       <h2>Redigera item</h2>
-      <input v-model="item.title" placeholder="namn" />
-      <input v-model="item.description" placeholder="beskrivning" />
-      <input v-model="item.price" placeholder="pris" />
-      <!-- SEKTION FÖR ATT LÄGGA TILL/TA BORT BILDER -->
+      <input v-model="item.title" placeholder="Name..." />
+      <input v-model="item.description" placeholder="Description..." />
+      <input v-model="item.price" placeholder="Price..." />
+      <!-- SEKTION för BILDER -->
       <h3>Bilder</h3>
       <div v-for="(image, index) in item.images" :key="index">
-        <input v-model="item.images[index]" placeholder="bild url" />
+        <input v-model="item.images[index]" placeholder="Image url..." />
       </div>
-      <input
+      <button @click="addInputImageUrl">Add new url</button>
+      <!-- <input
         v-model="item.images[item.images.length]"
-        placeholder="url för ny bild "
-      />
+        placeholder="url for new picture "
+      /> -->
       <b><p>Lämna url-fältet tomt för att radera en bild 🐨</p></b>
       <div class="save-and-delete">
         <button @click="handleSave(item)" :class="{ 'loading-btn': isLoading }">spara</button>
