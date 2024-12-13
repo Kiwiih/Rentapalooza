@@ -32,19 +32,22 @@
     <div class="card-content-container">
       <div class="card-body">
         <div class="card-body-main">
-          <h2 @click="redirectToDetailView" class="item-title">
+          <h4 @click="redirectToDetailView" class="item-title">
             {{ item.title }}
-          </h2>
+          </h4>
           <p>{{ item.description }}</p>
         </div>
 
         <div class="card-body-sidebar">
           <small class="renter-information">
-            Outhyres by: <br />
+            For rent by: <br />
             <b>
-              <a href="#" style="text-decoration: none" aria-label="Visit profile page for user">{{
-                props.ownerName
-              }}</a>
+              <a
+                href="#"
+                style="text-decoration: none"
+                aria-label="Visit profile page for user"
+                >{{ props.ownerName }}</a
+              >
             </b>
             (Todo: länka profil)
           </small>
@@ -61,7 +64,7 @@
               item.isAvailable
                 ? 'Available for rent'
                 : currentUser && currentUser.id == item.renterId
-                  ? 'You are currently renting this !'
+                  ? 'You are currently renting this'
                   : 'Not available for rent'
             }}
           </p>
@@ -87,7 +90,7 @@
 <style scoped>
   article {
     border: 3px solid transparent;
-    border-radius: 0.5rem;
+    border-radius: 4px;
     padding: 0.75rem;
     display: flex;
     gap: 1rem;
@@ -95,7 +98,7 @@
     overflow: auto;
 
     &:hover {
-      border: 3px solid var(--color-accent-light);
+      border: 3px solid var(--color-border);
       background-color: hsla(0, 0%, 50%, 0.05);
       /* 0.5 är transparensnivån */
     }
@@ -120,7 +123,7 @@
     .item-title {
       cursor: pointer;
       &:hover {
-        text-decoration: underline;
+        color: var(--color-accent-light);
       }
     }
 
@@ -159,7 +162,6 @@
       flex-direction: column;
 
       .card-body {
-
         flex-grow: 1;
 
         display: flex;
@@ -176,6 +178,7 @@
           line-height: 1rem;
 
           display: flex;
+          gap: 0.5rem;
           flex-direction: column;
           justify-content: space-between;
           align-items: end;
@@ -203,6 +206,10 @@
 
     button {
       margin-left: 0.5rem;
+    }
+
+    h4 {
+      font-size: 1.5rem;
     }
   }
 
@@ -234,11 +241,9 @@
         display: unset;
 
         .card-body {
-          /* background-color: red; */
           display: unset;
 
           .card-body-sidebar {
-            /* background-color: blue; */
             display: flex;
             width: 100%;
             text-align: unset;
@@ -258,7 +263,6 @@
         }
 
         .card-footer {
-          /* background-color: antiquewhite; */
           flex-direction: column;
         }
       }

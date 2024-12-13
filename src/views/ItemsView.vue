@@ -12,65 +12,75 @@
 </script>
 
 <template>
-<div>
-  <div class="head-container">
-    <!-- <h2>STUFF TO RENT</h2> -->
-    <!-- <p>This is a list of stuff</p> -->
-  </div>
+  <div>
+    <h1>Listings</h1>
+    <div class="head-container">
+      <div class="filter-container">
+        <h3>Filter:</h3>
 
-  <div class="filter-container">
-    <h3>Filter:</h3>
+        <button
+          :class="
+            selectedFilter === 'all' ? 'button-primary' : 'button-secondary'
+          "
+          @click="selectFilter('all')"
+        >
+          Show all
+        </button>
 
-    <button
-      :class="selectedFilter === 'all' ? 'button-primary' : 'button-secondary'"
-      @click="selectFilter('all')"
-    >
-      Show all
-    </button>
+        <button
+          :class="
+            selectedFilter === 'available'
+              ? 'button-primary'
+              : 'button-secondary'
+          "
+          @click="selectFilter('available')"
+        >
+          Available
+        </button>
 
-    <button
-      :class="
-        selectedFilter === 'available' ? 'button-primary' : 'button-secondary'
-      "
-      @click="selectFilter('available')"
-    >
-      Available
-    </button>
+        <button
+          :class="
+            selectedFilter === 'unavailable'
+              ? 'button-primary'
+              : 'button-secondary'
+          "
+          @click="selectFilter('unavailable')"
+        >
+          Unavailable
+        </button>
+      </div>
+    </div>
 
-    <button
-      :class="
-        selectedFilter === 'unavailable' ? 'button-primary' : 'button-secondary'
-      "
-      @click="selectFilter('unavailable')"
-    >
-      Unavailable
-    </button>
-  </div>
-
-  <!-- LISTAN MED GREJJOR : -->
-  <div class="item-list-container">
-    <AvailableItems :selectedFilter="selectedFilter" />
-  </div>
+    <!-- LISTAN MED GREJJOR : -->
+    <div class="item-list-container">
+      <AvailableItems :selectedFilter="selectedFilter" />
+    </div>
   </div>
 </template>
 
 <style scoped>
-  h3{
+  h1 {
+    font-size: 4rem;
+    text-align: center;
+  }
+
+  h3 {
     margin-right: 1rem;
   }
 
   button {
-    font-size: smaller;
+    font-size: 1rem;
     font-weight: normal;
   }
 
   .head-container {
     text-align: center;
     margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
   }
   .filter-container {
     padding: 0.5rem;
-    /* background-color: aqua; */
     display: flex;
     flex-wrap: wrap;
     align-items: center;

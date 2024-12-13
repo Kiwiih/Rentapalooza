@@ -23,7 +23,7 @@
   --color-accent-variation: #fdebff;
 
   --color-bg: #ffffff;
-  --color-bg-alt: #faf8fa;
+  --color-bg-alt: #e9e7e9;
   --color-text: #212529;
   --color-text-muted: #6c757d;
   --color-border: #000000;
@@ -48,7 +48,7 @@ body {
   background-color: var(--color-bg);
 }
 
-h2, h3{
+h1, h2, h3{
   font-family: "Mouse Memoirs", sans-serif;
   font-size: 2.5rem;
 }

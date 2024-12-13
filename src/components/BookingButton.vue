@@ -89,7 +89,7 @@
       :class="{
         'loading-btn': item && loadingId === item.id,
         'owned-item-btn': currentUser && item.ownerId === currentUser.id,
-        'need-to-login-btn': !currentUser
+        'need-to-login-btn': !currentUser,
       }"
       :disabled="!item.isAvailable || loadingId === item.id"
     >
