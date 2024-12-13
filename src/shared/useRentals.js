@@ -10,15 +10,12 @@ export const useRentals = () => {
     error.value = null
     loading.value = true
     try {
-      const response = await axios.get(
-        'https://api.jsonbin.io/v3/b/6751aeb5acd3cb34a8b49235',
-        {
-          headers: {
-            'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
-            'Content-Type': 'application/json'
-          }
+      const response = await axios.get(import.meta.env.VITE_API_RENTALS_URL, {
+        headers: {
+          'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
+          'Content-Type': 'application/json'
         }
-      )
+      })
       rentals.value = response.data.record.rentals || []
       console.log('Fetched rentals successfully')
     } catch (err) {
@@ -39,7 +36,7 @@ export const useRentals = () => {
       const updatedRentals = [...rentals.value, newRental]
 
       const response = await axios.put(
-        'https://api.jsonbin.io/v3/b/6751aeb5acd3cb34a8b49235',
+        import.meta.env.VITE_API_RENTALS_URL,
         { rentals: updatedRentals },
         {
           headers: {
