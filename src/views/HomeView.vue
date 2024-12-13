@@ -31,7 +31,7 @@
               :key="item.id"
               class="item-card"
             >
-              <img :src="item.images[0]" :alt="item.name" class="item-image" />
+              <img :src="item.images[0]" :alt="item.title" class="item-image" />
               <h4>{{ item.title }}</h4>
               <p>{{ item.price }} SEK</p>
               <router-link :to="{ name: 'itemDetails', params: { id: item.id } }">
