@@ -103,6 +103,65 @@ export const useAuth = () => {
     }
   }
 
+  //* Update user
+  const updateUser = async (userId, updatedFields) => {
+    loading.value = true
+    error.value = null
+
+    try {
+      // Start with getting all users
+      await fetchUsers()
+
+      // Find user that should be updated
+      const userIndex = users.value.findIndex((user) => user.id === userId)
+
+      if (userIndex === -1) {
+        throw new Error('User could not be found')
+      }
+
+      // Update user fields
+      const updatedUser = { ...users.value[userIndex], ...updatedFields }
+
+      // If password is updated, hash it first
+      if (updatedFields.password) {
+        updatedUser.password = bcrypt.hashSync(updatedFields.password, 10)
+      }
+
+      // Update list with all users
+      users.value[userIndex] = updatedUser
+
+      // Send updated data to the Api
+      const response = await axios.put(
+        import.meta.env.VITE_API_USERS_URL,
+        { users: users.value },
+        {
+          headers: {
+            'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+
+      users.value = response.data.record.users
+
+      // Update "currentUser" if the authenticated user is updated
+      if (currentUser.value && currentUser.value.id === userId) {
+        currentUser.value = {
+          ...currentUser.value,
+          ...updatedFields
+        }
+        localStorage.setItem('user', JSON.stringify(currentUser.value))
+      }
+
+      console.log('User updated successfully')
+    } catch (err) {
+      error.value = err.message || 'A problem occured while updating user'
+      console.error(err)
+    } finally {
+      loading.value = false
+    }
+  }
+
   //* Login
   const login = async (identifier, hashedPassword, queryParametersObj) => {
     loading.value = true
@@ -183,6 +242,7 @@ export const useAuth = () => {
     error,
 
     fetchUsers,
+    updateUser,
     createUser,
     login,
     logout
