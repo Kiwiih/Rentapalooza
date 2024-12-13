@@ -10,6 +10,7 @@ getItems();
 
 const message = ref("");
 const showMessage = ref(false);
+const isLoading = ref(false);
 
 const inputData = reactive({
   id: "", 
@@ -49,8 +50,15 @@ const handleSubmit = async () => {
 try {
   await updateItems(updatedItems);
   //console.log("Item added successfully:", inputData);
-  message.value = "Item added successfully.";
-  showMessage.value = true;
+  isLoading.value = true;
+  setTimeout(() => {
+    isLoading.value = false;
+    message.value = "Item added successfully.";
+    showMessage.value = true;
+  }, 1000)
+
+  //message.value = "Item added successfully.";
+  //showMessage.value = true;
 
   setTimeout(() => {
     showMessage.value = false;
@@ -110,7 +118,7 @@ try {
 
 
     </div>
-    <button type="submit" @click="handleSubmit">Add item</button>
+    <button type="submit" @click="handleSubmit" :class="{ 'loading-btn': isLoading }">Add item</button>
 
     <div v-if="showMessage" class="message">
       <p>{{ message }}</p>
