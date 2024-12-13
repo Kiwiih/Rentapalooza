@@ -50,6 +50,8 @@ export const useAuth = () => {
     loading.value = true
     error.value = null
 
+    const currentDate = new Date()
+
     try {
       // Start with getting all users
       await fetchUsers()
@@ -72,7 +74,8 @@ export const useAuth = () => {
         password: bcrypt.hashSync(password, 10),
         role: 'user',
         bio: '',
-        profileImg: ''
+        profileImg: '',
+        createdAt: currentDate
       }
 
       const response = await axios.put(
@@ -124,7 +127,10 @@ export const useAuth = () => {
       currentUser.value = {
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        picture: user.profileImg,
+        bio: user.bio,
+        registered: user.createdAt
       }
 
       // Store current user in localStorage
@@ -133,7 +139,10 @@ export const useAuth = () => {
         JSON.stringify({
           id: user.id,
           username: user.username,
-          email: user.email
+          email: user.email,
+          picture: user.profileImg,
+          bio: user.bio,
+          registered: user.createdAt
           // hashedPwd: user.password
         })
       )
