@@ -38,9 +38,9 @@
 
       <!-- detta syns alltid -->
       <nav>
-        <RouterLink class="nav-link" to="/">Home</RouterLink>
+        <RouterLink class="nav-link" to="/">HOME</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
-          >Listings</RouterLink
+          >LISTINGS</RouterLink
         >
       </nav>
 
@@ -62,7 +62,7 @@
       </div>
 
       <RouterLink v-if="!currentUser" :to="{ name: 'login' }"
-        ><button>Login</button></RouterLink
+        ><button class="button-secondary">Login</button></RouterLink
       >
     </div>
   </div>
@@ -101,7 +101,7 @@
 
   nav {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
     font-family: 'Mouse Memoirs', sans-serif;
     font-size: 2rem;
   }
@@ -151,5 +151,9 @@
 
   .dropdown-menu li:hover {
     background-color: var(--color-accent);
+  }
+
+  .active{
+    background-color: yellow;
   }
 </style>

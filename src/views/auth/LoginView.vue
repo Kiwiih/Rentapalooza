@@ -75,5 +75,25 @@
 <style scoped>
 .auth-wrapper{
   background: none;
+  height: 100%;
+  margin: auto;
+}
+
+.auth-box{
+  width:50vw;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border: 3px solid;
+  border-width: 10px;
+  border-style: solid;
+  border-image: repeating-linear-gradient(
+    45deg,
+    rgb(255, 255, 255),
+    rgb(255, 255, 255) 10px,
+    black 10px,
+    black 20px
+  ) 10;
 }
 </style>
