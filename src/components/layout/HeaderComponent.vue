@@ -30,16 +30,19 @@
 <template>
   <div class="header">
     <div class="container">
+
       <img
         src="../../assets/images/rentapaloozasign.png"
         alt="Rentapalooza"
         @click="goToHome"
       />
+
       <!-- detta syns alltid -->
       <nav>
+
         <RouterLink class="nav-link" to="/">Home</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
-          >Items For Rent</RouterLink
+          >Listings</RouterLink
         >
       </nav>
 
@@ -51,7 +54,11 @@
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
             <li @click="goTo('profile')">My profile</li>
-            <li @click="goTo('rentalHistory')">My rentals</li>
+
+           
+
+            <li @click="goTo('rentalHistory')">My bookings</li>
+
             <li @click="goTo('myItems')">My items</li>
             <li @click="handleLogout">Log out</li>
           </ul>
