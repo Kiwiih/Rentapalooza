@@ -23,13 +23,17 @@
     searchQuery.value = newSearchQuery // Uppdaterar värdet på searchQuery
   }
 
+  // function that reverse any array you want
+  const reverseArray = (arr) => {
+    return arr.slice().reverse()
+  }
+
   // Laddar in items från databasen:
   getItems()
   // ladda in users
   fetchUsers()
 
   // Filtrera items baserat på selectedFilter
-
   const filteredItems = computed(() => {
     let results = []
 
@@ -51,6 +55,9 @@
           item.description.toLowerCase().includes(query)
       )
     }
+
+    // Reverse array filled with items
+    results = reverseArray(results)
 
     return results
   })
