@@ -30,18 +30,23 @@
 <template>
   <div class="header">
     <div class="container">
-      <!-- <h1 class="logo">Rentapalooza</h1> -->
+
       <img
         src="../../assets/images/rentapaloozasign.png"
         alt="Rentapalooza"
         @click="goToHome"
       />
-      <nav v-if="currentUser">
+
+      <!-- detta syns alltid -->
+      <nav>
+
         <RouterLink class="nav-link" to="/">Home</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
           >Listings</RouterLink
         >
       </nav>
+
+      <!-- detta syns för en inloggad -->
       <div class="auth-control" v-if="currentUser">
         <div class="dropdown">
           <p @click="toggleDropdown" class="dropdown-toggle">
@@ -49,12 +54,20 @@
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
             <li @click="goTo('profile')">My profile</li>
+
+           
+
             <li @click="goTo('rentalHistory')">My bookings</li>
+
             <li @click="goTo('myItems')">My items</li>
             <li @click="handleLogout">Log out</li>
           </ul>
         </div>
       </div>
+
+      <RouterLink v-if="!currentUser" :to="{ name: 'login' }"
+        ><button>Login</button></RouterLink
+      >
     </div>
   </div>
 </template>
