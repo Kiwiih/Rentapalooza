@@ -2,7 +2,15 @@
   import { ref, onMounted, computed } from 'vue'
   import { useAuth } from '@/shared/useAuth'
   //Get user who is logged in
-  const { currentUser } = useAuth()
+  const { currentUser, updateUser } = useAuth()
+
+  const updateUserName = () => {
+    const updatedFields = {
+      username: 'päronet'
+    }
+    updateUser(currentUser.value.id, updatedFields)
+  }
+
   //Find where user is located
   const userLocation = ref(null)
   const locationError = ref(null)
@@ -106,7 +114,7 @@
         <button class="edit-profile-button">
           {{ t('editProfile') }}
         </button>
-
+        <button @click="updateUserName">Update Username</button>
         <div class="about-section">
           <h2>{{ t('about') }}</h2>
           <i class="mdi mdi-map-marker"></i>
