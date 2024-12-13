@@ -60,7 +60,7 @@
           {{ item.description }} <b>Pris: {{ item.price }}</b>
         </div>
         <!-- Länk till redigera-sidan för varan -->
-        <RouterLink :to="{ name: 'editItem', params: { id: item.id } }">
+        <RouterLink :to="{ name: 'editItem', params: { id: item.id } }" aria-label="Edit this item">
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +128,7 @@
     margin-bottom: 0.5em;
     padding: 1em;
     margin: 1em;
-
+    list-style-type: none;
     font-size: larger;
   }
   ul {

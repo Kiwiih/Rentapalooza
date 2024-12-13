@@ -4,6 +4,9 @@
   import './auth.css'
   import { useAuth } from '@/shared/useAuth'
   import { ref } from 'vue'
+  import { useRoute } from 'vue-router'
+
+  const route = useRoute()
 
   const { createUser, loading, error } = useAuth()
 
@@ -21,7 +24,7 @@
       return
     }
 
-    createUser(username.value, email.value, password.value)
+    createUser(username.value, email.value, password.value, route.query)
   }
 </script>
 
