@@ -82,7 +82,7 @@
   <!-- Formulär för att redigera till items -->
   <div v-if="item" class="container">
     <div class="edit-item-div">
-      <h2>Redigera item</h2>
+      <h2>Edit item</h2>
       <input v-model="item.title" placeholder="Name..." />
       <input v-model="item.description" placeholder="Description..." />
       <input v-model="item.price" placeholder="Price..." />
@@ -96,7 +96,7 @@
         v-model="item.images[item.images.length]"
         placeholder="url for new picture "
       /> -->
-      <b><p>Lämna url-fältet tomt för att radera en bild 🐨</p></b>
+      <b><p>Leave the url-input blank to delete an image 🐨</p></b>
       <div class="save-and-delete">
         <button @click="saveChanges(item.id)">SAVE</button>
 
@@ -120,7 +120,7 @@
     </div>
   </div>
   <div v-else>
-    <h3>Laddar saker och ting...🐨</h3>
+    <h3>Loading shits and giggles...🐨</h3>
   </div>
 </template>
 <style scoped>
