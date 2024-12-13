@@ -42,7 +42,7 @@
           <small class="renter-information">
             Outhyres by: <br />
             <b>
-              <a href="#" style="text-decoration: none">{{
+              <a href="#" style="text-decoration: none" aria-label="Visit profile page for user">{{
                 props.ownerName
               }}</a>
             </b>
