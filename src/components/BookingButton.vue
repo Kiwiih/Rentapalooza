@@ -10,7 +10,7 @@
   const props = defineProps(['item'])
 
   // Använder composables
-  const { items, getItems, updateItems } = useItems()
+  const { items, updateItems } = useItems()
   const { rentals, addRental, loading, error } = useRentals()
 
   //Hanterar rätt knapp som laddar
@@ -54,7 +54,7 @@
       }
 
       try {
-        await Promise.all([addRental(rental), getItems()])
+        await Promise.all([addRental(rental)])
 
         // Uppdatera rätt item
         const updatedItems = items.value.map((i) =>

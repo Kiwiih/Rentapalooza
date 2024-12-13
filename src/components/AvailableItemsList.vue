@@ -1,3 +1,4 @@
+<!-- AvailableItensList.vue -->
 <script setup>
   import { useItems } from '@/shared/useItems.js'
   import { useAuth } from '@/shared/useAuth'
@@ -9,8 +10,8 @@
   import BarForSearch from './BarForSearch.vue'
 
   // Hämta variabel och funktion från useItems
-  const { items, getItems } = useItems()
-  const { users, fetchUsers } = useAuth()
+  const { items } = useItems()
+  const { users } = useAuth()
 
   const props = defineProps(['selectedFilter'])
 
@@ -22,11 +23,6 @@
   const handleSearchQueryUpdate = (newSearchQuery) => {
     searchQuery.value = newSearchQuery // Uppdaterar värdet på searchQuery
   }
-
-  // Laddar in items från databasen:
-  getItems()
-  // ladda in users
-  fetchUsers()
 
   // Filtrera items baserat på selectedFilter
 
@@ -99,7 +95,7 @@
           :item="item"
           :ownerName="
             users.length
-              ? users.find((user) => user.id == item.ownerId).username
+              ? users.find((user) => user.id == item.ownerId)?.username
               : 'no one'
           "
         ></ItemListCard>

@@ -1,38 +1,42 @@
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref } from 'vue'
+import axios from 'axios'
 
-const rentals = ref([]);
-const error = ref(null);
-const loading = ref(false); 
+const rentals = ref([])
+const error = ref(null)
+const loading = ref(false)
 
 export const useRentals = () => {
   const fetchRentals = async () => {
-    error.value = null;
-    loading.value = true; 
+    error.value = null
+    loading.value = true
     try {
-      const response = await axios.get('https://api.jsonbin.io/v3/b/6751aeb5acd3cb34a8b49235', {
-        headers: {
-          'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
-          'Content-Type': 'application/json',
-        },
-      });
-      rentals.value = response.data.record.rentals || [];
+      const response = await axios.get(
+        'https://api.jsonbin.io/v3/b/6751aeb5acd3cb34a8b49235',
+        {
+          headers: {
+            'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      rentals.value = response.data.record.rentals || []
+      console.log('Fetched rentals successfully')
     } catch (err) {
-      error.value = err.message || 'An error occurred while fetching rentals.';
-      console.error(err);
+      error.value = err.message || 'An error occurred while fetching rentals.'
+      console.error(err)
     } finally {
-      loading.value = false;
+      loading.value = false
     }
-  };
+  }
 
   const addRental = async (newRental) => {
-    error.value = null;
-    loading.value = true; 
+    error.value = null
+    loading.value = true
     try {
       if (rentals.value.length === 0) {
-        await fetchRentals();
+        await fetchRentals()
       }
-      const updatedRentals = [...rentals.value, newRental];
+      const updatedRentals = [...rentals.value, newRental]
 
       const response = await axios.put(
         'https://api.jsonbin.io/v3/b/6751aeb5acd3cb34a8b49235',
@@ -40,25 +44,26 @@ export const useRentals = () => {
         {
           headers: {
             'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
-            'Content-Type': 'application/json',
-          },
+            'Content-Type': 'application/json'
+          }
         }
-      );
+      )
 
-      rentals.value = response.data.record.rentals;
+      rentals.value = response.data.record.rentals
+      console.log('Added rental successfully')
     } catch (err) {
-      error.value = err.message || 'An error occurred while adding the rental.';
-      console.error(err);
+      error.value = err.message || 'An error occurred while adding the rental.'
+      console.error(err)
     } finally {
-      loading.value = false; 
+      loading.value = false
     }
-  };
+  }
 
   return {
     rentals,
     error,
     loading,
     fetchRentals,
-    addRental,
-  };
-};
+    addRental
+  }
+}

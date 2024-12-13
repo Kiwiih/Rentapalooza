@@ -20,7 +20,7 @@
     login(identifier.value, password.value, route.query)
   }
 
-  console.log(route.query)
+  console.log('route.query', route.query)
 </script>
 
 <template>

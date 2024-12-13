@@ -5,18 +5,15 @@
   import { computed, ref } from 'vue'
   import { useRouter } from 'vue-router'
 
-  const router = useRouter();
+  const router = useRouter()
   const { currentUser } = useAuth()
 
   // VIKTORS KOD
   import { useItems } from '@/shared/useItems.js'
-  // Anropa `useItems` för att få tillgång till `items` och `getItems`
-  const { items, getItems } = useItems()
+  // Anropa `useItems` för att få tillgång till `items`
+  const { items } = useItems()
   //SLUT PÅ VIKTORS KOD
 
-  onMounted(async () => {
-    await getItems(), currentUser
-  })
   const userItems = computed(() => {
     if (!items.value.length) {
     }
@@ -28,18 +25,15 @@
   // console.log(currentUser.value.id)
 
   const sendToAddItem = () => {
-    router.push("/owner/create");
+    router.push('/owner/create')
   }
-
 </script>
 <template>
-
   <div class="btnDiv">
-  <button class="addItemBtn" @click="sendToAddItem">Add new item</button>
+    <button class="addItemBtn" @click="sendToAddItem">Add new item</button>
   </div>
   <div v-if="userItems">
     <h2>All your items available for rent</h2>
-
 
     <!-- Rendera en lista med varor -->
     <ul>

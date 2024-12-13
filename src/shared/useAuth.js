@@ -57,7 +57,6 @@ export const useAuth = () => {
 
     try {
       // Start with getting all users
-      await fetchUsers()
 
       // Check if username already exists
       if (users.value.some((user) => user.username === username)) {
@@ -112,7 +111,7 @@ export const useAuth = () => {
 
     try {
       // Start with getting all users
-      await fetchUsers()
+      // await fetchUsers()
 
       // Check if there is a user with matching email or username with password
       const user = users.value.find(

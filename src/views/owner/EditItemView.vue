@@ -5,8 +5,8 @@
 
   // VIKTORS KOD
   import { useItems } from '@/shared/useItems.js'
-  // Anropa `useItems` för att få tillgång till `items` och `getItems`
-  const { items, getItems } = useItems()
+  // Anropa `useItems` för att få tillgång till `items`
+  const { items } = useItems()
   //SLUT PÅ VIKTORS KOD
 
   // för att få tillgång till route parametrar
@@ -20,10 +20,7 @@
   const fetchItem = async () => {
     //hämta parameter id från url
     const id = route.params.id
-    //väntar på att items ska laddas om de inte finns
-    if (!items.value.length) {
-      await getItems()
-    }
+
     //Hitta rätt item baserat på id
     item.value = items.value.find((i) => i.id === id)
     if (!item.value) {

@@ -4,7 +4,7 @@
   import BookingButton from '@/components/BookingButton.vue'
   import { ref, watch } from 'vue'
 
-  const { items, getItems } = useItems()
+  const { items } = useItems()
   const route = useRoute()
 
   // get params from url
@@ -19,7 +19,6 @@
 
   // om items saknar innehåll så hämtar vi innehåll
   if (items.value <= 0) {
-    getItems()
   } else {
     // annars plockar vi ut rätt item...
     selectedItem.value = items.value.find((item) => item.id === id)

@@ -3,8 +3,7 @@
   import { useItems } from '@/shared/useItems.js'
   import BarForSearch from '@/components/BarForSearch.vue'
 
-  const { items, getItems } = useItems()
-  getItems()
+  const { items } = useItems()
 
   const searchQuery = ref('')
 
@@ -25,7 +24,6 @@
         <section class="featured-items">
           <h3>Featured Items</h3>
           <div class="item-grid">
-           
             <div
               v-for="item in items.slice(0, 4)"
               :key="item.id"
@@ -34,11 +32,12 @@
               <img :src="item.images[0]" :alt="item.name" class="item-image" />
               <h4>{{ item.title }}</h4>
               <p>{{ item.price }} SEK</p>
-              <router-link :to="{ name: 'itemDetails', params: { id: item.id } }">
-              <button class="button-secondary">View Details</button>
+              <router-link
+                :to="{ name: 'itemDetails', params: { id: item.id } }"
+              >
+                <button class="button-secondary">View Details</button>
               </router-link>
             </div>
-          
           </div>
         </section>
       </div>

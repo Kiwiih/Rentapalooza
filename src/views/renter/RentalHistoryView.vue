@@ -7,17 +7,14 @@
   import { useAuth } from '@/shared/useAuth'
   import { useRentals } from '@/shared/useRentals'
   // Destruct the functions we need
-  const { items, getItems } = useItems()
-  const { users, currentUser, fetchUsers } = useAuth()
-  const { rentals, fetchRentals } = useRentals()
+  const { items } = useItems()
+  const { users, currentUser } = useAuth()
+  const { rentals } = useRentals()
   // Add a loading state
   const loading = ref(true)
   // Add a message if the are no bookings to show
   const noPreviousBookingsMessage = ref(false)
   onBeforeMount(async () => {
-    await getItems()
-    await fetchRentals()
-    await fetchUsers()
     loading.value = false
   })
 

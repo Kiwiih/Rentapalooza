@@ -2,6 +2,8 @@
 // ----------------------------------------------------------------------------------------
 
 const refreshItemAvailability = (items, rentals) => {
+  let hasChanges = false
+
   // a map holding key-value pair of item ID and the value of their availability
   const availabilityMap = {}
 
@@ -24,14 +26,18 @@ const refreshItemAvailability = (items, rentals) => {
   })
 
   // Update "items" based on what the map contains
-  items.value = items.value.map((item) => {
-    if (availabilityMap[item.id] !== undefined) {
-      item.isAvailable = availabilityMap[item.id]
+  const updatedItems = items.value.map((item) => {
+    if (
+      availabilityMap[item.id] !== undefined &&
+      item.isAvailable !== availabilityMap[item.id]
+    ) {
+      hasChanges = true
+      return { ...item, isAvailable: availabilityMap[item.id] }
     }
     return item
   })
 
-  return items.value
+  return hasChanges ? updatedItems : null
 }
 
 export default refreshItemAvailability
