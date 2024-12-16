@@ -50,27 +50,28 @@
 
 .home-page{
   width: 100%;
-  height:100%;
+  /* height:100%; */
+
 }
 
   .hero {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
   }
 
   .hero h2 {
-    font-size: 4.5rem;
+    font-size: 3rem;
     margin-bottom: 0.5rem;
   }
 
   p{
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .search-bar {
     display: flex;
     max-width: 600px;
-    margin: 1rem auto;
+    margin: .5rem auto;
   }
 
   .search-bar input {
@@ -113,8 +114,8 @@
   align-items: center;
   gap: .5rem;
   text-align: center;
-  width: 17rem;
-  height: 25rem;
+  width: 15rem;
+  height: 22rem;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), 
               -5px -5px 15px rgba(255, 255, 255, 0.4);
   transform: rotate(-3deg);
@@ -128,7 +129,7 @@
 
 .item-card img {
   width: 100%;
-  height: 200px;
+  height: 170px;
   object-fit: cover;
   border-radius: 4px;
   margin-bottom: 1rem;

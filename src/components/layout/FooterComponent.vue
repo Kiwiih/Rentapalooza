@@ -9,7 +9,7 @@
 </template>
 
 <style scoped>
-  footer {
+  .footer {
     background-color: var(--color-primary);
     color: var(--color-border);
     padding: 1rem 0;
