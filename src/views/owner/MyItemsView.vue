@@ -34,17 +34,17 @@
 </script>
 <template>
 
-  <div class="btnDiv">
+  <div v-if="userItems">
+    <div></div>
+    <h2>All your items available for rent</h2>
+    <div class="btnDiv">
   <button class="addItemBtn" @click="sendToAddItem">Add new item</button>
   </div>
-  <div v-if="userItems">
-    <h2>All your items available for rent</h2>
-
-
+  <div class="test">
     <!-- Rendera en lista med varor -->
     <ul>
-      <li v-for="item in userItems" :key="item.id">
-        <b>{{ item.title }} </b> <br />
+      <li class="card" v-for="item in userItems" :key="item.id">
+        <p class="item-title">{{ item.title }} </p> <br />
         <div class="img-container">
           <img
             v-for="(image, index) in item.images || []"
@@ -57,7 +57,8 @@
         </div>
         <br />
         <div>
-          {{ item.description }} <b>Pris: {{ item.price }}</b>
+          <p>{{ item.description }}</p>
+           <p><b>{{ item.price }} kr</b></p>
         </div>
         <!-- Länk till redigera-sidan för varan -->
         <RouterLink :to="{ name: 'editItem', params: { id: item.id } }" aria-label="Edit this item">
@@ -80,6 +81,7 @@
       </li>
     </ul>
   </div>
+  </div>
 
   <div v-else>
     <h3>You don't have any items 🐨</h3>
@@ -87,17 +89,17 @@
 </template>
 
 <style scoped>
+  .test{
+    width: 100%;
+  }
+
   /* PAULINAS CSS */
   .img-container {
-    /* background-color: purple; */
     display: flex;
-    flex-shrink: 0;
-    align-self: start;
-    width: clamp(2rem, 20%, 7rem);
+    flex-shrink: 0; 
+    align-self: start; 
+    width: clamp(2rem, 80%, 7rem);
     aspect-ratio: 1 / 1;
-
-    border: 2px solid var(--color-border);
-    border-radius: 0.25rem;
 
     display: grid;
     place-items: center;
@@ -113,35 +115,61 @@
   /* PAULINAS CSS */
 
   h2 {
-    margin: 1em;
+    margin-top: 1rem;
+    text-align: center;
   }
   svg {
-    color: black;
-    width: 2.5em;
+    color: var(--color-primary-variation);
+    width: 3rem;
     padding: 0.2em;
-    border-radius: 25px;
-    background-color: rgb(117, 207, 207);
+    border-radius: 4px;
+    background-color:var(--color-primary);
   }
-  li {
-    border: 2px solid black;
-    border-radius: 10px;
-    margin-bottom: 0.5em;
-    padding: 1em;
-    margin: 1em;
-    list-style-type: none;
-    font-size: larger;
+
+  svg:hover{
+    background-color: var(--color-primary-variation);
+    color: var(--color-primary);
   }
+
   ul {
     text-decoration: none;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    margin: 1rem;
+  }
+
+  .card{
+    width: 90%;
+    border: 2px solid var(--color-border);
+    border-radius: 0.25rem;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
+    padding: 1rem;
+    list-style-type: none;
+  }
+
+
+  p{
+    font-size: 1rem;
   }
 
   .addItemBtn {
-    margin: 1rem;
+    width: 60%;
   }
 
   .btnDiv {
     display: flex;
     width: 100%;
     justify-content: center;
+
+  }
+
+  .item-title{
+    font-size: 1.25rem;
+    font-weight: 500;
   }
 </style>

@@ -30,7 +30,6 @@
 <template>
   <div class="header">
     <div class="container">
-
       <img
         src="../../assets/images/rentapaloozasign.png"
         alt="Rentapalooza"
@@ -39,10 +38,9 @@
 
       <!-- detta syns alltid -->
       <nav>
-
-        <RouterLink class="nav-link" to="/">Home</RouterLink>
+        <RouterLink class="nav-link" to="/">HOME</RouterLink>
         <RouterLink class="nav-link" :to="{ name: 'items' }"
-          >Listings</RouterLink
+          >LISTINGS</RouterLink
         >
       </nav>
 
@@ -55,8 +53,6 @@
           <ul v-if="showDropdown" class="dropdown-menu">
             <li @click="goTo('profile')">My profile</li>
 
-           
-
             <li @click="goTo('rentalHistory')">My bookings</li>
 
             <li @click="goTo('myItems')">My items</li>
@@ -66,7 +62,7 @@
       </div>
 
       <RouterLink v-if="!currentUser" :to="{ name: 'login' }"
-        ><button>Login</button></RouterLink
+        ><button class="button-secondary">Login</button></RouterLink
       >
     </div>
   </div>
@@ -88,6 +84,8 @@
     background-color: var(--color-primary);
     color: white;
     padding: 1rem 0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.458);
+    z-index: 1;
   }
 
   .header .container {
@@ -103,7 +101,9 @@
 
   nav {
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
+    font-family: 'Mouse Memoirs', sans-serif;
+    font-size: 2rem;
   }
 
   .nav-link {
@@ -112,13 +112,12 @@
   }
 
   .nav-link:hover {
-    color: lightgray;
+    color: var(--color-accent);
   }
 
   .router-link-active {
-    color: yellow;
+    color: rgb(255, 255, 0);
     font-weight: bold;
-    text-decoration: underline;
   }
 
   .dropdown {
@@ -151,6 +150,10 @@
   }
 
   .dropdown-menu li:hover {
-    background-color: #f0f0f0;
+    background-color: var(--color-accent);
+  }
+
+  .active{
+    background-color: yellow;
   }
 </style>

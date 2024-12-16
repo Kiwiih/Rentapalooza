@@ -66,7 +66,9 @@
     </div>
 
     <p class="desc">{{ selectedItem.description }}</p>
+    <div class="pricebook">
     <p class="price">{{ selectedItem.price }} kr</p>
+    <div class="holder">
     <p :class="selectedItem.isAvailable ? 'available' : 'unavailable'">
       {{
         selectedItem.isAvailable
@@ -77,6 +79,8 @@
 
     <BookingButton :item="selectedItem" />
   </div>
+  </div>
+  </div>
 </template>
 
 <style scoped>
@@ -85,12 +89,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 2rem;
+    margin: 1rem;
     gap: 0.5rem;
+    padding: 1rem;
+    border: 4px;
+    border-style: solid;
+    border-image: repeating-linear-gradient(
+    45deg,
+    rgb(255, 255, 255),
+    rgb(255, 255, 255) 4px,
+    black 4px,
+    black 8px
+  ) 4; 
+  border-radius: 10px;
   }
 
   .itemImage {
-    max-height: 20rem;
+    max-height: 10rem;
+    border: 3px solid;
+    border-radius: 5px;
+  }
+
+  .imageDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    gap: .5rem;
+    margin-top: 1rem;
+    max-width: 70%;
   }
 
   .category span {
@@ -101,7 +128,8 @@
   }
 
   .desc {
-    max-width: 75%;
+    max-width: 80%;
+    margin-top: 1rem;
   }
 
   .available {
@@ -110,6 +138,20 @@
 
   .unavailable {
     color: var(--color-error);
+  }
+
+  .pricebook{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1.5rem;
+    margin: 1rem;
+    align-items: center;
+  }
+
+  .holder{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .price {

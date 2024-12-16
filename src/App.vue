@@ -22,20 +22,45 @@
 </script>
 
 <template>
+
   <div class="layout">
+   
     <HeaderComponent />
-    <main class="container container-backdrop">
-      <RouterView />
-    </main>
-    <FooterComponent />
+   <div class="layout-main">
+   <div class="content-container">
+    <RouterView />
+   </div>
+   </div>
+   <FooterComponent />  
   </div>
 </template>
 
 <style scoped>
   .layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url('../src/assets/images/RENTAPOOLZA-BÅDA.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  }
+
+  .layout-main{
+  overflow-y: auto; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  flex:1;
+  }
+
+  .content-container {
+  background-color: rgba(255, 255, 255, 0.165);
+  /* mask: linear-gradient(black,black,transparent); */
+  backdrop-filter: blur(5px);
+  margin: 0rem auto;
+  width: clamp(440px, 80vw, 2000px);
+  display: flex;
+  justify-content: center;
+  min-height: 100%;
+  padding: 2rem;
   }
 
   footer {

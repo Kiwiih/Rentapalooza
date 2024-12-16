@@ -59,8 +59,10 @@
   .search-bar input {
     flex-grow: 1;
     margin-bottom: 0;
+    border: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    background-color: var(--color-bg-alt);
   }
 
   .search-bar button {
@@ -68,6 +70,7 @@
     flex-shrink: 0; /* Förhindrar att knappen krymper i storlek */
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    padding: 0.5rem 1rem; /* Säkerställer tillräcklig inre marginal */
+    padding: .75rem 1.25rem; /* Säkerställer tillräcklig inre marginal */
+    
   }
 </style>

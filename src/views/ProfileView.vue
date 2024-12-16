@@ -108,17 +108,22 @@
         <div class="profile-header">
           <h1>{{ profile.username }}</h1>
         </div>
+        <div class="reg-container">
         <i class="mdi mdi-calendar"></i>
         <span class="separator">|</span>
         <span>{{ t('registered') }} {{ profile.registrationDate }}</span>
-        <button class="edit-profile-button">
+      </div>
+      <div class="button-container">  
+      <button class="edit-profile-button button-primary">
           {{ t('editProfile') }}
         </button>
-        <button @click="updateUserName">Update Username</button>
+        <button class="button-secondary" @click="updateUserName">Update Username</button>
+      </div>
         <div class="about-section">
-          <h2>{{ t('about') }}</h2>
+          <h4>{{ t('about') }}</h4>
           <i class="mdi mdi-map-marker"></i>
           <span>{{ profile.location }}</span>
+        
           <div class="profile-details">
             Hello, this is my profile. I like to rent things now and then. Im
             very friendly. Bye
@@ -144,6 +149,11 @@
 </template>
 
 <style scoped>
+
+  h1{
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+  }
   .profile-container {
     max-width: 64rem;
     margin: 0 auto;
@@ -174,6 +184,10 @@
   }
 
   .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    align-items: left;
     flex: 1;
   }
 
@@ -185,12 +199,12 @@
   }
 
   .profile-header h1 {
-    font-size: 1.5rem;
+    font-size: 3rem;
     font-weight: bold;
   }
 
-  .edit-profile-button {
-    color: #111827;
+  /* .edit-profile-button {
+    color: black;
     width: 100%;
     border: 2px solid #111827;
     border-radius: 0.5rem;
@@ -200,19 +214,19 @@
     margin-bottom: 1.5rem;
     background: none;
     cursor: pointer;
-  }
+  } */
 
-  .edit-profile-button:hover {
+  /* .edit-profile-button:hover {
     background-color: #f3f4f6;
     color: rgb(99, 99, 99);
-  }
+  } */
 
   .about-section {
     margin-bottom: 1.5rem;
   }
 
-  .about-section h2 {
-    font-size: 1.25rem;
+  .about-section h4 {
+    font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
   }
