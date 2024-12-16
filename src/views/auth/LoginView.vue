@@ -61,13 +61,15 @@
       </form>
 
       <!-- Switch to RegisterView -->
-      <p class="switch-auth">
+       <p class="switch-auth">
         Don't have an account?
 
         <RouterLink :to="{ name: 'register', query: route.query }"
           >Register</RouterLink
         >
       </p>
+
+      
     </div>
   </div>
 </template>
@@ -95,5 +97,9 @@
     black 10px,
     black 20px
   ) 10;
+}
+
+.switch-auth{
+  margin-top: 2rem;
 }
 </style>
