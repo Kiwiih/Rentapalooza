@@ -83,28 +83,28 @@
 </script>
 
 <template>
-  <div>
+  <div v-if="currentUser">
     <button
+      v-if="item.ownerId != currentUser.id"
       @click="bookItem(item)"
       :class="{
         'loading-btn': item && loadingId === item.id,
-        'owned-item-btn': currentUser && item.ownerId === currentUser.id,
-        'need-to-login-btn': !currentUser,
+        'need-to-login-btn': !currentUser
       }"
       :disabled="!item.isAvailable || loadingId === item.id"
     >
       {{ loadingId === item.id ? 'Loading...' : 'Book item' }}
     </button>
+
+    <div v-else class="badge your-item-mark">Your item</div>
   </div>
 </template>
 
 <style scoped>
-  .owned-item-btn {
-    background-color: red;
-    color: white;
-    cursor: not-allowed;
+  .your-item-mark {
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
   }
-
   .need-to-login-btn::before {
     content: 'You need to log in';
     padding: 1rem;
