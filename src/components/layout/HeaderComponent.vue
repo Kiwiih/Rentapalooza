@@ -63,7 +63,7 @@
               @click="goTo('profile')"
               :class="{ active: isActiveDropDownPage('profile') }"
             >
-              My profile {{ route.name }}
+              My profile
             </li>
 
             <li
