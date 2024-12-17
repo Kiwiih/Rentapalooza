@@ -49,6 +49,12 @@
       .map((rental) => {
         const item = userItems.value.find((i) => i.id === rental.itemId) || {}
         const owner = users.value.find((u) => u.id === rental.ownerId) || {}
+        const endDate = new Date(rental.endDate)
+        const todaysDate = new Date()
+        const daysRemaining = 
+          endDate >= todaysDate
+          ? Math.ceil((endDate - todaysDate) / (1000 * 60 * 60 * 24))
+          : 0
         return {
           ...rental,
           isReturnable: isReturnable(item, rental), // this is used for conditional render button.
@@ -61,7 +67,8 @@
           ownerUsername: owner.username || 'Unknown User',
           ownerProfileImage:
             owner.profileImage ||
-            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar'
+            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar',
+            daysRemaining,
         }
       })
       .filter((rental) => rental.itemTitle !== 'Unknown Item')
@@ -145,6 +152,9 @@
         </button>
         <p class="error-message" v-if="error">{{ error }}</p>
         <hr />
+        <p class="daysLeft" v-if="rental.daysRemaining > 0">
+      {{ rental.daysRemaining }} day(s) left on your rental
+      </p>
       </li>
     </ul>
     <ul v-else>
@@ -202,12 +212,22 @@
   }
 
   li {
-    background: var(--color-bg-alt);
+    background: var(--color-bg);
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: box-shadow 0.2s ease;
+    border: 3px solid;
+  border-width: 4px;
+  border-style: solid;
+  border-image: repeating-linear-gradient(
+    45deg,
+    rgb(255, 255, 255),
+    rgb(255, 255, 255) 2px,
+    black 2px,
+    black 4px
+  ) 4;
   }
 
   li:hover {
@@ -250,5 +270,9 @@
   .item-image:hover,
   .avatar:hover {
     transform: scale(1.05);
+  }
+
+  .daysLeft{
+    color: var(--color-accent-light);
   }
 </style>
