@@ -9,7 +9,7 @@
 
   const props = defineProps(['item'])
 
-  // Använder composables
+  //  Använder composables
   const { items, getItems, updateItems } = useItems()
   const { rentals, addRental, loading, error } = useRentals()
 

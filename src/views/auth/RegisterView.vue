@@ -60,7 +60,7 @@
           required
         />
 
-        <!-- Confirm pwd Input -->
+        <!-- Confirm  pwd Input -->
         <input
           type="password"
           v-model="confirmPassword"
@@ -92,32 +92,32 @@
 </template>
 
 <style scoped>
-.auth-wrapper{
-  background: none;
-  height: 100%;
-  margin: auto;
-}
+  .auth-wrapper {
+    background: none;
+    height: 100%;
+    margin: auto;
+  }
 
-.auth-box{
-  width:50vw;
+  .auth-box {
+    width: 50vw;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  border: 3px solid;
-  border-width: 10px;
-  border-style: solid;
-  border-image: repeating-linear-gradient(
-    45deg,
-    rgb(255, 255, 255),
-    rgb(255, 255, 255) 10px,
-    black 10px,
-    black 20px
-  ) 10;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border: 3px solid;
+    border-width: 10px;
+    border-style: solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        rgb(255, 255, 255),
+        rgb(255, 255, 255) 10px,
+        black 10px,
+        black 20px
+      )
+      10;
+  }
 
-.switch-auth{
-  margin-top: 2rem;
-}
-
+  .switch-auth {
+    margin-top: 2rem;
+  }
 </style>
