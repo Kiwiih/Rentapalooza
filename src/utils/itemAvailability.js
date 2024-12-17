@@ -1,7 +1,15 @@
 //* This script checks if items is available or not depending on if rental date is expired
 // ----------------------------------------------------------------------------------------
 
-const refreshItemAvailability = (items, rentals) => {
+import { useItems } from '@/shared/useItems'
+import { useRentals } from '@/shared/useRentals'
+
+const { rentals } = useRentals()
+const { items, updateItems } = useItems()
+
+const refreshItemAvailability = async () => {
+  let hasChanges = false
+
   // a map holding key-value pair of item ID and the value of their availability
   const availabilityMap = {}
 
@@ -24,14 +32,29 @@ const refreshItemAvailability = (items, rentals) => {
   })
 
   // Update "items" based on what the map contains
-  items.value = items.value.map((item) => {
-    if (availabilityMap[item.id] !== undefined) {
-      item.isAvailable = availabilityMap[item.id]
+  const updatedItems = items.value.map((item) => {
+    if (
+      availabilityMap[item.id] !== undefined &&
+      item.isAvailable !== availabilityMap[item.id]
+    ) {
+      hasChanges = true
+      return { ...item, isAvailable: availabilityMap[item.id] }
     }
     return item
   })
 
-  return items.value
+  // If there's any expired rental it will be as a value
+  const result = hasChanges ? updatedItems : null
+
+  // If it's a value there will be an update
+  if (result !== null) {
+    items.value = result // Update local state
+    await updateItems(result) // Update API
+    console.log(
+      'a rental has expired and items availability has update',
+      result
+    )
+  }
 }
 
 export default refreshItemAvailability
