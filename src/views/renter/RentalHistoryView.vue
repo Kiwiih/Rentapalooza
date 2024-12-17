@@ -35,6 +35,12 @@
       .map((rental) => {
         const item = userItems.value.find((i) => i.id === rental.itemId) || {}
         const owner = users.value.find((u) => u.id === rental.ownerId) || {}
+        const endDate = new Date(rental.endDate)
+        const todaysDate = new Date()
+        const daysRemaining = 
+          endDate >= todaysDate
+          ? Math.ceil((endDate - todaysDate) / (1000 * 60 * 60 * 24))
+          : 0
         return {
           ...rental,
           itemTitle: item.title || 'Unknown Item',
@@ -46,7 +52,8 @@
           ownerUsername: owner.username || 'Unknown User',
           ownerProfileImage:
             owner.profileImage ||
-            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar'
+            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar',
+            daysRemaining,
         }
       })
       .filter((rental) => rental.itemTitle !== 'Unknown Item')
@@ -121,6 +128,9 @@
         </div>
         <p>Total cost: {{ rental.price }} SEK</p>
         <hr />
+        <p class="daysLeft" v-if="rental.daysRemaining > 0">
+      {{ rental.daysRemaining }} day(s) left on your rental
+      </p>
       </li>
     </ul>
     <ul v-else>
@@ -226,5 +236,9 @@
   .item-image:hover,
   .avatar:hover {
     transform: scale(1.05);
+  }
+
+  .daysLeft{
+    color: var(--color-accent-light);
   }
 </style>
