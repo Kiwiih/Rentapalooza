@@ -61,7 +61,7 @@
           <ul v-if="showDropdown" class="dropdown-menu">
             <li
               @click="goTo('profile')"
-              :class="{ active: isActiveDropDownPage('profile') }"
+              :class="{ active: isActiveDropDownPage('profileView') }"
             >
               My profile
             </li>
@@ -80,6 +80,7 @@
               My items
             </li>
             <hr />
+
             <li @click="handleLogout">Log out</li>
           </ul>
         </div>

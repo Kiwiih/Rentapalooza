@@ -1,14 +1,13 @@
 <script setup>
   import { ref, onMounted, computed } from 'vue'
+  import { useRouter } from 'vue-router'
   import { useAuth } from '@/shared/useAuth'
   //Get user who is logged in
-  const { currentUser, updateUser } = useAuth()
-
-  const updateUserName = () => {
-    const updatedFields = {
-      username: 'päronet'
-    }
-    updateUser(currentUser.value.id, updatedFields)
+  const { currentUser } = useAuth()
+  const router = useRouter()
+  // Function to redirect to edit profile page
+  const redirectToEditProfile = () => {
+    router.push({ name: 'editProfile', params: { id: currentUser.value.id } })
   }
 
   //Find where user is located
@@ -44,9 +43,9 @@
       userLocation.value = null
     }
   }
-
+  // Start fetching location when component is mounted
   onMounted(fetchLocation)
-  //Format date so it shows up in the format "Month Year"
+  //Format date so it shows up in the format "January 2022"
   function formatDate(dateString) {
     const [year, month] = dateString.split('T')[0].split('-')
     const monthNames = [
@@ -65,31 +64,32 @@
     ]
     return `${monthNames[parseInt(month) - 1]} ${year}`
   }
-
+  // Get date of registration and use it to format it
   const inputDate = currentUser.value.registered
+  // Object to hold profile data
   const profile = {
     username: currentUser.value.username,
+    bio: currentUser.value.bio,
     location: userLocation,
     registrationDate: formatDate(inputDate),
     imageUrl:
-      currentUser.value.profileImg ||
+      currentUser.value.picture ||
       'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
   }
-
+  // Function to get translations
   const t = (key) =>
     ({
       editProfile: 'Edit profile',
-      about: 'About',
       registered: 'Joined',
       listings: 'Items For Rent',
       reviews: 'Reviews'
     })[key]
-
+  // Array with different tabs to switch between
   const tabs = [
     { id: 'listings', label: t('listings') },
     { id: 'reviews', label: t('reviews') }
   ]
-
+  // Holds the active tab
   const activeTab = ref('listings')
 </script>
 
@@ -102,34 +102,31 @@
           <img :src="profile.imageUrl" :alt="profile.username" />
         </div>
       </div>
-
       <!-- Profile Info -->
       <div class="profile-info">
         <div class="profile-header">
           <h1>{{ profile.username }}</h1>
         </div>
         <div class="reg-container">
-        <i class="mdi mdi-calendar"></i>
-        <span class="separator">|</span>
-        <span>{{ t('registered') }} {{ profile.registrationDate }}</span>
-      </div>
-      <div class="button-container">  
-      <button class="edit-profile-button button-primary">
-          {{ t('editProfile') }}
-        </button>
-        <button class="button-secondary" @click="updateUserName">Update Username</button>
-      </div>
+          <i class="mdi mdi-calendar"></i>
+          <span class="separator">|</span>
+          <span>{{ t('registered') }} {{ profile.registrationDate }}</span>
+        </div>
+        <div class="button-container">
+          <button
+            @click="redirectToEditProfile"
+            class="edit-profile-button button-primary"
+          >
+            {{ t('editProfile') }}
+          </button>
+        </div>
         <div class="about-section">
-          <h4>{{ t('about') }}</h4>
+          <h4>About</h4>
           <i class="mdi mdi-map-marker"></i>
           <span>{{ profile.location }}</span>
-        
-          <div class="profile-details">
-            Hello, this is my profile. I like to rent things now and then. Im
-            very friendly. Bye
-          </div>
+          <hr />
+          <div class="profile-details">{{ profile.bio }}</div>
         </div>
-
         <!-- Tabs -->
         <div class="tabs-container">
           <nav class="tabs-nav">
@@ -149,8 +146,11 @@
 </template>
 
 <style scoped>
-
-  h1{
+  hr {
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+  h1 {
     font-size: 4rem;
     margin-bottom: 0.5rem;
   }
@@ -186,7 +186,7 @@
   .profile-info {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: 0.5rem;
     align-items: left;
     flex: 1;
   }
@@ -202,25 +202,6 @@
     font-size: 3rem;
     font-weight: bold;
   }
-
-  /* .edit-profile-button {
-    color: black;
-    width: 100%;
-    border: 2px solid #111827;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    font-weight: 500;
-    transition: background-color 0.3s;
-    margin-bottom: 1.5rem;
-    background: none;
-    cursor: pointer;
-  } */
-
-  /* .edit-profile-button:hover {
-    background-color: #f3f4f6;
-    color: rgb(99, 99, 99);
-  } */
-
   .about-section {
     margin-bottom: 1.5rem;
   }
