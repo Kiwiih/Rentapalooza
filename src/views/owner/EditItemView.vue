@@ -18,6 +18,18 @@
   const showMessage = ref(false);
   const isLoading = ref(false);
 
+  const categories = [
+  "Vehicles",
+  "Real Estate",
+  "Home & Living",
+  "Electronics",
+  "Leisure & Hobby",
+  "Jobs",
+  "Business",
+  "Personal Items",
+  "Other"
+];
+
   const handleSave = async (item) => {
   try {
   saveChanges(item.id)
@@ -53,6 +65,19 @@
       console.error('Item ej hittad :()')
     }
   }
+
+      const toggleCategory = (category) => {
+      const index = item.value.category.indexOf(category);
+      if (index > -1) {
+        // Kategorin är redan vald, ta bort den
+        item.value.category.splice(index, 1);
+      } else {
+        // Lägg till kategorin om den inte finns
+        item.value.category.push(category);
+      }
+    };
+
+
 
   //varaibler så jhag slipper repetera kod i savechanges och deletefunktionerna
   const url = import.meta.env.VITE_API_ITEMS_URL;
@@ -110,7 +135,7 @@
       <input v-model="item.description" placeholder="Description..." />
       <input v-model="item.price" placeholder="Price..." />
       <!-- SEKTION för BILDER -->
-      <h3>Bilder</h3>
+      <h3>Edit images</h3>
       <div v-for="(image, index) in item.images" :key="index">
         <input v-model="item.images[index]" placeholder="Image url..." />
       </div>
@@ -120,6 +145,23 @@
         placeholder="url for new picture "
       /> -->
       <b><p>Leave the url-input blank to delete an image 🐨</p></b>
+
+      <h2 class="categoryH2">Edit categories</h2>
+    <div class="categoryDiv">
+      <div v-for="category in categories" :key="category">
+        <label>
+          <input
+            type="checkbox"
+            :value="category"
+            :checked="item.category.includes(category)"
+            @change="toggleCategory(category)"
+          />
+          {{ category }}
+        </label>
+      </div>
+    </div>
+
+
       <div class="save-and-delete">
         <button @click="handleSave(item)" :class="{ 'loading-btn': isLoading }">spara</button>
 
@@ -193,5 +235,16 @@
   .message {
   color: var(--color-success);
   text-align: end;
+}
+
+.categoryDiv {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.categoryH2 {
+  margin: 1.5rem 0 0 0;
 }
 </style>
