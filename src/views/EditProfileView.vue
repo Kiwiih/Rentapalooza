@@ -2,22 +2,27 @@
   import { ref, computed } from 'vue'
   import { useAuth } from '@/shared/useAuth'
   import { useRouter } from 'vue-router'
-
-  const router = useRouter()
+  //Get user who is logged in
   const { currentUser, updateUser } = useAuth()
+  const router = useRouter()
+  // Function to redirect to profile page
   const goToProfile = () => {
     router.push('/profile/view')
   }
+  // Variables to hold user data
   const username = ref(currentUser.value.username)
   const bio = ref(currentUser.value.bio || '')
   const imageUrl = ref(
     currentUser.value.picture ||
       'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
   )
+  // States to check if user is editing or not
   const isEditing = ref(false)
+  // State to check if site is loading or not
   const isLoading = ref(false)
+  // State to hold error message
   const errorMessage = ref('')
-
+  // Function to update user profile
   const updateProfile = async () => {
     isLoading.value = true
     errorMessage.value = ''
@@ -36,7 +41,7 @@
       isLoading.value = false
     }
   }
-
+  // Function to get translations
   const t = (key) =>
     ({
       edit: 'Edit',
@@ -64,7 +69,6 @@
           {{ isEditing ? t('save') : t('edit') }}
         </button>
       </div>
-
       <div class="profile-body">
         <div class="profile-image-container">
           <div class="profile-image">

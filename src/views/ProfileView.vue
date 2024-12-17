@@ -5,7 +5,7 @@
   //Get user who is logged in
   const { currentUser } = useAuth()
   const router = useRouter()
-
+  // Function to redirect to edit profile page
   const redirectToEditProfile = () => {
     router.push({ name: 'editProfile', params: { id: currentUser.value.id } })
   }
@@ -43,9 +43,9 @@
       userLocation.value = null
     }
   }
-
+  // Start fetching location when component is mounted
   onMounted(fetchLocation)
-  //Format date so it shows up in the format "Month Year"
+  //Format date so it shows up in the format "January 2022"
   function formatDate(dateString) {
     const [year, month] = dateString.split('T')[0].split('-')
     const monthNames = [
@@ -64,8 +64,9 @@
     ]
     return `${monthNames[parseInt(month) - 1]} ${year}`
   }
-
+  // Get date of registration and use it to format it
   const inputDate = currentUser.value.registered
+  // Object to hold profile data
   const profile = {
     username: currentUser.value.username,
     bio: currentUser.value.bio,
@@ -75,7 +76,7 @@
       currentUser.value.picture ||
       'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
   }
-
+  // Function to get translations
   const t = (key) =>
     ({
       editProfile: 'Edit profile',
@@ -83,14 +84,13 @@
       listings: 'Items For Rent',
       reviews: 'Reviews'
     })[key]
-
+  // Array with different tabs to switch between
   const tabs = [
     { id: 'listings', label: t('listings') },
     { id: 'reviews', label: t('reviews') }
   ]
-
+  // Holds the active tab
   const activeTab = ref('listings')
-  console.log(currentUser.value)
 </script>
 
 <template>
@@ -102,7 +102,6 @@
           <img :src="profile.imageUrl" :alt="profile.username" />
         </div>
       </div>
-
       <!-- Profile Info -->
       <div class="profile-info">
         <div class="profile-header">
@@ -125,10 +124,9 @@
           <h4>About</h4>
           <i class="mdi mdi-map-marker"></i>
           <span>{{ profile.location }}</span>
-
+          <hr />
           <div class="profile-details">{{ profile.bio }}</div>
         </div>
-
         <!-- Tabs -->
         <div class="tabs-container">
           <nav class="tabs-nav">
@@ -148,6 +146,10 @@
 </template>
 
 <style scoped>
+  hr {
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
   h1 {
     font-size: 4rem;
     margin-bottom: 0.5rem;
