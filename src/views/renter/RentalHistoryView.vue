@@ -6,10 +6,11 @@
   import { useItems } from '@/shared/useItems'
   import { useAuth } from '@/shared/useAuth'
   import { useRentals } from '@/shared/useRentals'
+  import handleUnbookItem from '@/utils/unbookItem'
   // Destruct the functions we need
   const { items, getItems } = useItems()
   const { users, currentUser, fetchUsers } = useAuth()
-  const { rentals, fetchRentals } = useRentals()
+  const { rentals, fetchRentals, updateRental } = useRentals()
   // Add a loading state
   const loading = ref(true)
   // Add a message if the are no bookings to show
@@ -29,6 +30,12 @@
     if (!items.value.length || !currentUser.value) return []
     return items.value.filter((item) => item.renterId === currentUser.value.id)
   })
+
+  const isReturnable = (item, rental) => {
+    const today = new Date()
+    const endDate = new Date(rental.endDate)
+    return !item.isAvailable && endDate >= today
+  }
   // Combine all data into a combined list for easy rendering
   const combinedRentals = computed(() => {
     return rentals.value
@@ -37,6 +44,7 @@
         const owner = users.value.find((u) => u.id === rental.ownerId) || {}
         return {
           ...rental,
+          isReturnable: isReturnable(item, rental),
           itemTitle: item.title || 'Unknown Item',
           itemImage:
             Array.isArray(item.images) && item.images.length > 0
@@ -56,7 +64,7 @@
   const selectedFilter = ref('all')
   // Filter the items based on if they are upcoming or past by comparing today's date
   const filteredRentals = computed(() => {
-    const baseList = combinedRentals.value
+    const baseList = combinedRentals.value.reverse()
     switch (selectedFilter.value) {
       case 'past':
         return baseList.filter((rental) => new Date(rental.endDate) < today)
@@ -120,6 +128,10 @@
           <p>{{ rental.ownerUsername }}</p>
         </div>
         <p>Total cost: {{ rental.price }} SEK</p>
+
+        <button v-if="rental.isReturnable" @click="handleUnbookItem(rental)">
+          Return Item
+        </button>
         <hr />
       </li>
     </ul>
