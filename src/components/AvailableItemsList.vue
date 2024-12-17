@@ -91,7 +91,7 @@
   <BarForSearch @updateSearchQuery="handleSearchQueryUpdate" />
   <!-- {{ filteredItems }} -->
 
-  <div>
+  <div class="holder">
     <!-- Rendera Items -->
     <hr />
     <ul v-if="showNoItemsMessage === true">
@@ -124,6 +124,11 @@
 </template>
 
 <style scoped>
+  .holder{
+    width: 75vw;
+    padding: 1rem;
+  }
+
   hr {
     border-width: 2px;
     border-style: solid;
@@ -139,5 +144,6 @@
 
   ul {
     list-style-type: none;
+    width: 100%;
   }
 </style>
