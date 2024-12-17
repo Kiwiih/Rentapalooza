@@ -1,3 +1,5 @@
+<!-- RentalHistoryView.vue -->
+
 <script setup>
   // Emil Högberg
 
@@ -10,7 +12,10 @@
   // Destruct the functions we need
   const { items, getItems } = useItems()
   const { users, currentUser, fetchUsers } = useAuth()
-  const { rentals, fetchRentals, updateRental } = useRentals()
+  const { rentals, fetchRentals, error } = useRentals()
+  // I had to use loading like this because there's already an other "loading" variable
+  const rentalsLoading = useRentals().loading
+
   // Add a loading state
   const loading = ref(true)
   // Add a message if the are no bookings to show
@@ -31,11 +36,13 @@
     return items.value.filter((item) => item.renterId === currentUser.value.id)
   })
 
+  // This checks if item is enable to be returned (unbooked)
   const isReturnable = (item, rental) => {
     const today = new Date()
     const endDate = new Date(rental.endDate)
     return !item.isAvailable && endDate >= today
   }
+
   // Combine all data into a combined list for easy rendering
   const combinedRentals = computed(() => {
     return rentals.value
@@ -44,7 +51,7 @@
         const owner = users.value.find((u) => u.id === rental.ownerId) || {}
         return {
           ...rental,
-          isReturnable: isReturnable(item, rental),
+          isReturnable: isReturnable(item, rental), // this is used for conditional render button.
           itemTitle: item.title || 'Unknown Item',
           itemImage:
             Array.isArray(item.images) && item.images.length > 0
@@ -129,9 +136,14 @@
         </div>
         <p>Total cost: {{ rental.price }} SEK</p>
 
-        <button v-if="rental.isReturnable" @click="handleUnbookItem(rental)">
+        <button
+          :class="{ 'loading-btn': rentalsLoading }"
+          v-if="rental.isReturnable"
+          @click="handleUnbookItem(rental)"
+        >
           Return Item
         </button>
+        <p class="error-message" v-if="error">{{ error }}</p>
         <hr />
       </li>
     </ul>
