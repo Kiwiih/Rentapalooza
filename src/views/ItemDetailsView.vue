@@ -37,7 +37,8 @@
 // Check if selectedItem is null or undefined and send to 404 page if that's the case.
   watch(selectedItem, (newItem) => {
     if (!newItem) {
-      router.push("/404")
+      sessionStorage.setItem("fromInvalidLink", "true")
+      router.replace("/404")
     }
   })
 
