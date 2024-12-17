@@ -4,6 +4,12 @@
   import BarForSearch from '@/components/BarForSearch.vue'
 
   const { items, getItems } = useItems()
+  
+   // function that reverse any array you want
+   const reverseArray = (arr) => {
+    return arr.slice().reverse()
+  }
+  
   getItems()
 
   const searchQuery = ref('')
@@ -23,11 +29,11 @@
         </section>
 
         <section class="featured-items">
-          <h3>Featured Items ⇩</h3>
+          <h3>Latest listings ⇩</h3>
           <div class="item-grid">
            
             <div
-              v-for="item in items.slice(0, 4)"
+              v-for="item in reverseArray(items).slice(0, 4)"
               :key="item.id"
               class="item-card"
             >
