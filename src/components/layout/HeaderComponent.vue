@@ -51,7 +51,7 @@
             {{ currentUser.username }} ▼
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
-            <li @click="goTo('profileView')">My profile</li>
+            <li @click="goTo('profile')">My profile</li>
 
             <li @click="goTo('rentalHistory')">My bookings</li>
 

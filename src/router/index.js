@@ -41,14 +41,13 @@ const router = createRouter({
       children: [
         {
           path: 'view',
-          name: 'profileView',
+          name: 'profile',
           component: ProfileView
         },
         {
           path: 'edit/:id',
           name: 'editProfile',
-          component: EditProfileView,
-          props: true
+          component: EditProfileView
         }
       ],
       meta: { requiresAuth: true }
