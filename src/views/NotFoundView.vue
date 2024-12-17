@@ -9,7 +9,18 @@ const goToHome = () => {
   }
 
 const goBack = () => {
-    router.back();
+  // Check if user came from a broken link
+  const cameFromInvalidLink = sessionStorage.getItem("fromInvalidLink")
+
+if (cameFromInvalidLink) {
+  // If user came from invalid link, send to /items
+  router.replace("/items")
+  // Remove from session storage
+  sessionStorage.removeItem("fromInvalidLink")
+} else { 
+  // if not then go back one step in history.
+  router.back()
+}
 }
 
 </script>
