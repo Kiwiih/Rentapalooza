@@ -18,6 +18,7 @@ export const useRentals = () => {
         }
       })
       rentals.value = response.data.record.rentals || []
+      console.log('Fetched Rentals successfully')
     } catch (err) {
       error.value = err.message || 'An error occurred while fetching rentals.'
       console.error(err)
@@ -48,6 +49,7 @@ export const useRentals = () => {
       )
 
       rentals.value = response.data.record.rentals
+      console.log('Added Rental successfully')
     } catch (err) {
       error.value = err.message || 'An error occurred while adding the rental.'
       console.error(err)
@@ -94,7 +96,7 @@ export const useRentals = () => {
       )
 
       rentals.value = await response.data.record.rentals
-      console.log('Rental updated successfully')
+      console.log('Updated Rental successfully')
     } catch (err) {
       error.value = err.message || 'A problem occured while updating rentals'
       console.error(err)
