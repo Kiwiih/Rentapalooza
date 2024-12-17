@@ -1,9 +1,10 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
-  import { useRouter } from 'vue-router'
+  import { useRouter, useRoute } from 'vue-router'
   import { ref } from 'vue'
 
   const router = useRouter()
+  const route = useRoute()
   const { currentUser, logout } = useAuth()
 
   const goToHome = () => {
@@ -21,6 +22,12 @@
     showDropdown.value = false
   }
 
+  //håller koll på de alternativet i dropwodnen som är aktivt så de går att styla.
+  const isActiveDropDownPage = (routeName) => {
+    //jämför rutten med ruttnamnet(parametern). Om det är samma så return true. annars fales
+    return route.name === routeName
+  }
+
   const handleLogout = () => {
     logout()
     showDropdown.value = false
@@ -34,6 +41,7 @@
         src="../../assets/images/rentapaloozasign.png"
         alt="Rentapalooza"
         @click="goToHome"
+        class="rentaLogo"
       />
 
       <!-- detta syns alltid -->
@@ -51,11 +59,28 @@
             {{ currentUser.username }} ▼
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
-            <li @click="goTo('profile')">My profile</li>
+            <li
+              @click="goTo('profile')"
+              :class="{ active: isActiveDropDownPage('profileView') }"
+            >
+              My profile
+            </li>
 
-            <li @click="goTo('rentalHistory')">My bookings</li>
+            <li
+              @click="goTo('rentalHistory')"
+              :class="{ active: isActiveDropDownPage('rentalHistory') }"
+            >
+              My bookings
+            </li>
 
-            <li @click="goTo('myItems')">My items</li>
+            <li
+              @click="goTo('myItems')"
+              :class="{ active: isActiveDropDownPage('myItems') }"
+            >
+              My items
+            </li>
+            <hr />
+
             <li @click="handleLogout">Log out</li>
           </ul>
         </div>
@@ -155,5 +180,9 @@
 
   .active {
     background-color: yellow;
+  }
+
+  .rentaLogo {
+    cursor: pointer;
   }
 </style>

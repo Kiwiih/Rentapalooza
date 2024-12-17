@@ -19,6 +19,12 @@
   const handleRegister = () => {
     error.value = ''
 
+    // Check for spaces in username
+  if (/\s/.test(username.value)) {
+    error.value = 'Username cannot contain spaces!'
+    return
+  }
+  
     if (password.value !== confirmPassword.value) {
       error.value = 'Passwords do not match!'
       return

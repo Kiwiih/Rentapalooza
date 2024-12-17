@@ -74,6 +74,7 @@
   }
 
   .head-container {
+    width: 100%;
     text-align: center;
     margin-top: 1rem;
     display: flex;
@@ -90,5 +91,6 @@
 
   .item-list-container {
     padding: 1rem;
+    width: 100%;
   }
 </style>

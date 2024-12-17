@@ -42,8 +42,11 @@ const generateId = () => {
 }
 
 const handleSubmit = async () => {
+
+  inputData.images = inputData.images.filter(image => image.trim() !== "");
   inputData.id = generateId();
-  console.log("New item:", inputData);
+  
+  //console.log("New item:", inputData);
 
   const updatedItems = [...items.value, { ...inputData }];
 
