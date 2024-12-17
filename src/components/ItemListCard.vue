@@ -80,7 +80,7 @@
           <button @click="redirectToDetailView" class="button-secondary">
             Read More
           </button>
-          <BookingButton :item="item" />
+          <BookingButton v-if="currentUser.id" :item="item" />
         </div>
       </div>
     </div>
