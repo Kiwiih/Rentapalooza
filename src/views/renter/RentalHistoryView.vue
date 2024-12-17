@@ -188,12 +188,22 @@
   }
 
   li {
-    background: var(--color-bg-alt);
+    background: var(--color-bg);
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: box-shadow 0.2s ease;
+    border: 3px solid;
+  border-width: 4px;
+  border-style: solid;
+  border-image: repeating-linear-gradient(
+    45deg,
+    rgb(255, 255, 255),
+    rgb(255, 255, 255) 2px,
+    black 2px,
+    black 4px
+  ) 4;
   }
 
   li:hover {
