@@ -34,6 +34,7 @@
         src="../../assets/images/rentapaloozasign.png"
         alt="Rentapalooza"
         @click="goToHome"
+        class="rentaLogo"
       />
 
       <!-- detta syns alltid -->
@@ -155,5 +156,9 @@
 
   .active{
     background-color: yellow;
+  }
+
+  .rentaLogo {
+    cursor: pointer;
   }
 </style>
