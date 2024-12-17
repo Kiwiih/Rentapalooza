@@ -12,6 +12,7 @@
   // Variables to hold user data
   const username = ref(currentUser.value.username)
   const bio = ref(currentUser.value.bio || '')
+  const email = ref(currentUser.value.email)
   const imageUrl = ref(
     currentUser.value.picture ||
       'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
@@ -29,6 +30,7 @@
     try {
       const updatedFields = {
         username: username.value,
+        email: email.value,
         bio: bio.value,
         picture: imageUrl.value
       }
@@ -47,6 +49,7 @@
       edit: 'Edit',
       save: 'Save',
       username: 'Username',
+      email: 'Email',
       about: 'About Me',
       profileSettings: 'Profile Settings',
       imageUrl: 'Profile Image URL'
@@ -96,19 +99,30 @@
               :class="{ editing: isEditing }"
             />
           </div>
+          <div class="profile-info">
+            <div class="input-container">
+              <label :for="t('email')">{{ t('email') }}</label>
+              <input
+                :id="t('email')"
+                v-model="email"
+                :readonly="!isEditing"
+                :class="{ editing: isEditing }"
+                type="email"
+              />
+            </div>
 
-          <div class="input-container">
-            <label :for="t('about')">{{ t('about') }}</label>
-            <textarea
-              :id="t('about')"
-              v-model="bio"
-              :readonly="!isEditing"
-              :class="{ editing: isEditing }"
-            ></textarea>
+            <div class="input-container">
+              <label :for="t('about')">{{ t('about') }}</label>
+              <textarea
+                :id="t('about')"
+                v-model="bio"
+                :readonly="!isEditing"
+                :class="{ editing: isEditing }"
+              ></textarea>
+            </div>
           </div>
         </div>
       </div>
-
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     </div>
   </div>
