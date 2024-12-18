@@ -1,5 +1,6 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
+  import { RouterLink } from 'vue-router'
 
   import BookingButton from './BookingButton.vue'
   import router from '@/router'
@@ -42,9 +43,13 @@
           <small class="renter-information">
             Outhyres by: <br />
             <b>
-              <a href="#" style="text-decoration: none">{{
+              <!-- <a href="#" style="text-decoration: none">{{
                 props.ownerName
-              }}</a>
+              }}</a> -->
+              <RouterLink
+                :to="{ name: 'ownerName', params: { id: item.id } }"
+                >{{ props.ownerName }}</RouterLink
+              >
             </b>
             (Todo: länka profil)
           </small>

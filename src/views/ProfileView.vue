@@ -1,27 +1,25 @@
 <script setup>
-import { useAuth } from '@/shared/useAuth';
-const { currentUser } = useAuth()
-console.log(currentUser)
-
+  import { useAuth } from '@/shared/useAuth'
+  import Review from '../components/Review.vue'
+  const { currentUser } = useAuth()
+  console.log(currentUser)
 </script>
 
 <template>
-    <div>
-        <h2>Welcome {{ currentUser.username }}</h2>
-    </div>  
+  <div>
+    <h2>Welcome {{ currentUser.username }}</h2>
+  </div>
+  <Review />
 </template>
 
 <style scoped>
-
-div{
+  div {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-}
+  }
 
-h2{
-    
+  h2 {
     font-size: 2rem;
     margin-top: 2rem;
     background: yellow;
@@ -30,5 +28,5 @@ h2{
     width: 50%;
     border: 3px solid;
     text-align: center;
-}
+  }
 </style>
