@@ -1,4 +1,5 @@
 <script setup>
+  // Emil Högberg
   import { ref, onMounted, computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuth } from '@/shared/useAuth'
@@ -73,7 +74,7 @@
     location: userLocation,
     registrationDate: formatDate(inputDate),
     imageUrl:
-      currentUser.value.picture ||
+      currentUser.value.profileImg ||
       'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
   }
   // Function to get translations

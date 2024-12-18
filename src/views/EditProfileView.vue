@@ -1,4 +1,5 @@
 <script setup>
+  // Emil Högberg
   import { ref, computed } from 'vue'
   import { useAuth } from '@/shared/useAuth'
   import { useRouter } from 'vue-router'
@@ -14,7 +15,7 @@
   const bio = ref(currentUser.value.bio || '')
   const email = ref(currentUser.value.email)
   const imageUrl = ref(
-    currentUser.value.picture ||
+    currentUser.value.profileImg ||
       'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
   )
   // States to check if user is editing or not
@@ -32,7 +33,7 @@
         username: username.value,
         email: email.value,
         bio: bio.value,
-        picture: imageUrl.value
+        profileImg: imageUrl.value
       }
       await updateUser(currentUser.value.id, updatedFields)
       isEditing.value = false
