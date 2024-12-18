@@ -254,10 +254,6 @@
     cursor: not-allowed;
   }
 
-  .back-button {
-    font-size: small;
-  }
-
   .icon {
     font-size: 1.25rem;
   }
