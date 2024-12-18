@@ -32,6 +32,22 @@
     logout()
     showDropdown.value = false
   }
+
+  // stänger dropdownen vid klick utanför
+  const handleClickOutside = (event) => {
+    if (!event.target.closest('.dropdown')) {
+      showDropdown.value = false;
+    }
+  };
+
+
+  onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+  });
 </script>
 
 <template>
