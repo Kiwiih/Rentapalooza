@@ -1,7 +1,7 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
   import { useRouter, useRoute } from 'vue-router'
-  import { ref } from 'vue'
+  import { ref, onMounted, onBeforeUnmount } from 'vue'
 
   const router = useRouter()
   const route = useRoute()
@@ -32,6 +32,22 @@
     logout()
     showDropdown.value = false
   }
+
+  // stänger dropdownen vid klick utanför
+  const handleClickOutside = (event) => {
+    if (!event.target.closest('.dropdown')) {
+      showDropdown.value = false;
+    }
+  };
+
+
+  onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+  });
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+  });
 </script>
 
 <template>
