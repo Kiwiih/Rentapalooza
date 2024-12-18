@@ -122,11 +122,13 @@
 
     <ul v-if="noPreviousBookingsMessage === true">
       <li>
-        <h3>No bookings to show..</h3>
+        <h3>No bookings to show...</h3>
       </li>
     </ul>
     <ul v-else-if="filteredRentals.length > 0">
       <li v-for="rental in filteredRentals" :key="rental.id">
+        <!-- Active rentals -->
+         <div v-if="rental.daysRemaining > 0">
         <p>{{ rental.startDate }} - {{ rental.endDate }}</p>
         <h2>{{ rental.itemTitle }}</h2>
         <img :src="rental.itemImage" alt="Item Image" class="item-image" />
@@ -151,8 +153,15 @@
         <p class="error-message" v-if="error">{{ error }}</p>
         <hr />
         <p class="daysLeft" v-if="rental.daysRemaining > 0">
-          {{ rental.daysRemaining }} day(s) left on your rental
+        {{ rental.daysRemaining }} day(s) left on your rental
         </p>
+      </div>
+      <!--Expired rentals-->
+      <div v-else>
+        <p>{{ rental.startDate }} - {{ rental.endDate }}</p>
+        <h2>{{ rental.itemTitle }}</h2>
+        <p class="daysLeft">This rent has expired</p>
+      </div>
       </li>
     </ul>
     <ul v-else>
