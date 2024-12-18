@@ -41,15 +41,17 @@
 }
 
 body {
-  font-family: "Poppins", serif;
+  font-family: 'Poppins', serif;
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
 }
 
-h1, h2, h3{
-  font-family: "Mouse Memoirs", sans-serif;
+h1,
+h2,
+h3 {
+  font-family: 'Mouse Memoirs', sans-serif;
   font-size: 2.5rem;
 }
 
@@ -96,7 +98,7 @@ button,
 }
 
 .button-secondary {
-  font-weight:600;
+  font-weight: 600;
   color: #ffffff;
   border: none;
   background-color: var(--color-secondary);
@@ -203,4 +205,7 @@ select.success {
   background-color: color-mix(in srgb, var(--color-info) 15%, transparent);
 }
 
+.back-button {
+  font-size: small;
+}
 /************************************/
