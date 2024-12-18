@@ -2,7 +2,6 @@
 
 <script setup>
   // Emil Högberg
-
   import { ref, computed, onBeforeMount, watch } from 'vue'
   // Import the functions that fetches the data
   import { useItems } from '@/shared/useItems'
@@ -20,6 +19,7 @@
   const loading = ref(true)
   // Add a message if the are no bookings to show
   const noPreviousBookingsMessage = ref(false)
+  // Fetch data before mounting the component
   onBeforeMount(async () => {
     await getItems()
     await fetchRentals()
@@ -35,15 +35,13 @@
     if (!items.value.length || !currentUser.value) return []
     return items.value.filter((item) => item.renterId === currentUser.value.id)
   })
-
   // This checks if item is enable to be returned (unbooked)
   const isReturnable = (item, rental) => {
     const today = new Date()
     const endDate = new Date(rental.endDate)
     return !item.isAvailable && endDate >= today
   }
-
-  // Combine all data into a combined list for easy rendering
+  // Combine all data we need into a combined list to create a new object for each rental/reciep
   const combinedRentals = computed(() => {
     return rentals.value
       .map((rental) => {
@@ -51,10 +49,10 @@
         const owner = users.value.find((u) => u.id === rental.ownerId) || {}
         const endDate = new Date(rental.endDate)
         const todaysDate = new Date()
-        const daysRemaining = 
+        const daysRemaining =
           endDate >= todaysDate
-          ? Math.ceil((endDate - todaysDate) / (1000 * 60 * 60 * 24))
-          : 0
+            ? Math.ceil((endDate - todaysDate) / (1000 * 60 * 60 * 24))
+            : 0
         return {
           ...rental,
           isReturnable: isReturnable(item, rental), // this is used for conditional render button.
@@ -68,7 +66,7 @@
           ownerProfileImage:
             owner.profileImage ||
             'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar',
-            daysRemaining,
+          daysRemaining
         }
       })
       .filter((rental) => rental.itemTitle !== 'Unknown Item')
@@ -228,15 +226,16 @@
     padding: 20px;
     transition: box-shadow 0.2s ease;
     border: 3px solid;
-  border-width: 4px;
-  border-style: solid;
-  border-image: repeating-linear-gradient(
-    45deg,
-    rgb(255, 255, 255),
-    rgb(255, 255, 255) 2px,
-    black 2px,
-    black 4px
-  ) 4;
+    border-width: 4px;
+    border-style: solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        rgb(255, 255, 255),
+        rgb(255, 255, 255) 2px,
+        black 2px,
+        black 4px
+      )
+      4;
   }
 
   li:hover {
@@ -281,7 +280,7 @@
     transform: scale(1.05);
   }
 
-  .daysLeft{
+  .daysLeft {
     color: var(--color-accent-light);
   }
 </style>
