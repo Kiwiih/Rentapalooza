@@ -188,7 +188,7 @@ export const useAuth = () => {
         id: user.id,
         username: user.username,
         email: user.email,
-        picture: user.profileImg,
+        profileImg: user.profileImg,
         bio: user.bio,
         registered: user.createdAt
       }
@@ -200,15 +200,14 @@ export const useAuth = () => {
           id: user.id,
           username: user.username,
           email: user.email,
-          picture: user.profileImg,
+          profileImg: user.profileImg,
           bio: user.bio,
           registered: user.createdAt
           // hashedPwd: user.password
         })
       )
 
-
-      console.log("hela jerrys funktion genomförd")
+      console.log('hela jerrys funktion genomförd')
       //** DIREKTA ANVÄNDAREN EFTER INLOGGNING: */
       // ...om de finns ett itemid i de inskickade queryparameterobjektet..
       if (queryParametersObj && queryParametersObj.itemId) {
