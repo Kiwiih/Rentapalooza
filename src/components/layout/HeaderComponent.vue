@@ -1,7 +1,7 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
   import { useRouter, useRoute } from 'vue-router'
-  import { ref } from 'vue'
+  import { ref, onMounted, onBeforeUnmount } from 'vue'
 
   const router = useRouter()
   const route = useRoute()
