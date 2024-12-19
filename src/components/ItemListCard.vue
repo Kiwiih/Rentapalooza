@@ -1,5 +1,6 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
+  import { RouterLink } from 'vue-router'
 
   import BookingButton from './BookingButton.vue'
   import router from '@/router'

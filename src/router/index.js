@@ -23,11 +23,13 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+
     },
     {
       path: '/items',
       name: 'items',
       component: ItemsView
+
     },
     {
       path: '/items/:id',
@@ -51,6 +53,7 @@ const router = createRouter({
         }
       ],
       meta: { requiresAuth: true }
+
     },
 
     //* Auth routes
