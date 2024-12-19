@@ -66,10 +66,9 @@
         <RouterLink class="nav-link" :to="{ name: 'items' }"
           >LISTINGS</RouterLink
         >
-      </nav>
 
-      <!-- detta syns för en inloggad -->
-      <div class="auth-control" v-if="currentUser">
+
+        <div class="auth-control" v-if="currentUser">
         <div class="dropdown">
           <p @click="toggleDropdown" class="dropdown-toggle">
             {{ currentUser.username }} ▼
@@ -105,6 +104,14 @@
       <RouterLink v-if="!currentUser" :to="{ name: 'login' }"
         ><button class="button-secondary">Login</button></RouterLink
       >
+
+
+
+
+      </nav>
+
+      <!-- detta syns för en inloggad -->
+
     </div>
   </div>
 </template>
@@ -131,7 +138,7 @@
 
   .header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
   }
 
@@ -185,6 +192,11 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
 
+  .dropdown-toggle, .dropdown-menu {
+    font-family: Poppins;
+    font-size: 1rem;
+  }
+
   .dropdown-menu li {
     padding: 10px 15px;
     cursor: pointer;
@@ -200,5 +212,23 @@
 
   .rentaLogo {
     cursor: pointer;
+    position: absolute;
+    left: 1rem;
   }
+
+  .container {
+    max-width: none;
+  }
+
+  @media(max-width: 500px){
+    .header .container {
+      flex-direction: column;
+    }
+
+    .rentaLogo {
+      position: unset;
+    }
+}
+
+
 </style>

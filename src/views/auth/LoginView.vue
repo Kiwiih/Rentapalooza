@@ -102,4 +102,8 @@
 .switch-auth{
   margin-top: 2rem;
 }
+
+@media(max-width: 500px){
+
+}
 </style>
