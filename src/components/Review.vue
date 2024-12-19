@@ -1,5 +1,6 @@
 <script setup>
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, computed } from 'vue'
+  import { useRoute } from 'vue-router'
   import { useReviews } from '../shared/useReviews'
   import { useAuth } from '../shared/useAuth'
   import { v4 as uuidv4 } from 'uuid'
@@ -17,15 +18,13 @@
   //*__________________________________________________________________
 
   const { reviews, fetchReviews, addReview } = useReviews()
-  const { currentUser } = useAuth()
+  const { currentUser, users, fetchUsers } = useAuth()
 
   const showForm = ref(false)
   const newRating = ref(0)
   const commentText = ref('')
-
-  const setRating = (rating) => {
-    newRating.value = rating
-  }
+  // för att få tillgång till route parametrar
+  const route = useRoute()
 
   //basic switch case för att visa stjärnor istället för siffra för existerande reviews rating
   const getRating = computed(() => (rating) => {
@@ -45,17 +44,22 @@
     }
   })
 
+  const renterId = route.params.id
+
   const addNewReview = async () => {
     const newReview = {
       id: uuidv4(),
       rating: newRating.value,
       comment: commentText.value,
-      userId: currentUser.value.id,
-      //Behöver också logik för profilen man är på
-      reviewerId: '05d66035-34f9-40cc-9cfa-d3fc877a7783'
+      //Den som skriver recensionen
+      reviewerId: currentUser.value.id,
+      //Profilen vars sida man är på, den som får reviewn
+      renterId: renterId
     }
     try {
-      await addReview(newReview)
+      const updatedReviews = [...reviews.value, newReview]
+      await addReview(updatedReviews)
+      await fetchReviews()
 
       newRating.value = 0
       commentText.value = ''
@@ -65,13 +69,8 @@
     }
   }
 
-  newRating.value = 0
-  commentText.value = ''
-  showForm.value = false
-
-  onMounted(() => {
-    fetchReviews()
-  })
+  fetchReviews()
+  fetchUsers()
 </script>
 <template>
   <h1>alla små reviews ⭐</h1>
@@ -80,24 +79,24 @@
   <button @click="showForm = false">X</button>
 
   <div v-if="showForm" class="add-review-form">
-    <span
-      v-for="i in 5"
-      :key="i"
-      @click="setRating(i)"
-      :class="{ active: i <= newRating }"
+    <span v-for="(star, index) in 5" :key="index" @click="newRating = index + 1"
+      >⭐</span
     >
-      ⭐
-    </span>
+    <br /><br />
+    {{ newRating }} {{ commentText }}
     <input
       type="text"
       placeholder="Write your comment here..."
-      rows="4"
       v-model="commentText"
     />
     <button @click="addNewReview">SEND</button>
   </div>
+  <!-- ------------------------------------------------>
+  <!-- {{ users }} -->
   <li v-for="review in reviews" :key="review.id">
-    {{ getRating(review.rating) }} <br />
+    {{ users.find((user) => user.id === review.reviewerId)?.username }}
+    {{ getRating(review.rating) }}
+    <br />
     {{ review.comment }}
     {{}}
   </li>

@@ -43,13 +43,9 @@
           <small class="renter-information">
             Outhyres by: <br />
             <b>
-              <!-- <a href="#" style="text-decoration: none">{{
+              <a href="#" style="text-decoration: none">{{
                 props.ownerName
-              }}</a> -->
-              <RouterLink
-                :to="{ name: 'ownerName', params: { id: item.id } }"
-                >{{ props.ownerName }}</RouterLink
-              >
+              }}</a>
             </b>
             (Todo: länka profil)
           </small>

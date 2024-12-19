@@ -18,11 +18,11 @@ export const useReviews = () => {
       console.error(err)
     }
   }
-  const addReview = async (newReview) => {
+  const addReview = async (newReviews) => {
     try {
       await axios.put(
         import.meta.env.VITE_API_REVIEWS_URL,
-        { reviews: newReview },
+        { reviews: newReviews },
         {
           headers: {
             'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
@@ -30,7 +30,7 @@ export const useReviews = () => {
           }
         }
       )
-      reviews.value = newReview
+      reviews.value = newReviews
     } catch (err) {
       console.error(err)
     }
