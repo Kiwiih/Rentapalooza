@@ -28,6 +28,11 @@
     return route.name === routeName
   }
 
+    const isDropdownActive = () => {
+    const activeRoutes = ['profile', 'rentalHistory', 'myItems']
+    return activeRoutes.includes(route.name)
+  }
+
   const handleLogout = () => {
     logout()
     showDropdown.value = false
@@ -69,14 +74,14 @@
 
 
         <div class="auth-control" v-if="currentUser">
-        <div class="dropdown">
+         <div :class="{ dropdown: true, activeDDHead: isDropdownActive() }">
           <p @click="toggleDropdown" class="dropdown-toggle">
             {{ currentUser.username }} ▼
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
             <li
               @click="goTo('profile')"
-              :class="{ active: isActiveDropDownPage('profileView') }"
+            :class="{ active: isActiveDropDownPage('profile') }"
             >
               My profile
             </li>
@@ -122,6 +127,9 @@
     align-items: center;
     gap: 1rem;
     color: black;
+  }
+   .activeDDHead {
+    color: yellow;
   }
 
   img {
@@ -198,6 +206,7 @@
   }
 
   .dropdown-menu li {
+     color: var(--color-text);
     padding: 10px 15px;
     cursor: pointer;
   }
