@@ -83,7 +83,6 @@
 
 .auth-box{
   width:50vw;
-  height: 40vh;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -104,6 +103,11 @@
 }
 
 @media(max-width: 500px){
+
+  .auth-box {
+    width: 80vw;
+    height: 50%;
+  }
 
 }
 </style>
