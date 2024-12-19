@@ -28,6 +28,11 @@
     return route.name === routeName
   }
 
+  const isDropdownActive = () => {
+    const activeRoutes = ['profile', 'rentalHistory', 'myItems']
+    return activeRoutes.includes(route.name)
+  }
+
   const handleLogout = () => {
     logout()
     showDropdown.value = false
@@ -36,18 +41,17 @@
   // stänger dropdownen vid klick utanför
   const handleClickOutside = (event) => {
     if (!event.target.closest('.dropdown')) {
-      showDropdown.value = false;
+      showDropdown.value = false
     }
-  };
-
+  }
 
   onMounted(() => {
-    document.addEventListener('click', handleClickOutside);
-  });
+    document.addEventListener('click', handleClickOutside)
+  })
 
   onBeforeUnmount(() => {
-    document.removeEventListener('click', handleClickOutside);
-  });
+    document.removeEventListener('click', handleClickOutside)
+  })
 </script>
 
 <template>
@@ -70,14 +74,14 @@
 
       <!-- detta syns för en inloggad -->
       <div class="auth-control" v-if="currentUser">
-        <div class="dropdown">
+        <div :class="{ dropdown: true, activeDDHead: isDropdownActive() }">
           <p @click="toggleDropdown" class="dropdown-toggle">
             {{ currentUser.username }} ▼
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
             <li
               @click="goTo('profile')"
-              :class="{ active: isActiveDropDownPage('profileView') }"
+              :class="{ active: isActiveDropDownPage('profile') }"
             >
               My profile
             </li>
@@ -186,6 +190,7 @@
   }
 
   .dropdown-menu li {
+    color: var(--color-text);
     padding: 10px 15px;
     cursor: pointer;
   }
@@ -196,6 +201,11 @@
 
   .active {
     background-color: yellow;
+  }
+
+  .activeDDHead {
+    color: yellow;
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
   .rentaLogo {
