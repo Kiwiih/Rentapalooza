@@ -6,36 +6,57 @@
   import { useRentals } from './shared/useRentals'
   import refreshItemAvailability from '@/utils/itemAvailability'
 
-  const { rentals, fetchRentals } = useRentals()
-  const { items, getItems, updateItems } = useItems()
+  const { fetchRentals } = useRentals()
+  const { getItems, updateItems } = useItems()
 
   onMounted(async () => {
-    // If there's not any items och rentals, then fetch!
-    if (!items.length || !rentals.length) {
-      await getItems()
-      await fetchRentals()
-    }
+    // Fetch on mount
+    await getItems()
+    await fetchRentals()
 
     // update availability of items depend on if rental date has expired
-    updateItems(refreshItemAvailability(items, rentals))
+    await refreshItemAvailability()
   })
 </script>
 
 <template>
   <div class="layout">
     <HeaderComponent />
-    <main class="container container-backdrop">
-      <RouterView />
-    </main>
+    <div class="layout-main">
+      <div class="content-container">
+        <RouterView />
+      </div>
+    </div>
     <FooterComponent />
   </div>
 </template>
 
 <style scoped>
   .layout {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    background-image: url('../src/assets/images/RENTAPOOLZA-BÅDA.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .layout-main {
+    overflow-y: auto; /* Hide vertical scrollbar */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    flex: 1;
+  }
+
+  .content-container {
+    background-color: rgba(255, 255, 255, 0.165);
+    /* mask: linear-gradient(black,black,transparent); */
+    backdrop-filter: blur(5px);
+    margin: 0rem auto;
+    width: clamp(440px, 80vw, 2000px);
+    display: flex;
+    justify-content: center;
+    min-height: 100%;
+    padding: 2rem;
   }
 
   footer {

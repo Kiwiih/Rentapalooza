@@ -2,17 +2,17 @@ import { useAuth } from '@/shared/useAuth'
 import HomeView from '@/views/HomeView.vue'
 import ItemDetailsView from '@/views/ItemDetailsView.vue'
 import ItemsView from '@/views/ItemsView.vue'
-import ProfileView from '@/views/ProfileView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Lazy-loaded views
+const ProfileView = () => import('@/views/ProfileView.vue')
+const EditProfileView = () => import('@/views/EditProfileView.vue')
 const LoginView = () => import('@/views/auth/LoginView.vue')
 const RegisterView = () => import('@/views/auth/RegisterView.vue')
 const CreateItemView = () => import('@/views/owner/CreateItemView.vue')
 const EditItemView = () => import('@/views/owner/EditItemView.vue')
 const MyItemsView = () => import('@/views/owner/MyItemsView.vue')
-const MyRentalsView = () => import('@/views/renter/MyRentalsView.vue')
 const RentalHistoryView = () => import('@/views/renter/RentalHistoryView.vue')
 
 const router = createRouter({
@@ -23,34 +23,37 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
-      // meta: { requiresAuth: true }
+
     },
     {
       path: '/items',
       name: 'items',
       component: ItemsView
-      // meta: { requiresAuth: true }
+
     },
     {
       path: '/items/:id',
       name: 'itemDetails',
       component: ItemDetailsView,
       props: true // För att skicka parametern som prop
-      // meta: { requiresAuth: true }
     },
+
     {
       path: '/profile',
-      name: 'profile',
-      component: ProfileView,
-      props: true,
-      meta: { requiresAuth: true },
       children: [
         {
-          path: 'ownerName',
-          name: 'ownerName',
+          path: 'view',
+          name: 'profile',
           component: ProfileView
+        },
+        {
+          path: 'edit/:id',
+          name: 'editProfile',
+          component: EditProfileView
         }
-      ]
+      ],
+      meta: { requiresAuth: true }
+
     },
 
     //* Auth routes
@@ -98,11 +101,6 @@ const router = createRouter({
     {
       path: '/renter',
       children: [
-        {
-          path: 'my-rentals',
-          name: 'myRentals',
-          component: MyRentalsView
-        },
         {
           path: 'rental-history',
           name: 'rentalHistory',

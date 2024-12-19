@@ -1,32 +1,32 @@
 /* Definiera färgvariabler */
 :root {
   /* Primary colors */
-  --color-primary: #007bff;
+  --color-primary: #2de872;
   --color-primary-light: color-mix(in srgb, var(--color-primary) 70%, white);
   --color-primary-dark: color-mix(in srgb, var(--color-primary) 70%, black);
-  --color-primary-variation: #0056b3;
+  --color-primary-variation: #7275d5;
 
   /* Secondary colors */
-  --color-secondary: #6c757d;
+  --color-secondary: #7275d5;
   --color-secondary-light: color-mix(
     in srgb,
     var(--color-secondary) 70%,
     white
   );
   --color-secondary-dark: color-mix(in srgb, var(--color-secondary) 70%, black);
-  --color-secondary-variation: #575e65;
+  --color-secondary-variation: #898dfe;
 
   /* Accent colors */
-  --color-accent: #ff5722;
-  --color-accent-light: color-mix(in srgb, var(--color-accent) 70%, white);
+  --color-accent: #7275d5;
+  --color-accent-light: #f75afa;
   --color-accent-dark: color-mix(in srgb, var(--color-accent) 70%, black);
-  --color-accent-variation: #cf3f13;
+  --color-accent-variation: #fdebff;
 
   --color-bg: #ffffff;
-  --color-bg-alt: #f8f9fa;
+  --color-bg-alt: #e9e7e9;
   --color-text: #212529;
   --color-text-muted: #6c757d;
-  --color-border: #dee2e6;
+  --color-border: #000000;
   --color-success: #28a745;
   --color-error: #dc3545;
   --color-warning: #ffc107;
@@ -40,33 +40,28 @@
   box-sizing: border-box;
 }
 
-#app {
-  background-image: url(../assets/images/RENTAPOOLZA-BÅDA.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', serif;
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
 }
 
+h1,
+h2,
+h3 {
+  font-family: 'Mouse Memoirs', sans-serif;
+  font-size: 2.5rem;
+}
+
 /* Container */
 .container {
-  width: 100%;
+  width: 100vw;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 16px;
   flex: 1;
-}
-
-.container-backdrop {
-  background-color: rgba(255, 255, 255, 0.165);
-  backdrop-filter: blur(5px);
-  /* s */
 }
 
 /* Buttons */
@@ -75,8 +70,9 @@ button,
   position: relative;
   overflow: hidden;
   display: inline-block;
-  padding: 10px 16px;
-  font-size: 16px;
+  padding: 0.8rem 1.2rem;
+  margin: 0.2rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #ffffff;
   background-color: var(--color-primary);
@@ -102,10 +98,10 @@ button,
 }
 
 .button-secondary {
-  font-weight: normal;
+  font-weight: 600;
   color: #ffffff;
+  border: none;
   background-color: var(--color-secondary);
-
   &:hover {
     background-color: var(--color-secondary-variation);
   }
@@ -209,4 +205,7 @@ select.success {
   background-color: color-mix(in srgb, var(--color-info) 15%, transparent);
 }
 
+.back-button {
+  font-size: small;
+}
 /************************************/

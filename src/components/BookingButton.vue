@@ -84,7 +84,15 @@
 
 <template>
   <div>
+    <div
+      v-if="currentUser && item.ownerId === currentUser.id"
+      class="badge your-item-mark"
+    >
+      Your Item
+    </div>
+
     <button
+      v-else
       @click="bookItem(item)"
       :class="{
         'loading-btn': item && loadingId === item.id,
@@ -99,6 +107,10 @@
 </template>
 
 <style scoped>
+  .your-item-mark {
+    margin-top: 0.5rem;
+    color: var(--color-text-muted);
+  }
   .owned-item-btn {
     background-color: red;
     color: white;

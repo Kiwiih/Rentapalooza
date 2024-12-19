@@ -91,7 +91,7 @@
   <BarForSearch @updateSearchQuery="handleSearchQueryUpdate" />
   <!-- {{ filteredItems }} -->
 
-  <div>
+  <div class="holder">
     <!-- Rendera Items -->
     <hr />
     <ul v-if="showNoItemsMessage === true">
@@ -114,7 +114,7 @@
       </li>
     </ul>
     <ul v-else>
-      loading...
+      Loading...
       <li v-for="index in 3" :key="index">
         <ItemListCardSkeleton />
         <hr />
@@ -124,14 +124,26 @@
 </template>
 
 <style scoped>
+  .holder{
+    width: 75vw;
+    padding: 1rem;
+  }
+
   hr {
-    border: none;
-    border-top: 1px solid var(--color-border);
-    height: 1px;
-    background: none;
+    border-width: 2px;
+    border-style: solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        rgb(255, 255, 255),
+        rgb(255, 255, 255) 2px,
+        black 2px,
+        black 4px
+      )
+      2;
   }
 
   ul {
     list-style-type: none;
+    width: 100%;
   }
 </style>

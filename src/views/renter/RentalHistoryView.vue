@@ -1,19 +1,25 @@
+<!-- RentalHistoryView.vue -->
+
 <script setup>
   // Emil Högberg
-
   import { ref, computed, onBeforeMount, watch } from 'vue'
   // Import the functions that fetches the data
   import { useItems } from '@/shared/useItems'
   import { useAuth } from '@/shared/useAuth'
   import { useRentals } from '@/shared/useRentals'
+  import handleUnbookItem from '@/utils/unbookItem'
   // Destruct the functions we need
   const { items, getItems } = useItems()
   const { users, currentUser, fetchUsers } = useAuth()
-  const { rentals, fetchRentals } = useRentals()
+  const { rentals, fetchRentals, error } = useRentals()
+  // I had to use loading like this because there's already an other "loading" variable
+  const rentalsLoading = useRentals().loading
+
   // Add a loading state
   const loading = ref(true)
   // Add a message if the are no bookings to show
   const noPreviousBookingsMessage = ref(false)
+  // Fetch data before mounting the component
   onBeforeMount(async () => {
     await getItems()
     await fetchRentals()
@@ -29,14 +35,27 @@
     if (!items.value.length || !currentUser.value) return []
     return items.value.filter((item) => item.renterId === currentUser.value.id)
   })
-  // Combine all data into a combined list for easy rendering
+  // This checks if item is enable to be returned (unbooked)
+  const isReturnable = (item, rental) => {
+    const today = new Date()
+    const endDate = new Date(rental.endDate)
+    return !item.isAvailable && endDate >= today
+  }
+  // Combine all data we need into a combined list to create a new object for each rental/reciep
   const combinedRentals = computed(() => {
     return rentals.value
       .map((rental) => {
         const item = userItems.value.find((i) => i.id === rental.itemId) || {}
         const owner = users.value.find((u) => u.id === rental.ownerId) || {}
+        const endDate = new Date(rental.endDate)
+        const todaysDate = new Date()
+        const daysRemaining =
+          endDate >= todaysDate
+            ? Math.ceil((endDate - todaysDate) / (1000 * 60 * 60 * 24))
+            : 0
         return {
           ...rental,
+          isReturnable: isReturnable(item, rental), // this is used for conditional render button.
           itemTitle: item.title || 'Unknown Item',
           itemImage:
             Array.isArray(item.images) && item.images.length > 0
@@ -46,7 +65,8 @@
           ownerUsername: owner.username || 'Unknown User',
           ownerProfileImage:
             owner.profileImage ||
-            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar'
+            'https://via.placeholder.com/150/CCCCCC/000000?text=Avatar',
+          daysRemaining
         }
       })
       .filter((rental) => rental.itemTitle !== 'Unknown Item')
@@ -56,7 +76,7 @@
   const selectedFilter = ref('all')
   // Filter the items based on if they are upcoming or past by comparing today's date
   const filteredRentals = computed(() => {
-    const baseList = combinedRentals.value
+    const baseList = combinedRentals.value.reverse()
     switch (selectedFilter.value) {
       case 'past':
         return baseList.filter((rental) => new Date(rental.endDate) < today)
@@ -102,11 +122,13 @@
 
     <ul v-if="noPreviousBookingsMessage === true">
       <li>
-        <h3>No bookings to show..</h3>
+        <h3>No bookings to show...</h3>
       </li>
     </ul>
     <ul v-else-if="filteredRentals.length > 0">
       <li v-for="rental in filteredRentals" :key="rental.id">
+        <!-- Active rentals -->
+         <div v-if="rental.daysRemaining > 0">
         <p>{{ rental.startDate }} - {{ rental.endDate }}</p>
         <h2>{{ rental.itemTitle }}</h2>
         <img :src="rental.itemImage" alt="Item Image" class="item-image" />
@@ -120,7 +142,26 @@
           <p>{{ rental.ownerUsername }}</p>
         </div>
         <p>Total cost: {{ rental.price }} SEK</p>
+
+        <button
+          :class="{ 'loading-btn': rentalsLoading }"
+          v-if="rental.isReturnable"
+          @click="handleUnbookItem(rental)"
+        >
+          Return Item
+        </button>
+        <p class="error-message" v-if="error">{{ error }}</p>
         <hr />
+        <p class="daysLeft" v-if="rental.daysRemaining > 0">
+        {{ rental.daysRemaining }} day(s) left on your rental
+        </p>
+      </div>
+      <!--Expired rentals-->
+      <div v-else>
+        <p>{{ rental.startDate }} - {{ rental.endDate }}</p>
+        <h2>{{ rental.itemTitle }}</h2>
+        <p class="daysLeft">This rent has expired</p>
+      </div>
       </li>
     </ul>
     <ul v-else>
@@ -178,12 +219,23 @@
   }
 
   li {
-    background: var(--color-bg-alt);
+    background: var(--color-bg);
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: box-shadow 0.2s ease;
+    border: 3px solid;
+    border-width: 4px;
+    border-style: solid;
+    border-image: repeating-linear-gradient(
+        45deg,
+        rgb(255, 255, 255),
+        rgb(255, 255, 255) 2px,
+        black 2px,
+        black 4px
+      )
+      4;
   }
 
   li:hover {
@@ -226,5 +278,9 @@
   .item-image:hover,
   .avatar:hover {
     transform: scale(1.05);
+  }
+
+  .daysLeft {
+    color: var(--color-accent-light);
   }
 </style>

@@ -3,6 +3,9 @@
   import { useRoute, useRouter } from 'vue-router'
   import axios from 'axios'
 
+  const goToMyItems = () => {
+    router.push('/owner/my-items')
+  }
   // VIKTORS KOD
   import { useItems } from '@/shared/useItems.js'
   // Anropa `useItems` för att få tillgång till `items` och `getItems`
@@ -14,27 +17,38 @@
   //ska avnändas för omderigering
   const router = useRouter()
 
-  const message = ref("");
-  const showMessage = ref(false);
-  const isLoading = ref(false);
+  const message = ref('')
+  const showMessage = ref(false)
+  const isLoading = ref(false)
+
+  const categories = [
+    'Vehicles',
+    'Real Estate',
+    'Home & Living',
+    'Electronics',
+    'Leisure & Hobby',
+    'Jobs',
+    'Business',
+    'Personal Items',
+    'Other'
+  ]
 
   const handleSave = async (item) => {
-  try {
-  saveChanges(item.id)
-  isLoading.value = true;
-  setTimeout(() => {
-    isLoading.value = false;
-    message.value = "Item edited successfully.";
-    showMessage.value = true;
-  }, 1000)
+    try {
+      saveChanges(item.id)
+      isLoading.value = true
+      setTimeout(() => {
+        isLoading.value = false
+        message.value = 'Item edited successfully.'
+        showMessage.value = true
+      }, 1000)
 
-  setTimeout(() => {
-    showMessage.value = false;
-  }, 3000);
- 
-  } catch(err) {
-    console.log("hej error", err)
-  }
+      setTimeout(() => {
+        showMessage.value = false
+      }, 3000)
+    } catch (err) {
+      console.log('hej error', err)
+    }
   }
 
   //item som redigeras
@@ -54,8 +68,19 @@
     }
   }
 
+  const toggleCategory = (category) => {
+    const index = item.value.category.indexOf(category)
+    if (index > -1) {
+      // Kategorin är redan vald, ta bort den
+      item.value.category.splice(index, 1)
+    } else {
+      // Lägg till kategorin om den inte finns
+      item.value.category.push(category)
+    }
+  }
+
   //varaibler så jhag slipper repetera kod i savechanges och deletefunktionerna
-  const url = import.meta.env.VITE_API_ITEMS_URL;
+  const url = import.meta.env.VITE_API_ITEMS_URL
   const headers = {
     'X-Master-Key': import.meta.env.VITE_API_X_MASTER_KEY,
     'Content-Type': 'application/json'
@@ -105,12 +130,32 @@
   <!-- Formulär för att redigera till items -->
   <div v-if="item" class="container">
     <div class="edit-item-div">
+      <button @click="goToMyItems" class="secondary back-button">
+        Back to my items
+      </button>
       <h2>Edit item</h2>
-      <input v-model="item.title" placeholder="Name..." />
+      Title:
+      <input v-model="item.title" placeholder="Title..." />
+      Description:
       <input v-model="item.description" placeholder="Description..." />
+      Price:
       <input v-model="item.price" placeholder="Price..." />
+      <h2 class="categoryH2">Edit categories</h2>
+      <div class="categoryDiv">
+        <div v-for="category in categories" :key="category">
+          <label>
+            <input
+              type="checkbox"
+              :value="category"
+              :checked="item.category.includes(category)"
+              @change="toggleCategory(category)"
+            />
+            {{ category }}
+          </label>
+        </div>
+      </div>
       <!-- SEKTION för BILDER -->
-      <h3>Bilder</h3>
+      <h3>Edit images</h3>
       <div v-for="(image, index) in item.images" :key="index">
         <input v-model="item.images[index]" placeholder="Image url..." />
       </div>
@@ -120,8 +165,11 @@
         placeholder="url for new picture "
       /> -->
       <b><p>Leave the url-input blank to delete an image 🐨</p></b>
+
       <div class="save-and-delete">
-        <button @click="handleSave(item)" :class="{ 'loading-btn': isLoading }">spara</button>
+        <button @click="handleSave(item)" :class="{ 'loading-btn': isLoading }">
+          Save
+        </button>
 
         <button @click="deleteItem(item.id)" class="delete-button">
           <svg
@@ -141,8 +189,8 @@
         </button>
       </div>
       <div v-if="showMessage" class="message">
-      <p>{{ message }}</p>
-    </div>
+        <p>{{ message }}</p>
+      </div>
     </div>
   </div>
   <div v-else>
@@ -164,9 +212,6 @@
     background-color: rgb(183, 54, 54);
   }
 
-  h2 {
-    margin: 1em;
-  }
   svg {
     width: 2em;
     color: black;
@@ -191,7 +236,18 @@
   }
 
   .message {
-  color: var(--color-success);
-  text-align: end;
-}
+    color: var(--color-success);
+    text-align: end;
+  }
+
+  .categoryDiv {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .categoryH2 {
+    margin: 1.5rem 0 0 0;
+  }
 </style>
