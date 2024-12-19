@@ -126,4 +126,13 @@
   margin-top: 2rem;
 }
 
+@media(max-width: 500px){
+
+.auth-box {
+  width: 80vw;
+  height: 50%;
+}
+
+
+}
 </style>

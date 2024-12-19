@@ -52,7 +52,7 @@
     /* mask: linear-gradient(black,black,transparent); */
     backdrop-filter: blur(5px);
     margin: 0rem auto;
-    width: clamp(440px, 80vw, 2000px);
+    width: 80vw;
     display: flex;
     justify-content: center;
     min-height: 100%;
@@ -65,4 +65,13 @@
     padding: 1rem 0;
     text-align: center;
   }
+
+  @media(max-width: 500px){
+
+     .content-container {
+        width: 100%;
+      }
+  
+
+}
 </style>
