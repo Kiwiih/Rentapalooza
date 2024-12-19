@@ -28,6 +28,11 @@
     return route.name === routeName
   }
 
+    const isDropdownActive = () => {
+    const activeRoutes = ['profile', 'rentalHistory', 'myItems']
+    return activeRoutes.includes(route.name)
+  }
+
   const handleLogout = () => {
     logout()
     showDropdown.value = false
@@ -66,18 +71,17 @@
         <RouterLink class="nav-link" :to="{ name: 'items' }"
           >LISTINGS</RouterLink
         >
-      </nav>
 
-      <!-- detta syns för en inloggad -->
-      <div class="auth-control" v-if="currentUser">
-        <div class="dropdown">
+
+        <div class="auth-control" v-if="currentUser">
+         <div :class="{ dropdown: true, activeDDHead: isDropdownActive() }">
           <p @click="toggleDropdown" class="dropdown-toggle">
             {{ currentUser.username }} ▼
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
             <li
               @click="goTo('profile')"
-              :class="{ active: isActiveDropDownPage('profileView') }"
+            :class="{ active: isActiveDropDownPage('profile') }"
             >
               My profile
             </li>
@@ -105,6 +109,14 @@
       <RouterLink v-if="!currentUser" :to="{ name: 'login' }"
         ><button class="button-secondary">Login</button></RouterLink
       >
+
+
+
+
+      </nav>
+
+      <!-- detta syns för en inloggad -->
+
     </div>
   </div>
 </template>
@@ -115,6 +127,9 @@
     align-items: center;
     gap: 1rem;
     color: black;
+  }
+   .activeDDHead {
+    color: yellow;
   }
 
   img {
@@ -131,7 +146,7 @@
 
   .header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
   }
 
@@ -185,7 +200,13 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
 
+  .dropdown-toggle, .dropdown-menu {
+    font-family: Poppins;
+    font-size: 1rem;
+  }
+
   .dropdown-menu li {
+     color: var(--color-text);
     padding: 10px 15px;
     cursor: pointer;
   }
@@ -200,5 +221,23 @@
 
   .rentaLogo {
     cursor: pointer;
+    position: absolute;
+    left: 1rem;
   }
+
+  .container {
+    max-width: none;
+  }
+
+  @media(max-width: 500px){
+    .header .container {
+      flex-direction: column;
+    }
+
+    .rentaLogo {
+      position: unset;
+    }
+}
+
+
 </style>
