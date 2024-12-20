@@ -3,6 +3,7 @@
   import { ref, onMounted, computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuth } from '@/shared/useAuth'
+  import Reviews from '../components/Review.vue'
   const router = useRouter()
   //Get user who is logged in
   const { currentUser, users } = useAuth()
@@ -143,6 +144,7 @@
               {{ tab.label }}
             </button>
           </nav>
+          <Reviews v-if="activeTab === 'reviews'" />
         </div>
       </div>
     </div>
