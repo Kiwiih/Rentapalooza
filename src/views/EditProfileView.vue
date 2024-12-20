@@ -8,7 +8,7 @@
   const router = useRouter()
   // Function to redirect to profile page
   const goToProfile = () => {
-    router.push('/profile/view')
+    router.push({ name: 'profile', params: { id: currentUser.value.id } })
   }
   // Variables to hold user data
   const username = ref(currentUser.value.username)

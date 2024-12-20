@@ -3,14 +3,24 @@
   import { ref, onMounted, computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuth } from '@/shared/useAuth'
-  //Get user who is logged in
-  const { currentUser } = useAuth()
   const router = useRouter()
+  //Get user who is logged in
+  const { currentUser, users } = useAuth()
+  // Get user id from route
+  const params = useRouter().currentRoute.value.params.id
+  // Get user id based on route
+  const selectedUser = computed(() => {
+    return users.value.find((user) => user.id === params)
+  })
+  // Check if user is the owner of the profile
+  const isOwnProfile = computed(() => {
+    return currentUser.value.id === params
+  })
+
   // Function to redirect to edit profile page
   const redirectToEditProfile = () => {
     router.push({ name: 'editProfile', params: { id: currentUser.value.id } })
   }
-
   //Find where user is located
   const userLocation = ref(null)
   const locationError = ref(null)
@@ -65,18 +75,6 @@
     ]
     return `${monthNames[parseInt(month) - 1]} ${year}`
   }
-  // Get date of registration and use it to format it
-  const inputDate = currentUser.value.registered
-  // Object to hold profile data
-  const profile = {
-    username: currentUser.value.username,
-    bio: currentUser.value.bio,
-    location: userLocation,
-    registrationDate: formatDate(inputDate),
-    imageUrl:
-      currentUser.value.profileImg ||
-      'https://www.producemarketguide.com/media/user_RZKVrm5KkV/22476/pears_commodity-page.png'
-  }
   // Function to get translations
   const t = (key) =>
     ({
@@ -93,28 +91,33 @@
   // Holds the active tab
   const activeTab = ref('listings')
 </script>
-
 <template>
   <div class="profile-container">
-    <div class="profile-content">
+    <div v-if="selectedUser != null" class="profile-content">
       <!-- Profile Image -->
       <div class="profile-image-container">
         <div class="profile-image">
-          <img :src="profile.imageUrl" :alt="profile.username" />
+          <img
+            :src="selectedUser.profileImg || selectedUser.picture"
+            :alt="selectedUser.username"
+          />
         </div>
       </div>
       <!-- Profile Info -->
       <div class="profile-info">
-        <div class="profile-header">
-          <h1>{{ profile.username }}</h1>
-        </div>
+        <div class="profile-header"></div>
+        <h2>{{ selectedUser.username }}</h2>
         <div class="reg-container">
           <i class="mdi mdi-calendar"></i>
           <span class="separator">|</span>
-          <span>{{ t('registered') }} {{ profile.registrationDate }}</span>
+          <span
+            >{{ t('registered') }}
+            {{ formatDate(selectedUser.createdAt) }}</span
+          >
         </div>
         <div class="button-container">
           <button
+            v-if="isOwnProfile"
             @click="redirectToEditProfile"
             class="edit-profile-button button-primary"
           >
@@ -124,9 +127,9 @@
         <div class="about-section">
           <h4>About</h4>
           <i class="mdi mdi-map-marker"></i>
-          <span>{{ profile.location }}</span>
+          <span>{{ userLocation }}</span>
           <hr />
-          <div class="profile-details">{{ profile.bio }}</div>
+          <div class="profile-details">{{ selectedUser.bio }}</div>
         </div>
         <!-- Tabs -->
         <div class="tabs-container">
