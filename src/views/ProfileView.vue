@@ -1,17 +1,29 @@
 <script setup>
   // Emil Högberg
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, computed, watch } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuth } from '@/shared/useAuth'
   const router = useRouter()
+
   //Get user who is logged in
   const { currentUser, users } = useAuth()
+
   // Get user id from route
-  const params = useRouter().currentRoute.value.params.id
+  const params = ref(useRouter().currentRoute.value.params.id)
+
   // Get user id based on route
   const selectedUser = computed(() => {
-    return users.value.find((user) => user.id === params)
+    return users.value.find((user) => user.id === params.value)
   })
+
+  // Watch changes in Url params and updates value of params variable
+  watch(
+    () => router.currentRoute.value.params.id,
+    (newId) => {
+      params.value = newId
+    },
+    { immediate: true }
+  )
 
   // Check if user is the owner of the profile
   const isOwnProfile = computed(() => {
