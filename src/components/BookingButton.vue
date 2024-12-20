@@ -110,6 +110,9 @@
   .your-item-mark {
     margin-top: 0.5rem;
     color: var(--color-text-muted);
+    padding: 0.8rem 1.2rem;
+    margin: 0.1rem;
+    font-size: 1rem;
   }
   .owned-item-btn {
     background-color: red;

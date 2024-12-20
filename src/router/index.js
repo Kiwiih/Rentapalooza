@@ -42,18 +42,17 @@ const router = createRouter({
       path: '/profile',
       children: [
         {
-          path: 'view',
+          path: ':id',
           name: 'profile',
           component: ProfileView
         },
         {
           path: 'edit/:id',
           name: 'editProfile',
-          component: EditProfileView
+          component: EditProfileView,
+          meta: { requiresAuth: true }
         }
-      ],
-      meta: { requiresAuth: true }
-
+      ]
     },
 
     //* Auth routes
