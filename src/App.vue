@@ -2,18 +2,19 @@
   import HeaderComponent from './components/layout/HeaderComponent.vue'
   import FooterComponent from './components/layout/FooterComponent.vue'
   import { useItems } from './shared/useItems'
+  import { useAuth } from './shared/useAuth'
   import { onMounted } from 'vue'
   import { useRentals } from './shared/useRentals'
   import refreshItemAvailability from '@/utils/itemAvailability'
 
   const { fetchRentals } = useRentals()
-  const { getItems, updateItems } = useItems()
-
+  const { getItems } = useItems()
+  const { fetchUsers } = useAuth()
   onMounted(async () => {
     // Fetch on mount
     await getItems()
     await fetchRentals()
-
+    await fetchUsers()
     // update availability of items depend on if rental date has expired
     await refreshItemAvailability()
   })
