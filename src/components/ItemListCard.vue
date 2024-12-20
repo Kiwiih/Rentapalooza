@@ -1,6 +1,7 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
   import { ref, watch } from 'vue'
+  import { RouterLink } from 'vue-router'
   import BookingButton from './BookingButton.vue'
   import router from '@/router'
   const props = defineProps(['item', 'ownerName'])
