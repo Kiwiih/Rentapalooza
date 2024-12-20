@@ -1,22 +1,38 @@
 <script setup>
   import { useAuth } from '@/shared/useAuth'
-
+  import { ref, watch } from 'vue'
   import BookingButton from './BookingButton.vue'
   import router from '@/router'
-
   const props = defineProps(['item', 'ownerName'])
+  const { currentUser, users } = useAuth()
+  const owner = ref(null)
 
-  const { currentUser } = useAuth()
+  watch(
+    () => [users.value, props.item.ownerId],
+    () => {
+      if (users.value && props.item.ownerId) {
+        owner.value =
+          users.value.find((user) => user.id === props.item.ownerId) || null
+      }
+    },
+    { immediate: true }
+  )
 
-  const imageError = (event) => {
-    event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
+  const redirectToProfilePage = () => {
+    if (owner.value) {
+      router.push({ name: 'profile', params: { id: owner.value.id } })
+    } else {
+      console.error('Owner not found')
+    }
   }
 
   const redirectToDetailView = () => {
     router.push({ name: 'itemDetails', params: { id: props.item.id } })
   }
+  const imageError = (event) => {
+    event.target.src = '/images/noImage.jpg' // Ange här din fallback-bild
+  }
 </script>
-
 <template>
   <article>
     <div class="img-container">
@@ -40,16 +56,13 @@
 
         <div class="card-body-sidebar">
           <small class="renter-information">
-            For rent by: <br />
-            <b>
-              <a
-                href="#"
-                style="text-decoration: none"
-                aria-label="Visit profile page for user"
-                >{{ props.ownerName }}</a
-              >
+            <p class="owner-text">Owner: <br /></p>
+            <b v-if="owner">
+              <button class="profile-button" @click="redirectToProfilePage">
+                {{ owner.username }}
+              </button>
             </b>
-            (Todo: länka profil)
+            <span v-else>Loading owner...</span>
           </small>
           <p
             :class="
@@ -88,6 +101,28 @@
 </template>
 
 <style scoped>
+  .owner-text {
+    padding-right: 1.5rem;
+  }
+
+  .profile-button {
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--color-secondary-light);
+    border: 1px solid var(--color-secondary);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .profile-button:hover {
+    background-color: var(--color-secondary-dark);
+    color: var(--color-bg);
+  }
+
   article {
     border: 3px solid transparent;
     border-radius: 4px;
