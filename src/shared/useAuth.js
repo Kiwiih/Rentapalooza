@@ -35,7 +35,7 @@ export const useAuth = () => {
         }
       })
       users.value = await response.data.record.users // Update the users list
-      console.log('fetched users succsessfully')
+      console.log('Fetched users successfully')
       console.log()
     } catch (err) {
       error.value = err.message || 'An error occurred while fetching users.'
@@ -91,7 +91,7 @@ export const useAuth = () => {
         }
       )
       users.value = response.data.record.users // Update the users list
-      console.log('Register users succsessfully')
+      console.log('Registered users successfully')
 
       // Automatically Login after register user
       // const login = async (identifier, hashedPassword, queryParametersObj)
