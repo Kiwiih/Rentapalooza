@@ -12,9 +12,13 @@
   const selectedUser = computed(() => {
     return users.value.find((user) => user.id === params)
   })
+
   // Check if user is the owner of the profile
   const isOwnProfile = computed(() => {
-    return currentUser.value.id === params
+    if (currentUser.value) {
+      return currentUser.value.id === selectedUser.value.id
+    }
+    return false
   })
 
   // Function to redirect to edit profile page
