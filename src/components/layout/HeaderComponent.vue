@@ -22,6 +22,10 @@
     showDropdown.value = false
   }
 
+  const goToProfile = () => {
+    router.push({ name: 'profile', params: { id: currentUser.value.id } })
+  }
+
   //håller koll på de alternativet i dropwodnen som är aktivt så de går att styla.
   const isActiveDropDownPage = (routeName) => {
     //jämför rutten med ruttnamnet(parametern). Om det är samma så return true. annars fales
@@ -60,7 +64,7 @@
           </p>
           <ul v-if="showDropdown" class="dropdown-menu">
             <li
-              @click="goTo('profile')"
+              @click="goToProfile"
               :class="{ active: isActiveDropDownPage('profileView') }"
             >
               My profile
