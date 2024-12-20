@@ -165,4 +165,18 @@
   .imageDiv {
     flex-direction: row;
   }
+
+  @media(max-width: 500px){
+
+.pricebook {
+  justify-content: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+
+}
+
 </style>

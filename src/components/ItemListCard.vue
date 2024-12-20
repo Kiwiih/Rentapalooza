@@ -52,7 +52,7 @@
           <h4 @click="redirectToDetailView" class="item-title">
             {{ item.title }}
           </h4>
-          <p>{{ item.description }}</p>
+          <p class="item-desc">{{ item.description }}</p>
         </div>
 
         <div class="card-body-sidebar">
@@ -249,7 +249,7 @@
     }
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 500px) {
     article {
       /* TRUNCATING AV ALLA TEXTER I KORTET. */
       p,
@@ -309,9 +309,20 @@
       }
 
       button {
-        font-size: smaller;
+        font-size: .8rem;
         margin-left: unset;
+        padding: .5rem;
       }
+
+      .item-title{
+        font-size: 1.2rem;
+      }
+
+      .item-desc{
+        font-size: .9rem;
+      }
+
+
     }
   }
 </style>

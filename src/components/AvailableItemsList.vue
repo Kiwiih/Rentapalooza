@@ -125,7 +125,6 @@
 
 <style scoped>
   .holder{
-    width: 75vw;
     padding: 1rem;
   }
 
@@ -138,8 +137,7 @@
         rgb(255, 255, 255) 2px,
         black 2px,
         black 4px
-      )
-      2;
+      )2;
   }
 
   ul {
