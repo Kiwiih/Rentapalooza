@@ -140,4 +140,12 @@
   .need-to-login-btn:hover::before {
     display: block; /* Gör att ::before visas när knappen är hoverad */
   }
+
+  @media(max-width: 500px){
+
+button, .your-item-mark {
+  padding: 0.6rem;
+  font-size: 0.9rem;
+}
+}
 </style>

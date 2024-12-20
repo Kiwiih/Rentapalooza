@@ -72,6 +72,14 @@
      .content-container {
         width: 100%;
       }
+
+      .layout-main{
+        width: 93vw;
+      }
+
+      .layout{
+        height: 100vh;
+      }
   
 
 }
