@@ -93,4 +93,19 @@
     padding: 1rem;
     width: 100%;
   }
+
+  @media(max-width: 500px){
+
+  .filter-container {
+    flex-wrap: nowrap;
+    width: 95vw;
+  }
+
+  button {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}
+
+
 </style>
